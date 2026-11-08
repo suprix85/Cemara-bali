@@ -441,6 +441,44 @@ footer p {color:#d9f99d}
   <p>Bersatu dalam persaudaraan, peduli dalam kebersamaan.</p>
   <small>Website resmi CEMARA BALI</small>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+const SUPABASE_URL = "https://epyxdvxgcgxgsvrkpsid.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_BrT9hySkfHZwBhCtYRRyUw_VZqpa1U9";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+document.getElementById("formPendaftaran").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const nama = document.getElementById("nama").value.trim();
+  const hp = document.getElementById("hp").value.trim();
+  const alamat = document.getElementById("alamat").value.trim();
+  const pesan = document.getElementById("pesanPendaftaran");
+
+  pesan.textContent = "Sedang mengirim pendaftaran...";
+
+  const { error } = await supabaseClient
+    .from("Anggota_Cemara")
+    .insert([{
+      Nama_lengkap: nama,
+      Nomor_hp: hp,
+      Alamat: alamat
+    }]);
+
+  if (error) {
+    pesan.textContent = "Pendaftaran gagal. Silakan coba lagi.";
+    console.error(error);
+  } else {
+    pesan.textContent = "Alhamdulillah, pendaftaran berhasil dikirim!";
+    document.getElementById("formPendaftaran").reset();
+  }
+});
+</script>
 </body>
 </html>
