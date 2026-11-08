@@ -1,4 +1,4 @@
-
+y
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -50,6 +50,12 @@ td,th{padding:9px;border-bottom:1px solid #ddd;text-align:left}
 
 <div class="card">
 <h3>Daftar Anggota</h3>
+ <input
+  type="text"
+  id="cariAnggota"
+  placeholder="Cari nama, nomor HP, atau nomor KTA..."
+  oninput="cariDataAnggota()"
+>
 <div class="tablewrap">
 <table>
 <thead>
@@ -175,7 +181,13 @@ async function simpanEdit(){
  await muatAnggota();
  tutupEdit();
 }
-
+function cariDataAnggota(){
+ const kata=document.getElementById("cariAnggota").value.toLowerCase();
+ const baris=document.querySelectorAll("#daftar tr");
+ baris.forEach(tr=>{
+  tr.style.display=tr.textContent.toLowerCase().includes(kata)?"":"none";
+ });
+         }
 async function keluar(){
  await db.auth.signOut();
  location.reload();
