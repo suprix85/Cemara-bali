@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin CEMARA BALI</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body{font-family:Arial;background:#f4f8f4;margin:0;color:#26352c}
+header{background:#064e3b;color:white;text-align:center;padding:22px}
+header h2{margin:0;color:#a3e635}
+main{max-width:850px;margin:25px auto;padding:15px}
+.card{background:white;padding:20px;border-radius:12px;margin-bottom:18px;box-shadow:0 3px 12px #0001}
+input,button{width:100%;padding:12px;margin:7px 0;box-sizing:border-box;border-radius:7px}
+input{border:1px solid #ccc}
+button{background:#047857;color:white;border:0;font-weight:bold;cursor:pointer}
+button.danger{background:#b91c1c}
+button.secondary{background:#64748b}
+.hidden{display:none}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:9px;border-bottom:1px solid #ddd;text-align:left}
+.tablewrap{overflow-x:auto}
+#pesan{font-weight:bold}
+</style>
+</head>
+<body>
+
+<header>
+<h2>CEMARA BALI</h2>
+<p>Dashboard Pengurus</p>
+</header>
+
+<main>
+<div class="card" id="login">
+<h3>Login Admin</h3>
+<input type="email" id="email" placeholder="Email admin">
+<input type="password" id="password" placeholder="Password">
+<button onclick="masuk()">MASUK</button>
+<p id="pesan"></p>
+</div>
+
+<div id="dashboard" class="hidden">
+<div class="card">
+<h3>Selamat Datang, Pengurus CEMARA</h3>
+<button class="secondary" onclick="muatAnggota()">Muat Ulang Data</button>
+<button class="danger" onclick="keluar()">LOGOUT</button>
+<p id="info"></p>
+</div>
+
+<div class="card">
+<h3>Daftar Anggota</h3>
+<div class="tablewrap">
+<table>
+<thead>
+<tr>
+<th>Nama</th>
+<th>Nomor HP</th>
+<th>Alamat</th>
+<th>KTA</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+</thead>
+<tbody id="daftar"></tbody>
+</table>
+</div>
+</div>
+
+<div class="card hidden" id="editBox">
+<h3>Edit Anggota</h3>
+<input type="hidden" id="editId">
+<label>Nama lengkap</label>
+<input id="editNama">
+<label>Nomor HP</label>
+<input id="editHp">
+<label>Alamat</label>
+<input id="editAlamat">
+<label>Nomor KTA</label>
+<input id="editKta">
+<label>Status</label>
+<input id="editStatus">
+<button onclick="simpanEdit()">SIMPAN PERUBAHAN</button>
+<button class="secondary" onclick="tutupEdit()">BATAL</button>
+<p id="editPesan"></p>
+</div>
+</div>
+</main>
+
+<script>
+const URL_SUPABASE = "https://epyxdvxgcgxgsvrkpsid.supabase.co";
+const KEY_SUPABASE = "sb_publishable_BrT9hySkfHZwBhCtYRRyUw_VZqpa1U9";
+const db = window.supabase.createClient(URL_SUPABASE, KEY_SUPABASE);
+
+async function masuk(){
+ const email=document.getElementById("email").value.trim();
+ const password=document.getElementById("password").value;
+ const pesan=document.getElementById("pesan");
+ pesan.textContent="Memeriksa akun...";
+ const {error}=await db.auth.signInWithPassword({email,password});
+ if(error){pesan.textContent="Login gagal. Periksa email dan password.";return;}
+ await periksaLogin();
+}
+
+async function periksaLogin(){
+ const {data}=await db.auth.getSession();
+ if(!data.session){
+  document.getElementById("login").classList.remove("hidden");
+  document.getElementById("dashboard").classList.add("hidden");
+  return;
+ }
+ document.getElementById("login").classList.add("hidden");
+ document.getElementById("dashboard").classList.remove("hidden");
+ await muatAnggota();
+}
+
+async function muatAnggota(){
+ const info=document.getElementById("info");
+ const daftar=document.getElementById("daftar");
+ info.textContent="Memuat data...";
+ daftar.replaceChildren();
+
+ const {data,error}=await db.from("Anggota_Cemara")
+ .select("*").order("Created_at",{ascending:false});
+
+ if(error){info.textContent="Gagal memuat data: "+error.message;return;}
+ info.textContent="Jumlah data anggota: "+data.length;
+
+ data.forEach(a=>{
+  const tr=document.createElement("tr");
+  [a.Nama_lengkap,a.Nomor_hp,a.Alamat,a.Nomor_kta,a.Status]
+   .forEach(v=>{
+    const td=document.createElement("td");
+    td.textContent=v??"-";
+    tr.appendChild(td);
+   });
+  const aksi=document.createElement("td");
+  const edit=document.createElement("button");
+  edit.textContent="EDIT";
+  edit.onclick=()=>bukaEdit(a);
+  aksi.appendChild(edit);
+  tr.appendChild(aksi);
+  daftar.appendChild(tr);
+ });
+}
+
+function bukaEdit(a){
+ document.getElementById("editId").value=a.id;
+ document.getElementById("editNama").value=a.Nama_lengkap??"";
+ document.getElementById("editHp").value=a.Nomor_hp??"";
+ document.getElementById("editAlamat").value=a.Alamat??"";
+ document.getElementById("editKta").value=a.Nomor_kta??"";
+ document.getElementById("editStatus").value=a.Status??"";
+ document.getElementById("editBox").classList.remove("hidden");
+}
+
+function tutupEdit(){
+ document.getElementById("editBox").classList.add("hidden");
+}
+
+async function simpanEdit(){
+ const id=document.getElementById("editId").value;
+ const perubahan={
+  Nama_lengkap:document.getElementById("editNama").value.trim(),
+  Nomor_hp:document.getElementById("editHp").value.trim(),
+  Alamat:document.getElementById("editAlamat").value.trim(),
+  Nomor_kta:document.getElementById("editKta").value.trim(),
+  Status:document.getElementById("editStatus").value.trim()
+ };
+ const pesan=document.getElementById("editPesan");
+ const {error}=await db.from("Anggota_Cemara")
+ .update(perubahan).eq("id",id);
+ if(error){pesan.textContent="Gagal: "+error.message;return;}
+ pesan.textContent="Data berhasil diperbarui.";
+ await muatAnggota();
+ tutupEdit();
+}
+
+async function keluar(){
+ await db.auth.signOut();
+ location.reload();
+}
+
+periksaLogin();
+</script>
+</body>
+</html>
