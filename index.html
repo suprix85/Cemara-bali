@@ -1,102 +1,422 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CEMARA BALI - Cerita Manis Anak Rantau</title>
+<meta name="theme-color" content="#064e3b">
+<meta name="description" content="Website resmi CEMARA BALI - Cerita Manis Anak Rantau. Merajut persaudaraan dan kepedulian sosial.">
+<title>CEMARA BALI | Cerita Manis Anak Rantau</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f5f8f4;color:#26352c}
-header{background:#064e3b;color:white;padding:22px 16px;text-align:center}
-.logo{font-size:30px;font-weight:bold;letter-spacing:2px}
-header p{margin:8px 0 0;color:#d9f99d}
-nav{background:#047857;padding:13px;text-align:center}
-nav a{color:white;text-decoration:none;margin:7px;font-size:14px}
-.hero{background:linear-gradient(135deg,#064e3b,#15803d);color:white;text-align:center;padding:65px 20px}
-.hero h1{font-size:32px;margin:0 0 15px}
-.hero p{line-height:1.7;max-width:600px;margin:auto}
-section{padding:35px 18px;max-width:950px;margin:auto}
-h2{color:#065f46;text-align:center}
-.kartu{background:white;padding:22px;margin:15px 0;border-radius:12px;box-shadow:0 3px 12px #00000010}
-.kartu h3{color:#047857;margin-top:0}
-.tombol{display:inline-block;background:#d4a72c;color:#173b2b;padding:12px 22px;border-radius:25px;text-decoration:none;font-weight:bold;margin-top:20px}
-footer{background:#064e3b;color:white;text-align:center;padding:25px 15px}
+:root {
+  --hijau:#064e3b;
+  --hijau2:#047857;
+  --lime:#a3e635;
+  --emas:#d4a72c;
+  --putih:#ffffff;
+  --latar:#f4f8f4;
+  --teks:#26352c;
+}
+
+* {box-sizing:border-box;scroll-behavior:smooth}
+
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:var(--latar);
+  color:var(--teks);
+  line-height:1.7;
+}
+
+header {
+  background:var(--hijau);
+  color:white;
+  padding:20px 15px;
+  text-align:center;
+  border-bottom:4px solid var(--emas);
+}
+
+.logo {
+  font-size:30px;
+  font-weight:bold;
+  letter-spacing:3px;
+}
+
+header p {
+  margin:3px 0;
+  color:var(--lime);
+}
+
+nav {
+  background:var(--hijau2);
+  padding:13px 8px;
+  text-align:center;
+  position:sticky;
+  top:0;
+  z-index:10;
+  box-shadow:0 3px 10px #0002;
+}
+
+nav a {
+  color:white;
+  text-decoration:none;
+  margin:5px 9px;
+  font-size:13px;
+  font-weight:bold;
+  display:inline-block;
+}
+
+nav a:hover {color:var(--lime)}
+
+.hero {
+  background:
+    radial-gradient(circle at top right,#ffffff20,transparent 40%),
+    linear-gradient(135deg,#064e3b,#047857,#15803d);
+  color:white;
+  text-align:center;
+  padding:85px 20px;
+}
+
+.hero .label {
+  color:var(--lime);
+  letter-spacing:3px;
+  font-weight:bold;
+  font-size:12px;
+}
+
+.hero h1 {
+  font-size:36px;
+  line-height:1.25;
+  max-width:750px;
+  margin:15px auto;
+}
+
+.hero p {
+  max-width:650px;
+  margin:15px auto;
+  color:#e5f5e9;
+}
+
+.tombol {
+  display:inline-block;
+  background:var(--emas);
+  color:#173b2b;
+  padding:12px 24px;
+  border-radius:30px;
+  text-decoration:none;
+  font-weight:bold;
+  margin:10px 5px;
+}
+
+.tombol:hover {background:var(--lime)}
+
+.tombol-outline {
+  background:transparent;
+  border:1px solid white;
+  color:white;
+}
+
+section {
+  padding:45px 18px;
+  max-width:1050px;
+  margin:auto;
+  scroll-margin-top:65px;
+}
+
+.judul {
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.judul h2 {
+  color:var(--hijau);
+  font-size:27px;
+  margin-bottom:5px;
+}
+
+.judul p {
+  color:#718078;
+  margin-top:0;
+}
+
+.garis {
+  width:65px;
+  height:4px;
+  background:var(--emas);
+  margin:12px auto;
+  border-radius:5px;
+}
+
+.kartu {
+  background:white;
+  padding:23px;
+  border-radius:15px;
+  box-shadow:0 4px 18px #064e3b12;
+  border:1px solid #e7eee8;
+  margin-bottom:15px;
+}
+
+.kartu h3 {
+  color:var(--hijau2);
+  margin-top:0;
+}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+}
+
+.ikon {
+  font-size:32px;
+  margin-bottom:5px;
+}
+
+.pengurus {
+  text-align:center;
+  border-top:3px solid var(--emas);
+}
+
+.avatar {
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:#e5f5e9;
+  color:var(--hijau);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:27px;
+  margin:0 auto 12px;
+}
+
+.pengurus small {
+  color:#7b887f;
+}
+
+.darurat {
+  background:linear-gradient(135deg,#064e3b,#047857);
+  color:white;
+  border-radius:18px;
+  padding:30px 22px;
+  text-align:center;
+}
+
+.darurat h2 {color:white}
+.darurat p {color:#e3f4e8}
+
+.info {
+  background:#fff9e8;
+  border-left:4px solid var(--emas);
+  padding:15px;
+  border-radius:8px;
+  margin-top:15px;
+  font-size:14px;
+}
+
+footer {
+  background:var(--hijau);
+  color:white;
+  text-align:center;
+  padding:35px 15px;
+  border-top:4px solid var(--emas);
+}
+
+footer strong {
+  font-size:23px;
+  letter-spacing:2px;
+}
+
+footer p {color:#d9f99d}
+
+@media(max-width:700px) {
+  .grid {grid-template-columns:1fr}
+  .hero {padding:65px 18px}
+  .hero h1 {font-size:29px}
+  .logo {font-size:25px}
+  nav a {font-size:12px;margin:5px}
+  .judul h2 {font-size:24px}
+}
+
 </style>
 </head>
+
 <body>
 
 <header>
-<div class="logo">CEMARA BALI</div>
-<p>Cerita Manis Anak Rantau</p>
+  <div class="logo">CEMARA BALI</div>
+  <p>Cerita Manis Anak Rantau</p>
 </header>
 
 <nav>
-<a href="#beranda">Beranda</a>
-<a href="#profil">Profil</a>
-<a href="#kegiatan">Kegiatan</a>
-<a href="#layanan">Layanan</a>
+  <a href="#beranda">Beranda</a>
+  <a href="#profil">Profil</a>
+  <a href="#kegiatan">Kegiatan</a>
+  <a href="#pengurus">Pengurus</a>
+  <a href="#layanan">Layanan</a>
+  <a href="#kontak">Kontak</a>
 </nav>
 
 <div class="hero" id="beranda">
-<h1>Selamat Datang di CEMARA BALI</h1>
-<p>
-Merajut persaudaraan, mempererat silaturahmi,
-dan saling membantu sesama anak rantau
-serta masyarakat di Bali.
-</p>
-<a class="tombol" href="#profil">Kenali Kami</a>
+  <div class="label">BERSATU DALAM PERSAUDARAAN</div>
+  <h1>Selamat Datang di CEMARA BALI</h1>
+  <p>
+    Merajut persaudaraan, mempererat silaturahmi,
+    dan saling membantu sesama anak rantau
+    serta masyarakat di Bali.
+  </p>
+  <a class="tombol" href="#profil">Kenali Kami</a>
+  <a class="tombol tombol-outline" href="#layanan">Lihat Layanan</a>
 </div>
 
 <section id="profil">
-<h2>Tentang CEMARA BALI</h2>
-<div class="kartu">
-<h3>Cerita Manis Anak Rantau</h3>
-<p>
-CEMARA BALI merupakan wadah persaudaraan
-dan kepedulian sosial bagi anak rantau.
-Kami hadir untuk mempererat kebersamaan,
-menumbuhkan rasa kekeluargaan, serta
-membantu sesama yang membutuhkan.
-</p>
-</div>
+  <div class="judul">
+    <h2>Tentang Kami</h2>
+    <div class="garis"></div>
+    <p>Mengenal lebih dekat keluarga besar CEMARA BALI</p>
+  </div>
+
+  <div class="kartu">
+    <h3>Cerita Manis Anak Rantau</h3>
+    <p>
+      CEMARA BALI merupakan wadah persaudaraan dan
+      kepedulian sosial bagi anak rantau.
+      Kami hadir untuk mempererat kebersamaan,
+      menumbuhkan rasa kekeluargaan, serta membantu
+      sesama yang membutuhkan.
+    </p>
+    <p>
+      Dengan semangat gotong royong, kami berusaha
+      menjaga persaudaraan dan memberikan manfaat
+      bagi anggota maupun masyarakat sekitar.
+    </p>
+  </div>
 </section>
 
 <section id="kegiatan">
-<h2>Kegiatan Organisasi</h2>
-<div class="kartu">
-<h3>Silaturahmi</h3>
-<p>Mempererat persaudaraan antaranggota dan masyarakat.</p>
-</div>
-<div class="kartu">
-<h3>Kegiatan Sosial</h3>
-<p>Menumbuhkan kepedulian dan semangat saling membantu.</p>
-</div>
-<div class="kartu">
-<h3>Tali Kasih</h3>
-<p>Memberikan dukungan kepada anggota yang mengalami musibah.</p>
-</div>
+  <div class="judul">
+    <h2>Kegiatan Organisasi</h2>
+    <div class="garis"></div>
+    <p>Bersama membangun kepedulian dan kebersamaan</p>
+  </div>
+
+  <div class="grid">
+    <div class="kartu">
+      <div class="ikon">🤝</div>
+      <h3>Silaturahmi</h3>
+      <p>Mempererat persaudaraan antaranggota dan masyarakat.</p>
+    </div>
+
+    <div class="kartu">
+      <div class="ikon">❤️</div>
+      <h3>Kegiatan Sosial</h3>
+      <p>Menumbuhkan kepedulian dan semangat saling membantu.</p>
+    </div>
+
+    <div class="kartu">
+      <div class="ikon">🌿</div>
+      <h3>Tali Kasih</h3>
+      <p>Memberikan dukungan kepada anggota yang mengalami musibah.</p>
+    </div>
+  </div>
+</section>
+
+<section id="pengurus">
+  <div class="judul">
+    <h2>Susunan Pengurus</h2>
+    <div class="garis"></div>
+    <p>Pengelola organisasi CEMARA BALI</p>
+  </div>
+
+  <div class="grid">
+    <div class="kartu pengurus">
+      <div class="avatar">👤</div>
+      <h3>Ketua</h3>
+      <small>Nama pengurus akan ditambahkan</small>
+    </div>
+
+    <div class="kartu pengurus">
+      <div class="avatar">👤</div>
+      <h3>Sekretaris</h3>
+      <small>Nama pengurus akan ditambahkan</small>
+    </div>
+
+    <div class="kartu pengurus">
+      <div class="avatar">👤</div>
+      <h3>Bendahara</h3>
+      <small>Nama pengurus akan ditambahkan</small>
+    </div>
+  </div>
+
+  <div class="info">
+    Susunan pengurus dapat diperbarui sesuai keputusan
+    organisasi dan periode kepengurusan.
+  </div>
 </section>
 
 <section id="layanan">
-<h2>Layanan CEMARA BALI</h2>
-<div class="kartu">
-<h3>Keanggotaan</h3>
-<p>Informasi dan pendataan anggota CEMARA BALI.</p>
-</div>
-<div class="kartu">
-<h3>Layanan Ambulans</h3>
-<p>Informasi layanan ambulans untuk anggota sesuai ketentuan organisasi.</p>
-</div>
-<div class="kartu">
-<h3>AD/ART Organisasi</h3>
-<p>Pedoman dan aturan organisasi CEMARA BALI.</p>
-</div>
+  <div class="judul">
+    <h2>Layanan CEMARA BALI</h2>
+    <div class="garis"></div>
+    <p>Informasi dan pelayanan untuk anggota</p>
+  </div>
+
+  <div class="grid">
+    <div class="kartu">
+      <div class="ikon">🪪</div>
+      <h3>Keanggotaan</h3>
+      <p>Informasi pendaftaran dan pendataan anggota CEMARA BALI.</p>
+    </div>
+
+    <div class="kartu">
+      <div class="ikon">🚑</div>
+      <h3>Layanan Ambulans</h3>
+      <p>Informasi layanan ambulans bagi anggota sesuai ketentuan organisasi.</p>
+    </div>
+
+    <div class="kartu">
+      <div class="ikon">📖</div>
+      <h3>AD/ART Organisasi</h3>
+      <p>Pedoman dan aturan organisasi CEMARA BALI.</p>
+    </div>
+  </div>
+
+  <div class="kartu">
+    <h3>Informasi Pendaftaran Anggota</h3>
+    <p>
+      Pendaftaran dan pendataan anggota akan dikelola
+      melalui sistem keanggotaan CEMARA BALI.
+    </p>
+    <a class="tombol" href="#kontak">Informasi Lebih Lanjut</a>
+  </div>
+</section>
+
+<section id="kontak">
+  <div class="darurat">
+    <div class="ikon">☎️</div>
+    <h2>Kontak Darurat CEMARA BALI</h2>
+    <p>
+      Informasi kontak pengurus dan layanan darurat
+      akan disediakan untuk membantu anggota
+      ketika membutuhkan pertolongan.
+    </p>
+    <p><strong>Nomor kontak resmi:</strong></p>
+    <p>Menunggu nomor resmi dari pengurus.</p>
+  </div>
+
+  <div class="info">
+    Demi keamanan anggota, nomor telepon dan data
+    pribadi hanya akan ditampilkan setelah mendapat
+    persetujuan pengurus.
+  </div>
 </section>
 
 <footer>
-<strong>CEMARA BALI</strong>
-<p>Cerita Manis Anak Rantau</p>
-<p>Bersatu dalam persaudaraan, peduli dalam kebersamaan.</p>
+  <strong>CEMARA BALI</strong>
+  <p>Cerita Manis Anak Rantau</p>
+  <p>Bersatu dalam persaudaraan, peduli dalam kebersamaan.</p>
+  <small>Website resmi CEMARA BALI</small>
 </footer>
 
 </body>
