@@ -4,13 +4,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#064e3b">
 <title>Admin CEMARA BALI</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 body{font-family:Arial;background:#f4f8f4;margin:0;color:#26352c}
 header{background:#064e3b;color:white;text-align:center;padding:22px}
 header h2{margin:8px;color:#a3e635}
-header img{width:90px;height:90px;object-fit:contain}
+header img{width:100px;height:100px;object-fit:contain}
 main{max-width:850px;margin:25px auto;padding:15px}
 .card{background:white;padding:20px;border-radius:12px;margin-bottom:18px;box-shadow:0 3px 12px #0001}
 input,button{width:100%;padding:12px;margin:7px 0;box-sizing:border-box;border-radius:7px}
@@ -18,14 +20,18 @@ input{border:1px solid #ccc}
 button{background:#047857;color:white;border:0;font-weight:bold;cursor:pointer}
 button.danger{background:#b91c1c}
 button.secondary{background:#64748b}
+button.gold{background:#d4a72c;color:#173b2b}
 .hidden{display:none}
 table{width:100%;border-collapse:collapse;font-size:13px}
 td,th{padding:9px;border-bottom:1px solid #ddd;text-align:left}
 .tablewrap{overflow-x:auto}
 #pesan{font-weight:bold}
 a{color:#047857}
+.fileitem{padding:12px;border:1px solid #ddd;border-radius:10px;margin:12px 0;overflow-wrap:anywhere}
+.fileitem img{width:110px;height:110px;object-fit:cover;border-radius:8px;display:block;margin-bottom:8px}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -36,6 +42,7 @@ a{color:#047857}
 </header>
 
 <main>
+
 <div class="card" id="login">
 <h3>Login Admin</h3>
 <input type="email" id="email" placeholder="Email admin">
@@ -72,6 +79,12 @@ a{color:#047857}
 <input type="file" id="fileDokumen">
 <button onclick="unggah('dokumen','fileDokumen')">UNGGAH DOKUMEN</button>
 <p id="pesanDokumen"></p>
+</div>
+
+<div class="card">
+<h3>Kelola File CEMARA</h3>
+<p>Foto, logo, dan dokumen yang sudah diunggah.</p>
+<button class="secondary" onclick="muatFile()">MUAT ULANG FILE</button>
 <div id="daftarFile"></div>
 </div>
 
@@ -80,12 +93,17 @@ a{color:#047857}
 <input type="text" id="cariAnggota"
 placeholder="Cari nama, nomor HP, atau nomor KTA..."
 oninput="cariDataAnggota()">
+
 <div class="tablewrap">
 <table>
 <thead>
 <tr>
-<th>Nama</th><th>Nomor HP</th><th>Alamat</th>
-<th>KTA</th><th>Status</th><th>Aksi</th>
+<th>Nama</th>
+<th>Nomor HP</th>
+<th>Alamat</th>
+<th>KTA</th>
+<th>Status</th>
+<th>Aksi</th>
 </tr>
 </thead>
 <tbody id="daftar"></tbody>
@@ -96,16 +114,22 @@ oninput="cariDataAnggota()">
 <div class="card hidden" id="editBox">
 <h3>Edit Anggota</h3>
 <input type="hidden" id="editId">
+
 <label>Nama lengkap</label>
 <input id="editNama">
+
 <label>Nomor HP</label>
 <input id="editHp">
+
 <label>Alamat</label>
 <input id="editAlamat">
+
 <label>Nomor KTA</label>
 <input id="editKta">
+
 <label>Status</label>
 <input id="editStatus">
+
 <button onclick="simpanEdit()">SIMPAN PERUBAHAN</button>
 <button class="secondary" onclick="tutupEdit()">BATAL</button>
 <p id="editPesan"></p>
@@ -117,28 +141,45 @@ oninput="cariDataAnggota()">
 <script>
 const URL_SUPABASE="https://epyxdvxgcgxgsvrkpsid.supabase.co";
 const KEY_SUPABASE="sb_publishable_BrT9hySkfHZwBhCtYRRyUw_VZqpa1U9";
-const db=window.supabase.createClient(URL_SUPABASE,KEY_SUPABASE);
+
+const db=window.supabase.createClient(
+ URL_SUPABASE,
+ KEY_SUPABASE
+);
+
 const BUCKET="cemara-bali";
 
 async function masuk(){
  const email=document.getElementById("email").value.trim();
  const password=document.getElementById("password").value;
  const pesan=document.getElementById("pesan");
+
  pesan.textContent="Memeriksa akun...";
- const {error}=await db.auth.signInWithPassword({email,password});
- if(error){pesan.textContent="Login gagal. Periksa email dan password.";return;}
+
+ const {error}=await db.auth.signInWithPassword({
+  email,password
+ });
+
+ if(error){
+  pesan.textContent="Login gagal. Periksa email dan password.";
+  return;
+ }
+
  await periksaLogin();
 }
 
 async function periksaLogin(){
  const {data}=await db.auth.getSession();
+
  if(!data.session){
   document.getElementById("login").classList.remove("hidden");
   document.getElementById("dashboard").classList.add("hidden");
   return;
  }
+
  document.getElementById("login").classList.add("hidden");
  document.getElementById("dashboard").classList.remove("hidden");
+
  await muatAnggota();
  await muatLogo();
  await muatFile();
@@ -147,24 +188,37 @@ async function periksaLogin(){
 async function muatAnggota(){
  const info=document.getElementById("info");
  const daftar=document.getElementById("daftar");
+
  info.textContent="Memuat data...";
  daftar.replaceChildren();
+
  const {data,error}=await db.from("Anggota_Cemara")
- .select("*").order("Created_at",{ascending:false});
- if(error){info.textContent="Gagal memuat data: "+error.message;return;}
+ .select("*")
+ .order("Created_at",{ascending:false});
+
+ if(error){
+  info.textContent="Gagal memuat data: "+error.message;
+  return;
+ }
+
  info.textContent="Jumlah data anggota: "+data.length;
+
  data.forEach(a=>{
   const tr=document.createElement("tr");
+
   [a.Nama_lengkap,a.Nomor_hp,a.Alamat,a.Nomor_kta,a.Status]
   .forEach(v=>{
    const td=document.createElement("td");
    td.textContent=v??"-";
    tr.appendChild(td);
   });
+
   const aksi=document.createElement("td");
   const edit=document.createElement("button");
+
   edit.textContent="EDIT";
   edit.onclick=()=>bukaEdit(a);
+
   aksi.appendChild(edit);
   tr.appendChild(aksi);
   daftar.appendChild(tr);
@@ -178,6 +232,7 @@ function bukaEdit(a){
  document.getElementById("editAlamat").value=a.Alamat??"";
  document.getElementById("editKta").value=a.Nomor_kta??"";
  document.getElementById("editStatus").value=a.Status??"";
+
  document.getElementById("editBox").classList.remove("hidden");
 }
 
@@ -187,6 +242,7 @@ function tutupEdit(){
 
 async function simpanEdit(){
  const id=document.getElementById("editId").value;
+
  const perubahan={
   Nama_lengkap:document.getElementById("editNama").value.trim(),
   Nomor_hp:document.getElementById("editHp").value.trim(),
@@ -194,10 +250,17 @@ async function simpanEdit(){
   Nomor_kta:document.getElementById("editKta").value.trim(),
   Status:document.getElementById("editStatus").value.trim()
  };
+
  const pesan=document.getElementById("editPesan");
+
  const {error}=await db.from("Anggota_Cemara")
  .update(perubahan).eq("id",id);
- if(error){pesan.textContent="Gagal: "+error.message;return;}
+
+ if(error){
+  pesan.textContent="Gagal: "+error.message;
+  return;
+ }
+
  pesan.textContent="Data berhasil diperbarui.";
  await muatAnggota();
  tutupEdit();
@@ -205,36 +268,71 @@ async function simpanEdit(){
 
 function cariDataAnggota(){
  const kata=document.getElementById("cariAnggota").value.toLowerCase();
+
  document.querySelectorAll("#daftar tr").forEach(tr=>{
   tr.style.display=tr.textContent.toLowerCase().includes(kata)?"":"none";
  });
 }
 
 async function unggah(folder,inputId){
- const file=document.getElementById(inputId).files[0];
- const pesanId={logo:"pesanLogo","foto-anggota":"pesanFoto",dokumen:"pesanDokumen"};
+ const input=document.getElementById(inputId);
+ const file=input.files[0];
+
+ const pesanId={
+  logo:"pesanLogo",
+  "foto-anggota":"pesanFoto",
+  dokumen:"pesanDokumen"
+ };
+
  const pesan=document.getElementById(pesanId[folder]);
- if(!file){pesan.textContent="Pilih file terlebih dahulu.";return;}
+
+ if(!file){
+  pesan.textContent="Pilih file terlebih dahulu.";
+  return;
+ }
+
  const nama=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
  const path=folder+"/"+Date.now()+"_"+nama;
+
  pesan.textContent="Mengunggah file...";
+
  const {error}=await db.storage.from(BUCKET).upload(path,file);
- if(error){pesan.textContent="Gagal: "+error.message;return;}
+
+ if(error){
+  pesan.textContent="Gagal: "+error.message;
+  return;
+ }
+
  pesan.textContent="File berhasil diunggah.";
- document.getElementById(inputId).value="";
+ input.value="";
+
  if(folder==="logo")await muatLogo();
+
  await muatFile();
 }
 
 async function muatLogo(){
  const {data,error}=await db.storage.from(BUCKET).list("logo");
- if(error||!data||data.length===0)return;
- const files=data.filter(f=>f.name&&!f.name.startsWith("."));
- if(!files.length)return;
- files.sort((a,b)=>b.name.localeCompare(a.name));
- const path="logo/"+files[0].name;
- const {data:publicData}=db.storage.from(BUCKET).getPublicUrl(path);
+
  const logo=document.getElementById("logo");
+
+ if(error||!data){
+  return;
+ }
+
+ const files=data.filter(f=>f.name&&!f.name.startsWith("."));
+
+ if(!files.length){
+  logo.classList.add("hidden");
+  return;
+ }
+
+ files.sort((a,b)=>b.name.localeCompare(a.name));
+
+ const path="logo/"+files[0].name;
+
+ const {data:publicData}=db.storage.from(BUCKET).getPublicUrl(path);
+
  logo.src=publicData.publicUrl;
  logo.classList.remove("hidden");
 }
@@ -242,35 +340,135 @@ async function muatLogo(){
 async function muatFile(){
  const area=document.getElementById("daftarFile");
  area.replaceChildren();
- for(const folder of ["foto-anggota","dokumen"]){
+
+ const folders=[
+  {nama:"logo",judul:"Logo CEMARA"},
+  {nama:"foto-anggota",judul:"Foto Anggota"},
+  {nama:"dokumen",judul:"Dokumen Organisasi"}
+ ];
+
+ for(const folder of folders){
   const judul=document.createElement("h4");
-  judul.textContent=folder==="dokumen"?"Dokumen":"Foto Anggota";
+  judul.textContent=folder.judul;
   area.appendChild(judul);
-  const {data,error}=await db.storage.from(BUCKET).list(folder);
+
+  const {data,error}=await db.storage.from(BUCKET).list(folder.nama);
+
   if(error){
    const p=document.createElement("p");
-   p.textContent="Gagal membaca "+folder;
+   p.textContent="Gagal membaca: "+error.message;
    area.appendChild(p);
    continue;
   }
-  if(!data||!data.length){
+
+  const files=(data||[]).filter(f=>f.name&&!f.name.startsWith("."));
+
+  if(!files.length){
    const p=document.createElement("p");
    p.textContent="Belum ada file.";
    area.appendChild(p);
    continue;
   }
-  data.filter(f=>f.name&&!f.name.startsWith(".")).forEach(f=>{
-   const path=folder+"/"+f.name;
-   const {data:urlData}=db.storage.from(BUCKET).getPublicUrl(path);
+
+  files.sort((a,b)=>b.name.localeCompare(a.name));
+
+  for(const f of files){
+   const path=folder.nama+"/"+f.name;
+   const item=document.createElement("div");
+   item.className="fileitem";
+
+   if(folder.nama!=="dokumen"){
+    const {data:urlData}=db.storage.from(BUCKET).getPublicUrl(path);
+
+    const img=document.createElement("img");
+    img.src=urlData.publicUrl;
+    img.alt=f.name;
+    item.appendChild(img);
+   }
+
+   const nama=document.createElement("p");
+   nama.textContent=f.name;
+   item.appendChild(nama);
+
    const link=document.createElement("a");
+   const {data:urlData}=db.storage.from(BUCKET).getPublicUrl(path);
    link.href=urlData.publicUrl;
    link.target="_blank";
    link.rel="noopener";
-   link.textContent=f.name;
-   area.appendChild(link);
-   area.appendChild(document.createElement("br"));
-  });
+   link.textContent="LIHAT FILE";
+   item.appendChild(link);
+
+   if(folder.nama==="foto-anggota"){
+    const ganti=document.createElement("button");
+    ganti.className="gold";
+    ganti.textContent="GANTI FOTO";
+    ganti.onclick=()=>pilihFileBaru(path);
+    item.appendChild(ganti);
+   }
+
+   const hapus=document.createElement("button");
+   hapus.className="danger";
+   hapus.textContent="HAPUS FILE";
+   hapus.onclick=()=>hapusFile(path);
+   item.appendChild(hapus);
+
+   area.appendChild(item);
+  }
  }
+}
+
+async function hapusFile(path){
+ if(!confirm("Yakin ingin menghapus file ini?"))return;
+
+ const {error}=await db.storage.from(BUCKET).remove([path]);
+
+ if(error){
+  alert("Gagal menghapus: "+error.message);
+  return;
+ }
+
+ alert("File berhasil dihapus.");
+
+ await muatFile();
+ await muatLogo();
+}
+
+function pilihFileBaru(path){
+ const input=document.createElement("input");
+ input.type="file";
+ input.accept="image/*";
+
+ input.onchange=async()=>{
+  const file=input.files[0];
+
+  if(!file)return;
+
+  if(!confirm("Ganti foto lama dengan foto baru?"))return;
+
+  const nama=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+  const folder=path.substring(0,path.lastIndexOf("/"));
+  const pathBaru=folder+"/"+Date.now()+"_"+nama;
+
+  const {error:uploadError}=await db.storage.from(BUCKET).upload(pathBaru,file);
+
+  if(uploadError){
+   alert("Gagal mengunggah foto baru: "+uploadError.message);
+   return;
+  }
+
+  const {error:hapusError}=await db.storage.from(BUCKET).remove([path]);
+
+  if(hapusError){
+   alert("Foto baru sudah diunggah, tetapi foto lama belum terhapus: "+hapusError.message);
+   await muatFile();
+   return;
+  }
+
+  alert("Foto berhasil diganti.");
+  await muatFile();
+ };
+
+ input.click();
 }
 
 async function keluar(){
@@ -280,5 +478,12 @@ async function keluar(){
 
 periksaLogin();
 </script>
+
+<footer style="background:#064e3b;color:white;text-align:center;padding:20px">
+CEMARA BALI
+<p>Cemara selalu dihati</p>
+<small>Dibuat oleh Selamet Supriono</small>
+</footer>
+
 </body>
 </html>
