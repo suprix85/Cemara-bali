@@ -339,16 +339,17 @@ async function muatAnggota(){
   hapusFoto.disabled=!a.Foto_url;
   hapusFoto.onclick=()=>hapusFotoAnggota(a);
 
-  const edit=document.createElement("button");
-  edit.textContent="EDIT DATA";
-  edit.onclick=()=>bukaEdit(a);
+  const kta=document.createElement("button");
+kta.textContent="LIHAT KTA DIGITAL";
+kta.className="gold";
+kta.onclick=()=>bukaKTA(a);
 
   const hapus=document.createElement("button");
   hapus.textContent="HAPUS ANGGOTA";
   hapus.className="danger";
   hapus.onclick=()=>hapusAnggota(a.id,a.Nama_lengkap);
 
-  aksi.append(upload,hapusFoto,edit,hapus);
+  aksi.append(upload,hapusFoto,edit,kta,hapus);
   tr.appendChild(aksi);
   daftar.appendChild(tr);
  });
