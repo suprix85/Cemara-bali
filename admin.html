@@ -99,7 +99,42 @@ a{color:#047857}
  margin:7px 0;
  line-height:1.4;
              }
+@media print{
+ body *{
+  visibility:hidden;
+ }
 
+ #ktaModal,
+ #ktaModal *{
+  visibility:visible;
+ }
+
+ #ktaModal{
+  display:block !important;
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+ }
+
+ #ktaModal .card{
+  box-shadow:none;
+  border:0;
+ }
+
+ #ktaModal button,
+ #ktaModal h3{
+  display:none !important;
+ }
+
+ .kta-depan,
+ .kta-belakang{
+  break-inside:avoid;
+  page-break-inside:avoid;
+  margin:10px auto;
+  box-shadow:none;
+ }
+ }
 </style>
 </head>
 
