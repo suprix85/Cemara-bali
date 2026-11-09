@@ -412,28 +412,44 @@ function bukaKTA(a){
  const isi=document.getElementById("isiKTA");
 
  const foto=a.Foto_url
- ? `<img src="${urlFoto(a.Foto_url)}" style="width:100px;height:120px;object-fit:cover;border:2px solid #047857">`
- : `<div style="width:100px;height:120px;background:#e5e7eb;display:flex;align-items:center;justify-content:center">FOTO</div>`;
+ ? `<img src="${urlFoto(a.Foto_url)}" alt="Foto anggota">`
+ : `<div style="width:85px;height:105px;background:#e5e7eb;color:#333;display:flex;align-items:center;justify-content:center;margin:auto;border-radius:5px">FOTO</div>`;
+
+ const tanggalLahir=a.Tanggal_lahir
+ ? new Date(a.Tanggal_lahir+"T00:00:00").toLocaleDateString("id-ID")
+ : "-";
+
+ const berlaku=a.Berlaku_sampai
+ ? new Date(a.Berlaku_sampai+"T00:00:00").toLocaleDateString("id-ID")
+ : "-";
 
  isi.innerHTML=`
- <div style="background:#064e3b;color:white;padding:18px;border-radius:12px;text-align:center">
-  <h2 style="color:#a3e635">CEMARA BALI</h2>
-  <p>Cemara selalu dihati</p>
+ <div class="kta-depan">
+  <h2>CEMARA BALI</h2>
+  <p>Cerita Manis Anak Rantau</p>
+  <p><b>KARTU TANDA ANGGOTA</b></p>
   ${foto}
   <h3>${a.Nama_lengkap||"-"}</h3>
-  <p>Nomor KTA: ${a.Nomor_kta||"-"}</p>
-  <p>Tempat, Tanggal Lahir: ${(a.Tempat_lahir||"-")}, ${a.Tanggal_lahir||"-"}</p>
-  <p>Alamat: ${a.Alamat||"-"}</p>
-  <p>Golongan Darah: ${a.Golongan_darah||"-"}</p>
-  <p>Agama: ${a.Agama||"-"}</p>
-  <p>Berlaku Sampai: ${a.Berlaku_sampai||"-"}</p>
-  <p>Status: ${a.Status||"-"}</p>
+  <p><b>Nomor KTA:</b> ${a.Nomor_kta||"-"}</p>
+  <p><b>Tempat, Tanggal Lahir:</b><br>${a.Tempat_lahir||"-"}, ${tanggalLahir}</p>
+  <p><b>Alamat:</b> ${a.Alamat||"-"}</p>
+  <p><b>Golongan Darah:</b> ${a.Golongan_darah||"-"}</p>
+  <p><b>Agama:</b> ${a.Agama||"-"}</p>
+  <p><b>Berlaku Sampai:</b> ${berlaku}</p>
+  <p><b>Status:</b> ${a.Status||"-"}</p>
  </div>
- <div style="background:#f0fdf4;color:#173b2b;padding:18px;border:2px solid #047857;border-radius:12px;margin-top:12px">
+
+ <div class="kta-belakang">
   <h3 style="text-align:center">CEMARA BALI</h3>
   <p style="text-align:center">Cerita Manis Anak Rantau</p>
-  <h4>JANJI SETIA CEMARA</h4>
-  <p>Bagian janji setia akan kita lengkapi sesuai isi KTA fisik.</p>
+  <hr>
+  <h4 style="text-align:center">JANJI SETIA CEMARA</h4>
+  <p style="text-align:center">
+   Bagian janji setia akan diisi sesuai naskah resmi organisasi.
+  </p>
+  <div style="text-align:center;margin-top:20px">
+   <b>CEMARA SELALU DIHATI</b>
+  </div>
  </div>
  `;
 
