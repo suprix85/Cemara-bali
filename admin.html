@@ -243,9 +243,19 @@ const anggota={
 
  pesan.textContent="Anggota berhasil ditambahkan.";
 
- ["namaBaru","hpBaru","alamatBaru","ktaBaru"].forEach(id=>{
-  document.getElementById(id).value="";
- });
+[
+ "namaBaru",
+ "hpBaru",
+ "alamatBaru",
+ "tempatLahirBaru",
+ "tanggalLahirBaru",
+ "golonganBaru",
+ "agamaBaru",
+ "berlakuBaru",
+ "ktaBaru"
+].forEach(id=>{
+ document.getElementById(id).value="";
+});
  document.getElementById("statusBaru").value="Aktif";
 
  await muatAnggota();
