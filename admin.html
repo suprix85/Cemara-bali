@@ -332,7 +332,9 @@ async function muatAnggota(){
   upload.textContent=a.Foto_url?"GANTI FOTO":"UNGGAH FOTO";
   upload.className="gold";
   upload.onclick=()=>pilihFotoAnggota(a);
-
+const edit=document.createElement("button");
+edit.textContent="EDIT DATA";
+edit.onclick=()=>bukaEdit(a);
   const hapusFoto=document.createElement("button");
   hapusFoto.textContent="HAPUS FOTO";
   hapusFoto.className="danger";
