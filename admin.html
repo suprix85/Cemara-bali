@@ -474,10 +474,15 @@ function tutupEdit(){
 async function simpanEdit(){
  const id=document.getElementById("editId").value;
 
- const perubahan={
+  const perubahan={
   Nama_lengkap:document.getElementById("editNama").value.trim(),
   Nomor_hp:document.getElementById("editHp").value.trim(),
   Alamat:document.getElementById("editAlamat").value.trim(),
+  Tempat_lahir:document.getElementById("editTempatLahir").value.trim(),
+  Tanggal_lahir:document.getElementById("editTanggalLahir").value||null,
+  Golongan_darah:document.getElementById("editGolongan").value.trim(),
+  Agama:document.getElementById("editAgama").value.trim(),
+  Berlaku_sampai:document.getElementById("editBerlaku").value||null,
   Nomor_kta:document.getElementById("editKta").value.trim(),
   Status:document.getElementById("editStatus").value.trim()
  };
