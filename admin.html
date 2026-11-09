@@ -400,22 +400,48 @@ async function unggah(folder,inputId){
  await muatFile();
 }
 
+
 async function muatLogo(){
  const logo=document.getElementById("logo");
 
- const alamatLogo =
- "https://epyxdvxgcgxgsvrkpsid.supabase.co/storage/v1/object/public/cemara-bali/logo/IMG_20261108_150956.jpg";
+ const {data,error}=await db.storage
+ .from(BUCKET)
+ .list("logo");
 
- logo.onerror=()=>{
+ if(error){
+  console.log("Gagal membaca logo:",error.message);
+  return;
+ }
+
+ const files=(data||[])
+ .filter(f=>f.name && !f.name.startsWith("."))
+ .sort((a,b)=>
+  new Date(b.created_at||b.updated_at||0) -
+  new Date(a.created_at||a.updated_at||0)
+ );
+
+ if(!files.length){
   logo.classList.add("hidden");
- };
+  return;
+ }
+
+ const path="logo/"+files[0].name;
+
+ const {data:urlData}=db.storage
+ .from(BUCKET)
+ .getPublicUrl(path);
 
  logo.onload=()=>{
   logo.classList.remove("hidden");
  };
 
- logo.src=alamatLogo;
+ logo.onerror=()=>{
+  logo.classList.add("hidden");
+ };
+
+ logo.src=urlData.publicUrl;
 }
+
 
 async function muatFile(){
  const area=document.getElementById("daftarFile");
