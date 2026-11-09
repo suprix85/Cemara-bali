@@ -401,6 +401,7 @@ async function unggah(folder,inputId){
 }
 
 
+
 async function muatLogo(){
  const logo=document.getElementById("logo");
 
@@ -414,10 +415,10 @@ async function muatLogo(){
  }
 
  const files=(data||[])
- .filter(f=>f.name && !f.name.startsWith("."))
+ .filter(f=>f.id && f.name && !f.name.startsWith("."))
  .sort((a,b)=>
-  new Date(b.created_at||b.updated_at||0) -
-  new Date(a.created_at||a.updated_at||0)
+  new Date(b.created_at||0) -
+  new Date(a.created_at||0)
  );
 
  if(!files.length){
@@ -443,6 +444,7 @@ async function muatLogo(){
 }
 
 
+
 async function muatFile(){
  const area=document.getElementById("daftarFile");
  area.replaceChildren();
@@ -458,7 +460,8 @@ async function muatFile(){
   judul.textContent=folder.judul;
   area.appendChild(judul);
 
-  const {data,error}=await db.storage.from(BUCKET).list(folder.nama);
+  const {data,error}=await db.storage
+   .from(BUCKET).list(folder.nama);
 
   if(error){
    const p=document.createElement("p");
@@ -467,7 +470,9 @@ async function muatFile(){
    continue;
   }
 
-  const files=(data||[]).filter(f=>f.name&&!f.name.startsWith("."));
+  // Hanya tampilkan file asli, bukan folder
+  const files=(data||[])
+   .filter(f=>f.id && f.name && !f.name.startsWith("."));
 
   if(!files.length){
    const p=document.createElement("p");
@@ -476,16 +481,20 @@ async function muatFile(){
    continue;
   }
 
-  files.sort((a,b)=>b.name.localeCompare(a.name));
+  files.sort((a,b)=>
+   (b.created_at||"").localeCompare(a.created_at||"")
+  );
 
   for(const f of files){
    const path=folder.nama+"/"+f.name;
+
    const item=document.createElement("div");
    item.className="fileitem";
 
-   if(folder.nama!=="dokumen"){
-    const {data:urlData}=db.storage.from(BUCKET).getPublicUrl(path);
+   const {data:urlData}=db.storage
+    .from(BUCKET).getPublicUrl(path);
 
+   if(folder.nama!=="dokumen"){
     const img=document.createElement("img");
     img.src=urlData.publicUrl;
     img.alt=f.name;
@@ -495,8 +504,6 @@ async function muatFile(){
    const nama=document.createElement("p");
    nama.textContent=f.name;
    item.appendChild(nama);
-
-   const {data:urlData}=db.storage.from(BUCKET).getPublicUrl(path);
 
    const link=document.createElement("a");
    link.href=urlData.publicUrl;
@@ -523,6 +530,7 @@ async function muatFile(){
   }
  }
 }
+
 
 async function hapusFile(path){
  if(!confirm("Yakin ingin menghapus file ini?"))return;
