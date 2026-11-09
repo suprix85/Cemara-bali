@@ -219,13 +219,20 @@ async function tambahAnggota(){
 
  pesan.textContent="Menyimpan anggota...";
 
- const anggota={
+ 
+const anggota={
   Nama_lengkap:nama,
   Nomor_hp:hp,
   Alamat:document.getElementById("alamatBaru").value.trim(),
+  Tempat_lahir:document.getElementById("tempatLahirBaru").value.trim(),
+  Tanggal_lahir:document.getElementById("tanggalLahirBaru").value||null,
+  Golongan_darah:document.getElementById("golonganBaru").value.trim(),
+  Agama:document.getElementById("agamaBaru").value.trim(),
+  Berlaku_sampai:document.getElementById("berlakuBaru").value||null,
   Nomor_kta:document.getElementById("ktaBaru").value.trim(),
   Status:document.getElementById("statusBaru").value.trim()||"Aktif"
- };
+};
+
 
  const {error}=await db.from("Anggota_Cemara").insert([anggota]);
 
