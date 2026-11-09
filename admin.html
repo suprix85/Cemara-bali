@@ -32,49 +32,64 @@ a{color:#047857}
 .fotoanggota{width:65px;height:65px;object-fit:cover;border-radius:50%;border:2px solid #047857}
 .foto-kosong{width:65px;height:65px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:10px;text-align:center}
 .aksianggota button{font-size:11px;padding:9px}
- /* DESAIN KTA DIGITAL */
+/* DESAIN KTA DIGITAL CEMARA */
 .kta-depan,.kta-belakang{
  width:100%;
- max-width:500px;
- aspect-ratio:1.586;
+ max-width:330px;
+ aspect-ratio:0.63;
  box-sizing:border-box;
- border-radius:14px;
+ border-radius:18px;
  overflow:hidden;
- margin:15px auto;
- padding:18px;
- box-shadow:0 3px 12px #0003;
+ margin:18px auto;
+ padding:15px;
+ box-shadow:0 5px 18px #0003;
+ position:relative;
 }
 
 .kta-depan{
- background:#064e3b;
+ background:
+ repeating-linear-gradient(130deg,transparent 0 18px,#ffffff12 19px 20px),
+ linear-gradient(145deg,#064e3b 0%,#08734f 58%,#e8f5d8 58.2%,#ffffff 100%);
  color:white;
  text-align:center;
  border:3px solid #d4a72c;
 }
 
 .kta-belakang{
- background:#f0fdf4;
+ background:
+ linear-gradient(160deg,#064e3b 0%,#064e3b 23%,#ffffff 23.5%,#ffffff 85%,#d9efc9 85.5%);
  color:#173b2b;
- border:3px solid #047857;
+ border:3px solid #d4a72c;
 }
 
 .kta-depan h2{
  color:#a3e635;
  margin:5px;
+ font-size:21px;
+}
+
+.kta-depan h3{
+ color:#064e3b;
+ background:#ffffffdd;
+ padding:7px;
+ margin:8px -15px;
+ font-size:17px;
 }
 
 .kta-depan img{
- width:85px;
- height:105px;
+ width:100px;
+ height:120px;
  object-fit:cover;
- border:2px solid #d4a72c;
- border-radius:5px;
+ border:3px solid #d4a72c;
+ border-radius:8px;
 }
 
 .kta-depan p,.kta-belakang p{
- font-size:12px;
- margin:6px 0;
-}
+ font-size:11px;
+ margin:7px 0;
+ line-height:1.4;
+             }
+
 </style>
 </head>
 
