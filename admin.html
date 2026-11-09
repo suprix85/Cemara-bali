@@ -312,29 +312,20 @@ async function unggah(folder,inputId){
 }
 
 async function muatLogo(){
- const {data,error}=await db.storage.from(BUCKET).list("logo");
-
  const logo=document.getElementById("logo");
 
- if(error||!data){
-  return;
- }
+ const alamatLogo =
+ "https://epyxdvxgcgxgsvrkpsid.supabase.co/storage/v1/object/public/cemara-bali/logo/IMG_20261108_150956.jpg";
 
- const files=data.filter(f=>f.name&&!f.name.startsWith("."));
-
- if(!files.length){
+ logo.onerror=()=>{
   logo.classList.add("hidden");
-  return;
- }
+ };
 
- files.sort((a,b)=>b.name.localeCompare(a.name));
+ logo.onload=()=>{
+  logo.classList.remove("hidden");
+ };
 
- const path="logo/"+files[0].name;
-
- const {data:publicData}=db.storage.from(BUCKET).getPublicUrl(path);
-
- logo.src=publicData.publicUrl;
- logo.classList.remove("hidden");
+ logo.src=alamatLogo;
 }
 
 async function muatFile(){
