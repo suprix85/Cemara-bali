@@ -431,10 +431,13 @@ kta.onclick=()=>bukaKTA(a);
   daftar.appendChild(tr);
  });
 }
-
 function bukaKTA(a){
  const isi=document.getElementById("isiKTA");
+ const logo=document.getElementById("logo");
 
+ const logoKTA=logo && logo.src && !logo.classList.contains("hidden")
+ ? `<img class="kta-logo" src="${logo.src}" alt="Logo CEMARA">`
+ : "";
  const foto=a.Foto_url
  ? `<img src="${urlFoto(a.Foto_url)}" alt="Foto anggota">`
  : `<div style="width:85px;height:105px;background:#e5e7eb;color:#333;display:flex;align-items:center;justify-content:center;margin:auto;border-radius:5px">FOTO</div>`;
