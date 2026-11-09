@@ -365,6 +365,39 @@ kta.onclick=()=>bukaKTA(a);
  });
 }
 
+function bukaKTA(a){
+ const isi=document.getElementById("isiKTA");
+
+ const foto=a.Foto_url
+ ? `<img src="${urlFoto(a.Foto_url)}" style="width:100px;height:120px;object-fit:cover;border:2px solid #047857">`
+ : `<div style="width:100px;height:120px;background:#e5e7eb;display:flex;align-items:center;justify-content:center">FOTO</div>`;
+
+ isi.innerHTML=`
+ <div style="background:#064e3b;color:white;padding:18px;border-radius:12px;text-align:center">
+  <h2 style="color:#a3e635">CEMARA BALI</h2>
+  <p>Cemara selalu dihati</p>
+  ${foto}
+  <h3>${a.Nama_lengkap||"-"}</h3>
+  <p>Nomor KTA: ${a.Nomor_kta||"-"}</p>
+  <p>Tempat, Tanggal Lahir: ${(a.Tempat_lahir||"-")}, ${a.Tanggal_lahir||"-"}</p>
+  <p>Alamat: ${a.Alamat||"-"}</p>
+  <p>Golongan Darah: ${a.Golongan_darah||"-"}</p>
+  <p>Agama: ${a.Agama||"-"}</p>
+  <p>Berlaku Sampai: ${a.Berlaku_sampai||"-"}</p>
+  <p>Status: ${a.Status||"-"}</p>
+ </div>
+ <div style="background:#f0fdf4;color:#173b2b;padding:18px;border:2px solid #047857;border-radius:12px;margin-top:12px">
+  <h3 style="text-align:center">CEMARA BALI</h3>
+  <p style="text-align:center">Cerita Manis Anak Rantau</p>
+  <h4>JANJI SETIA CEMARA</h4>
+  <p>Bagian janji setia akan kita lengkapi sesuai isi KTA fisik.</p>
+ </div>
+ `;
+
+ document.getElementById("ktaModal").classList.remove("hidden");
+ document.getElementById("ktaModal").scrollIntoView({behavior:"smooth"});
+}
+
 function pilihFotoAnggota(a){
  const input=document.createElement("input");
  input.type="file";
