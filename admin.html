@@ -419,8 +419,9 @@ async function periksaLogin(){
  document.getElementById("login").classList.add("hidden");
  document.getElementById("dashboard").classList.remove("hidden");
 
- await muatAnggota();
+  await muatAnggota();
  await muatLogo();
+ await muatLogoKTA();
  await muatFile();
 }
 
