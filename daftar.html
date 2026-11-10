@@ -1,1 +1,182 @@
 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#064e3b">
+<title>Pendaftaran Anggota CEMARA BALI</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{
+ font-family:Arial,sans-serif;
+ background:#f4f8f4;
+ margin:0;
+ color:#26352c;
+}
+header{
+ background:#064e3b;
+ color:white;
+ text-align:center;
+ padding:25px 15px;
+}
+header h1{color:#a3e635;margin:8px}
+header p{margin:6px}
+main{
+ max-width:600px;
+ margin:25px auto;
+ padding:15px;
+}
+.card{
+ background:white;
+ padding:22px;
+ border-radius:14px;
+ box-shadow:0 3px 12px #0001;
+}
+label{
+ display:block;
+ margin-top:13px;
+ font-weight:bold;
+}
+input,textarea,button{
+ width:100%;
+ padding:12px;
+ margin-top:6px;
+ border-radius:7px;
+ font-size:15px;
+}
+input,textarea{border:1px solid #ccc}
+button{
+ background:#047857;
+ color:white;
+ border:0;
+ font-weight:bold;
+ margin-top:20px;
+}
+button:disabled{opacity:.6}
+#pesan{
+ margin-top:15px;
+ font-weight:bold;
+ line-height:1.5;
+}
+footer{
+ background:#064e3b;
+ color:white;
+ text-align:center;
+ padding:20px;
+ margin-top:30px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>CEMARA BALI</h1>
+<p>Cerita Manis Anak Rantau</p>
+<p><b>Cemara selalu dihati</b></p>
+</header>
+
+<main>
+<div class="card">
+<h2>Formulir Pendaftaran Anggota</h2>
+<p>Silakan isi data dengan benar. Pendaftaran akan diperiksa oleh pengurus CEMARA BALI.</p>
+
+<form id="formDaftar">
+
+<label>Nama Lengkap *</label>
+<input id="nama" required maxlength="120">
+
+<label>Nomor HP / WhatsApp *</label>
+<input id="hp" type="tel" required maxlength="25">
+
+<label>Alamat</label>
+<textarea id="alamat" rows="3" maxlength="500"></textarea>
+
+<label>Tempat Lahir</label>
+<input id="tempat" maxlength="100">
+
+<label>Tanggal Lahir</label>
+<input id="tanggal" type="date">
+
+<label>Golongan Darah</label>
+<input id="golongan" maxlength="5" placeholder="Contoh: O">
+
+<label>Agama</label>
+<input id="agama" maxlength="50">
+
+<button id="tombolKirim" type="submit">
+KIRIM PENDAFTARAN
+</button>
+</form>
+
+<p id="pesan"></p>
+</div>
+</main>
+
+<footer>
+<b>CEMARA BALI</b>
+<p>Cemara selalu dihati</p>
+<small>Dibuat oleh Selamet Supriono</small>
+</footer>
+
+<script>
+const URL_SUPABASE="https://epyxdvxgcgxgsvrkpsid.supabase.co";
+const KEY_SUPABASE="sb_publishable_BrT9hySkfHZwBhCtYRRyUw_VZqpa1U9";
+
+const db=window.supabase.createClient(
+ URL_SUPABASE,
+ KEY_SUPABASE
+);
+
+document.getElementById("formDaftar")
+.addEventListener("submit",async function(e){
+
+ e.preventDefault();
+
+ const tombol=document.getElementById("tombolKirim");
+ const pesan=document.getElementById("pesan");
+
+ const nama=document.getElementById("nama").value.trim();
+ const hp=document.getElementById("hp").value.trim();
+
+ if(!nama||!hp){
+  pesan.textContent="Nama dan nomor HP wajib diisi.";
+  return;
+ }
+
+ tombol.disabled=true;
+ tombol.textContent="MENGIRIM...";
+ pesan.textContent="Sedang mengirim pendaftaran...";
+
+ const pengajuan={
+  nama_lengkap:nama,
+  nomor_hp:hp,
+  alamat:document.getElementById("alamat").value.trim(),
+  tempat_lahir:document.getElementById("tempat").value.trim(),
+  tanggal_lahir:document.getElementById("tanggal").value||null,
+  golongan_darah:document.getElementById("golongan").value.trim(),
+  agama:document.getElementById("agama").value.trim(),
+  status_pengajuan:"Menunggu Persetujuan"
+ };
+
+ const {error}=await db
+ .from("pengajuan_anggota")
+ .insert([pengajuan]);
+
+ if(error){
+  pesan.textContent="Pendaftaran gagal: "+error.message;
+  tombol.disabled=false;
+  tombol.textContent="KIRIM PENDAFTARAN";
+  return;
+ }
+
+ document.getElementById("formDaftar").reset();
+ pesan.textContent="Alhamdulillah! Pendaftaran berhasil dikirim. Silakan menunggu persetujuan pengurus CEMARA BALI.";
+ tombol.textContent="PENDAFTARAN TERKIRIM";
+});
+</script>
+
+</body>
+</html>
+
