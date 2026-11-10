@@ -366,7 +366,31 @@ const KEY_SUPABASE="sb_publishable_BrT9hySkfHZwBhCtYRRyUw_VZqpa1U9";
 
 const db=window.supabase.createClient(URL_SUPABASE,KEY_SUPABASE);
 const BUCKET="cemara-bali";
+let urlLogoKTA="";
 
+async function muatLogoKTA(){
+ const {data,error}=await db.storage.from(BUCKET).list("logo-kta");
+
+ if(error){
+  console.log("Gagal membaca logo KTA:",error.message);
+  return;
+ }
+
+ const files=(data||[])
+ .filter(f=>f.id&&f.name&&!f.name.startsWith("."))
+ .sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
+
+ if(!files.length){
+  urlLogoKTA="";
+  return;
+ }
+
+ const path="logo-kta/"+files[0].name;
+
+ const {data:urlData}=db.storage.from(BUCKET).getPublicUrl(path);
+
+ urlLogoKTA=urlData.publicUrl;
+ }
 async function masuk(){
  const email=document.getElementById("email").value.trim();
  const password=document.getElementById("password").value;
