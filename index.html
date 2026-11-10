@@ -482,5 +482,81 @@ document.getElementById("formPendaftaran").addEventListener("submit", async func
   }
 });
 </script>
+  
+<script>
+// PENGATURAN YOUTUBE CEMARA BALI
+const YOUTUBE_API_KEY = "ISI_API_KEY_BARU_KAMU_DI_SINI";
+const YOUTUBE_CHANNEL_ID = "UC7F45Ogc3vqWoJ4h7IvyRyg";
+
+// Mengambil video terbaru
+async function tampilkanVideoYouTube() {
+  const wadah = document.getElementById("youtube-list");
+
+  try {
+    // ID playlist upload diawali UU
+    const uploadsPlaylist = "UU" + YOUTUBE_CHANNEL_ID.substring(2);
+
+    const urlPlaylist =
+      `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylist}&maxResults=6&key=${YOUTUBE_API_KEY}`;
+
+    const hasilPlaylist = await fetch(urlPlaylist);
+    const dataPlaylist = await hasilPlaylist.json();
+
+    if (!hasilPlaylist.ok) {
+      throw new Error(dataPlaylist.error?.message || "Gagal mengambil playlist");
+    }
+
+    const videoIds = dataPlaylist.items
+      .map(item => item.snippet.resourceId.videoId)
+      .join(",");
+
+    if (!videoIds) {
+      wadah.innerHTML = "<p>Belum ada video yang ditemukan.</p>";
+      return;
+    }
+
+    const urlVideo =
+      `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoIds}&key=${YOUTUBE_API_KEY}`;
+
+    const hasilVideo = await fetch(urlVideo);
+    const dataVideo = await hasilVideo.json();
+
+    if (!hasilVideo.ok) {
+      throw new Error(dataVideo.error?.message || "Gagal mengambil video");
+    }
+
+    wadah.innerHTML = dataVideo.items.map(video => {
+      const judul = video.snippet.title;
+      const thumbnail = video.snippet.thumbnails.medium.url;
+      const tayangan = Number(video.statistics.viewCount || 0)
+        .toLocaleString("id-ID");
+      const link = `https://www.youtube.com/watch?v=${video.id}`;
+
+      return `
+        <div class="kartu">
+          <a href="${link}" target="_blank" rel="noopener noreferrer">
+            <img src="${thumbnail}" alt="${judul}"
+              style="width:100%;border-radius:10px">
+          </a>
+          <h3>${judul}</h3>
+          <p>👁 ${tayangan} tayangan</p>
+          <a class="tombol" href="${link}"
+            target="_blank" rel="noopener noreferrer">
+            Tonton Video
+          </a>
+        </div>
+      `;
+    }).join("");
+
+  } catch (error) {
+    console.error("YouTube:", error);
+    wadah.innerHTML =
+      "<p>Video belum dapat dimuat. Silakan coba lagi nanti.</p>";
+  }
+}
+
+tampilkanVideoYouTube();
+</script>
+
 </body>
 </html>
