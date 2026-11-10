@@ -560,11 +560,11 @@ kta.onclick=()=>bukaKTA(a);
 }
 function bukaKTA(a){
  const isi=document.getElementById("isiKTA");
- const logo=document.getElementById("logo");
 
- const logoKTA=logo && logo.src && !logo.classList.contains("hidden")
- ? `<img class="kta-logo" src="${logo.src}" alt="Logo CEMARA">`
+ const logoKTA=urlLogoKTA
+ ? `<img class="kta-logo" src="${urlLogoKTA}" alt="Logo CEMARA">`
  : "";
+
  const foto=a.Foto_url
  ? `<img src="${urlFoto(a.Foto_url)}" alt="Foto anggota">`
  : `<div style="width:85px;height:105px;background:#e5e7eb;color:#333;display:flex;align-items:center;justify-content:center;margin:auto;border-radius:5px">FOTO</div>`;
@@ -581,8 +581,8 @@ function bukaKTA(a){
  <div class="kta-depan">
   ${logoKTA}
   <h2>CEMARA BALI</h2>
-  <p>Cerita Manis Anak Rantau</p>
-  <p><b>KARTU TANDA ANGGOTA</b></p>
+  <div class="judul-kta kta-subjudul">CERITA MANIS ANAK RANTAU</div>
+  <div class="judul-kta kta-nama">KARTU TANDA ANGGOTA</div>
   ${foto}
   <h3>${a.Nama_lengkap||"-"}</h3>
   <p><b>Nomor KTA:</b> ${a.Nomor_kta||"-"}</p>
@@ -595,32 +595,27 @@ function bukaKTA(a){
  </div>
 
  <div class="kta-belakang">
-  <div style="text-align:center">
-    ${logoKTA}
-  </div>
+  <div style="text-align:center">${logoKTA}</div>
   <h3 style="text-align:center">CEMARA BALI</h3>
   <p style="text-align:center">Cerita Manis Anak Rantau</p>
   <hr>
   <h4 style="text-align:center">JANJI SETIA CEMARA</h4>
- 
-   <div style="text-align:left;padding:0 12px;font-size:13px;line-height:1.8;color:#172554;font-weight:bold">
+  <div style="text-align:left;padding:0 12px;font-size:13px;line-height:1.8;color:#172554;font-weight:bold">
   1. Taqwa Kepada Tuhan Yang Maha Esa<br>
   2. Cinta Kepada Negara Kesatuan Republik Indonesia<br>
   3. Cinta Kepada Tanah Air Indonesia<br>
   4. Rela Dan Ikhlas Membantu Anggota CEMARA &amp; Masyarakat Sekitar<br>
   5. Sanggup Menjaga Nama Baik Cemara<br>
   6. Sanggup Mematuhi Aturan Cemara
-</div>
- 
+  </div>
   <div style="text-align:center;margin-top:20px">
    <b>CEMARA SELALU DIHATI</b>
   </div>
- </div>
- `;
+ </div>`;
 
  document.getElementById("ktaModal").classList.remove("hidden");
  document.getElementById("ktaModal").scrollIntoView({behavior:"smooth"});
-}
+   }
 
 function pilihFotoAnggota(a){
  const input=document.createElement("input");
