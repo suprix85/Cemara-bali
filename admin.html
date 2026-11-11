@@ -280,7 +280,41 @@ UNGGAH LOGO KTA
 </div>
 
 <div class="card">
-<h3>Kelola File CEMARA</h3>
+<h3>📸 Kelola Galeri Kegiatan CEMARA</h3>
+
+<label>Judul Kegiatan</label>
+<input type="text" id="judulGaleri"
+placeholder="Contoh: Camping CEMARA BALI">
+
+<label>Kategori Kegiatan</label>
+<select id="kategoriGaleri">
+<option value="Camping & Kebersamaan">Camping & Kebersamaan</option>
+<option value="Halal Bihalal">Halal Bihalal</option>
+<option value="Kegiatan Kurban">Kegiatan Kurban</option>
+<option value="Silaturahmi">Silaturahmi</option>
+<option value="Kegiatan Sosial & Tali Kasih">Kegiatan Sosial & Tali Kasih</option>
+<option value="Perayaan Agustusan">Perayaan Agustusan</option>
+</select>
+
+<label>Tanggal Kegiatan</label>
+<input type="date" id="tanggalGaleri">
+
+<label>Pilih Banyak Foto dari Galeri HP</label>
+<input type="file" id="fotoGaleri" accept="image/*" multiple>
+
+<button onclick="unggahGaleri()">UNGGAH FOTO GALERI</button>
+
+<p id="pesanGaleri"></p>
+
+<hr>
+
+<h4>Foto Galeri yang Sudah Diunggah</h4>
+<button class="secondary" onclick="muatGaleriAdmin()">
+MUAT ULANG GALERI
+</button>
+
+<div id="daftarGaleriAdmin"></div>
+</div>
 <p>Foto umum, logo, dan dokumen yang sudah diunggah.</p>
 <button class="secondary" onclick="muatFile()">MUAT ULANG FILE</button>
 <div id="daftarFile"></div>
