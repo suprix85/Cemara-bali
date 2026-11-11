@@ -5,8 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#064e3b">
-<meta name="description" content="Website resmi CEMARA BALI - Cerita Manis Anak Rantau. Merajut persaudaraan dan kepedulian sosial.">
-<title>CEMARA BALI | Cerita Manis Anak Rantau</title>
+<meta name="description" content="Website resmi CEMARA BALI - Cerita Manis Anak Rantau">
+<title>CEMARA BALI | Cemara Selalu Dihati</title>
+
+<link rel="preconnect" href="https://images.unsplash.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -14,16 +17,19 @@
   --hijau2:#047857;
   --lime:#a3e635;
   --emas:#d4a72c;
-  --putih:#ffffff;
+  --putih:#fff;
   --latar:#f4f8f4;
   --teks:#26352c;
 }
 
-* {box-sizing:border-box;scroll-behavior:smooth}
+* {
+  box-sizing:border-box;
+  scroll-behavior:smooth;
+}
 
 body {
   margin:0;
-  font-family:Arial,sans-serif;
+  font-family:'Poppins',Arial,sans-serif;
   background:var(--latar);
   color:var(--teks);
   line-height:1.7;
@@ -32,70 +38,98 @@ body {
 header {
   background:var(--hijau);
   color:white;
-  padding:20px 15px;
-  text-align:center;
-  border-bottom:4px solid var(--emas);
+  padding:13px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  border-bottom:3px solid var(--emas);
 }
 
 .logo {
-  font-size:30px;
-  font-weight:bold;
+  font-size:25px;
+  font-weight:800;
   letter-spacing:3px;
 }
 
-header p {
-  margin:3px 0;
+.logo-kecil {
   color:var(--lime);
+  font-size:11px;
+  letter-spacing:1px;
 }
 
 nav {
-  background:var(--hijau2);
-  padding:13px 8px;
+  background:#047857;
+  padding:12px 5px;
   text-align:center;
   position:sticky;
   top:0;
-  z-index:10;
-  box-shadow:0 3px 10px #0002;
+  z-index:100;
+  box-shadow:0 4px 15px #0002;
 }
 
 nav a {
+  display:inline-block;
   color:white;
   text-decoration:none;
-  margin:5px 9px;
-  font-size:13px;
-  font-weight:bold;
-  display:inline-block;
+  font-size:12px;
+  font-weight:600;
+  margin:4px 8px;
+  transition:.3s;
 }
 
 nav a:hover {color:var(--lime)}
 
 .hero {
-  background:
-    radial-gradient(circle at top right,#ffffff20,transparent 40%),
-    linear-gradient(135deg,#064e3b,#047857,#15803d);
-  color:white;
+  min-height:570px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   text-align:center;
-  padding:85px 20px;
+  color:white;
+  padding:70px 20px;
+  background:
+    linear-gradient(90deg,rgba(0,35,23,.88),rgba(0,50,30,.45)),
+    url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1800&q=85') center/cover;
 }
 
-.hero .label {
+.hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(0deg,#064e3b 0%,transparent 35%);
+  pointer-events:none;
+}
+
+.hero-content {
+  position:relative;
+  z-index:2;
+  max-width:850px;
+  animation:muncul 1.2s ease;
+}
+
+.hero-label {
   color:var(--lime);
-  letter-spacing:3px;
-  font-weight:bold;
+  letter-spacing:4px;
   font-size:12px;
+  font-weight:700;
 }
 
 .hero h1 {
-  font-size:36px;
-  line-height:1.25;
-  max-width:750px;
-  margin:15px auto;
+  font-size:48px;
+  line-height:1.2;
+  margin:18px 0;
 }
+
+.hero h1 span {color:var(--lime)}
 
 .hero p {
   max-width:650px;
-  margin:15px auto;
-  color:#e5f5e9;
+  margin:15px auto 25px;
+  color:#ecfdf5;
+  font-size:15px;
 }
 
 .tombol {
@@ -105,11 +139,18 @@ nav a:hover {color:var(--lime)}
   padding:12px 24px;
   border-radius:30px;
   text-decoration:none;
-  font-weight:bold;
-  margin:10px 5px;
+  font-weight:700;
+  font-size:13px;
+  border:0;
+  cursor:pointer;
+  transition:.3s;
+  margin:5px;
 }
 
-.tombol:hover {background:var(--lime)}
+.tombol:hover {
+  background:var(--lime);
+  transform:translateY(-3px);
+}
 
 .tombol-outline {
   background:transparent;
@@ -118,26 +159,26 @@ nav a:hover {color:var(--lime)}
 }
 
 section {
-  padding:45px 18px;
-  max-width:1050px;
+  max-width:1100px;
   margin:auto;
+  padding:65px 18px;
   scroll-margin-top:65px;
 }
 
 .judul {
   text-align:center;
-  margin-bottom:28px;
+  margin-bottom:30px;
 }
 
 .judul h2 {
   color:var(--hijau);
-  font-size:27px;
+  font-size:29px;
   margin-bottom:5px;
 }
 
 .judul p {
   color:#718078;
-  margin-top:0;
+  font-size:13px;
 }
 
 .garis {
@@ -151,26 +192,37 @@ section {
 .kartu {
   background:white;
   padding:23px;
-  border-radius:15px;
-  box-shadow:0 4px 18px #064e3b12;
+  border-radius:17px;
+  box-shadow:0 5px 22px #064e3b10;
   border:1px solid #e7eee8;
-  margin-bottom:15px;
+  margin-bottom:17px;
+  transition:.3s;
 }
 
-.kartu h3 {
-  color:var(--hijau2);
-  margin-top:0;
+.kartu:hover {
+  transform:translateY(-4px);
+  box-shadow:0 10px 25px #064e3b20;
 }
+
+.kartu h3 {color:var(--hijau2)}
 
 .grid {
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:17px;
+  gap:18px;
 }
 
 .ikon {
-  font-size:32px;
+  font-size:34px;
   margin-bottom:5px;
+}
+
+.foto-kartu {
+  width:100%;
+  height:190px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:12px;
 }
 
 .pengurus {
@@ -179,32 +231,26 @@ section {
 }
 
 .avatar {
-  width:65px;
-  height:65px;
+  width:75px;
+  height:75px;
   border-radius:50%;
   background:#e5f5e9;
-  color:var(--hijau);
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:27px;
-  margin:0 auto 12px;
-}
-
-.pengurus small {
-  color:#7b887f;
+  font-size:30px;
+  margin:auto;
 }
 
 .darurat {
   background:linear-gradient(135deg,#064e3b,#047857);
   color:white;
-  border-radius:18px;
-  padding:30px 22px;
+  border-radius:20px;
+  padding:35px 22px;
   text-align:center;
 }
 
 .darurat h2 {color:white}
-.darurat p {color:#e3f4e8}
 
 .info {
   background:#fff9e8;
@@ -212,41 +258,110 @@ section {
   padding:15px;
   border-radius:8px;
   margin-top:15px;
+  font-size:13px;
+}
+
+form label {
+  display:block;
+  font-weight:600;
+  font-size:13px;
+  margin-top:14px;
+}
+
+form input,form textarea {
+  width:100%;
+  padding:13px;
+  border:1px solid #dce7de;
+  border-radius:10px;
+  margin-top:5px;
+  font-family:inherit;
   font-size:14px;
+  outline:none;
+}
+
+form input:focus,form textarea:focus {
+  border-color:var(--hijau2);
+  box-shadow:0 0 0 3px #04785715;
+}
+
+form textarea {
+  min-height:100px;
+  resize:vertical;
+}
+
+#pesanPendaftaran {
+  font-size:13px;
+  font-weight:600;
+}
+
+.video-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+}
+
+.video-grid img {
+  width:100%;
+  border-radius:10px;
+}
+
+.video-grid .kartu h3 {
+  font-size:14px;
+  line-height:1.5;
 }
 
 footer {
   background:var(--hijau);
   color:white;
   text-align:center;
-  padding:35px 15px;
+  padding:40px 15px;
   border-top:4px solid var(--emas);
 }
 
 footer strong {
-  font-size:23px;
-  letter-spacing:2px;
+  font-size:25px;
+  letter-spacing:3px;
 }
 
 footer p {color:#d9f99d}
 
-@media(max-width:700px) {
-  .grid {grid-template-columns:1fr}
-  .hero {padding:65px 18px}
-  .hero h1 {font-size:29px}
-  .logo {font-size:25px}
-  nav a {font-size:12px;margin:5px}
-  .judul h2 {font-size:24px}
+.animasi {
+  animation:muncul .8s ease both;
 }
 
+@keyframes muncul {
+  from {opacity:0;transform:translateY(25px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+@media(max-width:700px) {
+  .grid,.video-grid {grid-template-columns:1fr}
+  .hero {min-height:490px;padding:60px 18px}
+  .hero h1 {font-size:34px}
+  .logo {font-size:22px}
+  nav a {font-size:11px;margin:4px}
+  .judul h2 {font-size:24px}
+  section {padding:45px 16px}
+  .foto-kartu {height:210px}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation:none!important;
+    transition:none!important;
+    scroll-behavior:auto!important;
+  }
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">CEMARA BALI</div>
-  <p>Cerita Manis Anak Rantau</p>
+  <div>
+    <div class="logo">CEMARA BALI</div>
+    <div class="logo-kecil">CERITA MANIS ANAK RANTAU</div>
+  </div>
 </header>
 
 <nav>
@@ -255,23 +370,28 @@ footer p {color:#d9f99d}
   <a href="#kegiatan">Kegiatan</a>
   <a href="#pengurus">Pengurus</a>
   <a href="#layanan">Layanan</a>
-  <a href="#pendaftaran">Pendaftaran</a>
-  <a href="#kontak">Kontak</a>
+  <a href="#pendaftaran">Daftar</a>
   <a href="#youtube">YouTube</a>
+  <a href="#kontak">Kontak</a>
 </nav>
 
+<!-- HALAMAN DEPAN -->
 <div class="hero" id="beranda">
-  <div class="label">BERSATU DALAM PERSAUDARAAN</div>
-  <h1>Selamat Datang di CEMARA BALI</h1>
-  <p>
-    Merajut persaudaraan, mempererat silaturahmi,
-    dan saling membantu sesama anak rantau
-    serta masyarakat di Bali.
-  </p>
-  <a class="tombol" href="#profil">Kenali Kami</a>
-  <a class="tombol tombol-outline" href="#layanan">Lihat Layanan</a>
+  <div class="hero-content">
+    <div class="hero-label">BERSATU DALAM PERSAUDARAAN</div>
+    <h1>Selamat Datang di <span>CEMARA BALI</span></h1>
+    <p>
+      Cemara selalu dihati.
+      Merajut persaudaraan, mempererat silaturahmi,
+      dan saling membantu sesama anak rantau
+      serta masyarakat di Bali.
+    </p>
+    <a class="tombol" href="#profil">Kenali Kami</a>
+    <a class="tombol tombol-outline" href="#pendaftaran">Gabung Anggota</a>
+  </div>
 </div>
 
+<!-- PROFIL -->
 <section id="profil">
   <div class="judul">
     <h2>Tentang Kami</h2>
@@ -279,7 +399,7 @@ footer p {color:#d9f99d}
     <p>Mengenal lebih dekat keluarga besar CEMARA BALI</p>
   </div>
 
-  <div class="kartu">
+  <div class="kartu animasi">
     <h3>Cerita Manis Anak Rantau</h3>
     <p>
       CEMARA BALI merupakan wadah persaudaraan dan
@@ -293,9 +413,11 @@ footer p {color:#d9f99d}
       menjaga persaudaraan dan memberikan manfaat
       bagi anggota maupun masyarakat sekitar.
     </p>
+    <h3>Cemara selalu dihati ❤️</h3>
   </div>
 </section>
 
+<!-- KEGIATAN -->
 <section id="kegiatan">
   <div class="judul">
     <h2>Kegiatan Organisasi</h2>
@@ -305,25 +427,32 @@ footer p {color:#d9f99d}
 
   <div class="grid">
     <div class="kartu">
-      <div class="ikon">🤝</div>
+      <img class="foto-kartu"
+        src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=700&q=80"
+        alt="Kebersamaan">
       <h3>Silaturahmi</h3>
       <p>Mempererat persaudaraan antaranggota dan masyarakat.</p>
     </div>
 
     <div class="kartu">
-      <div class="ikon">❤️</div>
+      <img class="foto-kartu"
+        src="https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?auto=format&fit=crop&w=700&q=80"
+        alt="Kegiatan sosial">
       <h3>Kegiatan Sosial</h3>
       <p>Menumbuhkan kepedulian dan semangat saling membantu.</p>
     </div>
 
     <div class="kartu">
-      <div class="ikon">🌿</div>
+      <img class="foto-kartu"
+        src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=700&q=80"
+        alt="Tali kasih">
       <h3>Tali Kasih</h3>
       <p>Memberikan dukungan kepada anggota yang mengalami musibah.</p>
     </div>
   </div>
 </section>
 
+<!-- PENGURUS -->
 <section id="pengurus">
   <div class="judul">
     <h2>Susunan Pengurus</h2>
@@ -350,13 +479,9 @@ footer p {color:#d9f99d}
       <small>Nama pengurus akan ditambahkan</small>
     </div>
   </div>
-
-  <div class="info">
-    Susunan pengurus dapat diperbarui sesuai keputusan
-    organisasi dan periode kepengurusan.
-  </div>
 </section>
 
+<!-- LAYANAN -->
 <section id="layanan">
   <div class="judul">
     <h2>Layanan CEMARA BALI</h2>
@@ -368,13 +493,13 @@ footer p {color:#d9f99d}
     <div class="kartu">
       <div class="ikon">🪪</div>
       <h3>Keanggotaan</h3>
-      <p>Informasi pendaftaran dan pendataan anggota CEMARA BALI.</p>
+      <p>Informasi pendaftaran dan pendataan anggota.</p>
     </div>
 
     <div class="kartu">
       <div class="ikon">🚑</div>
       <h3>Layanan Ambulans</h3>
-      <p>Informasi layanan ambulans bagi anggota sesuai ketentuan organisasi.</p>
+      <p>Layanan ambulans bagi anggota sesuai ketentuan organisasi.</p>
     </div>
 
     <div class="kartu">
@@ -383,17 +508,9 @@ footer p {color:#d9f99d}
       <p>Pedoman dan aturan organisasi CEMARA BALI.</p>
     </div>
   </div>
-
-  <div class="kartu">
-    <h3>Informasi Pendaftaran Anggota</h3>
-    <p>
-      Pendaftaran dan pendataan anggota akan dikelola
-      melalui sistem keanggotaan CEMARA BALI.
-    </p>
-    <a class="tombol" href="#kontak">Informasi Lebih Lanjut</a>
-  </div>
 </section>
- 
+
+<!-- PENDAFTARAN -->
 <section id="pendaftaran">
   <div class="judul">
     <h2>Pendaftaran Anggota</h2>
@@ -403,152 +520,201 @@ footer p {color:#d9f99d}
 
   <div class="kartu">
     <form id="formPendaftaran">
-      <label>Nama Lengkap</label>
-      <input type="text" id="nama" required placeholder="Masukkan nama lengkap">
+      <label>Nama Lengkap *</label>
+      <input type="text" id="nama" required
+        placeholder="Masukkan nama lengkap">
 
-      <label>Nomor HP / WhatsApp</label>
-      <input type="tel" id="hp" required placeholder="Masukkan nomor HP">
+      <label>Nomor HP / WhatsApp *</label>
+      <input type="tel" id="hp" required
+        placeholder="Masukkan nomor HP">
 
-      <label>Alamat</label>
-      <textarea id="alamat" required placeholder="Masukkan alamat lengkap"></textarea>
+      <label>Alamat *</label>
+      <textarea id="alamat" required
+        placeholder="Masukkan alamat lengkap"></textarea>
 
-      <button type="submit" class="tombol">Kirim Pendaftaran</button>
-      <p id="pesanPendaftaran"></p>
+      <button type="submit" class="tombol" id="btnDaftar">
+        KIRIM PENDAFTARAN
+      </button>
+
+      <p id="pesanPendaftaran" role="status"></p>
     </form>
   </div>
 </section>
+
+<!-- YOUTUBE -->
+<section id="youtube">
+  <div class="judul">
+    <h2>YouTube CEMARA BALI</h2>
+    <div class="garis"></div>
+    <p>Ikuti informasi, kegiatan, dan dokumentasi kami</p>
+  </div>
+
+  <div class="kartu">
+    <h3>Video Terbaru</h3>
+    <p>Video terbaru dari channel yang terhubung akan muncul di sini.</p>
+    <div class="video-grid" id="youtube-list">
+      <p>Memuat video YouTube...</p>
+    </div>
+    <div style="text-align:center;margin-top:20px">
+      <a class="tombol" id="channelLink"
+        href="https://youtube.com/@rioschannel-p5p"
+        target="_blank" rel="noopener noreferrer">
+        KUNJUNGI CHANNEL YOUTUBE
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAK -->
 <section id="kontak">
   <div class="darurat">
     <div class="ikon">☎️</div>
-    <h2>Kontak Darurat CEMARA BALI</h2>
+    <h2>Kontak CEMARA BALI</h2>
     <p>
-      Informasi kontak pengurus dan layanan darurat
-      akan disediakan untuk membantu anggota
-      ketika membutuhkan pertolongan.
+      Untuk informasi organisasi dan layanan darurat,
+      silakan menghubungi pengurus CEMARA BALI.
     </p>
     <p><strong>Nomor kontak resmi:</strong></p>
     <p>Menunggu nomor resmi dari pengurus.</p>
   </div>
 
   <div class="info">
-    Demi keamanan anggota, nomor telepon dan data
-    pribadi hanya akan ditampilkan setelah mendapat
-    persetujuan pengurus.
+    Demi keamanan anggota, nomor telepon dan data pribadi
+    hanya akan ditampilkan setelah mendapat persetujuan pengurus.
   </div>
 </section>
 
 <footer>
   <strong>CEMARA BALI</strong>
   <p>Cerita Manis Anak Rantau</p>
-  <p>Bersatu dalam persaudaraan, peduli dalam kebersamaan.</p>
+  <p>Cemara selalu dihati ❤️</p>
   <small>Website resmi CEMARA BALI</small>
+  <br>
+  <small>Dibuat oleh Selamet Supriono</small>
 </footer>
+
+<!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://epyxdvxgcgxgsvrkpsid.supabase.co";
+const SUPABASE_URL =
+  "https://epyxdvxgcgxgsvrkpsid.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_BrT9hySkfHZwBhCtYRRyUw_VZqpa1U9";
+const SUPABASE_KEY =
+  "sb_publishable_BrT9hySkfHZwBhCtYRRyUw_VZqpa1U9";
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
-document.getElementById("formPendaftaran").addEventListener("submit", async function(e) {
+document.getElementById("formPendaftaran")
+.addEventListener("submit", async function(e) {
   e.preventDefault();
 
   const nama = document.getElementById("nama").value.trim();
   const hp = document.getElementById("hp").value.trim();
   const alamat = document.getElementById("alamat").value.trim();
   const pesan = document.getElementById("pesanPendaftaran");
+  const tombol = document.getElementById("btnDaftar");
 
+  if (!nama || !hp || !alamat) {
+    pesan.textContent = "Mohon lengkapi semua data.";
+    return;
+  }
+
+  tombol.disabled = true;
+  tombol.textContent = "MENGIRIM...";
   pesan.textContent = "Sedang mengirim pendaftaran...";
 
-  const { error } = await supabaseClient
-    .from("Anggota_Cemara")
-    .insert([{
-      Nama_lengkap: nama,
-      Nomor_hp: hp,
-      Alamat: alamat
-    }]);
+  try {
+    const { error } = await supabaseClient
+      .from("Anggota_Cemara")
+      .insert([{
+        Nama_lengkap: nama,
+        Nomor_hp: hp,
+        Alamat: alamat
+      }]);
 
-  if (error) {
-    pesan.textContent = "Pendaftaran gagal. Silakan coba lagi.";
-    console.error(error);
-  } else {
-    pesan.textContent = "Alhamdulillah, pendaftaran berhasil dikirim!";
+    if (error) throw error;
+
+    pesan.textContent =
+      "Alhamdulillah! Pendaftaran berhasil dikirim.";
+
     document.getElementById("formPendaftaran").reset();
+
+  } catch(error) {
+    console.error("Supabase:", error);
+    pesan.textContent =
+      "Pendaftaran gagal. Silakan coba kembali.";
+  } finally {
+    tombol.disabled = false;
+    tombol.textContent = "KIRIM PENDAFTARAN";
   }
 });
 </script>
-  
+
+<!-- YOUTUBE API -->
 <script>
-// PENGATURAN YOUTUBE CEMARA BALI
-const YOUTUBE_API_KEY = "AIzaSyDu9kmBCKM5DOTPBpPPgQh8-kupS-MFe7o";
+const YOUTUBE_API_KEY = "MASUKKAN_API_KEY_YOUTUBE_LAMA";
 const YOUTUBE_CHANNEL_ID = "UC7F45Ogc3vqWoJ4h7IvyRyg";
 
-// Mengambil video terbaru
 async function tampilkanVideoYouTube() {
   const wadah = document.getElementById("youtube-list");
 
-  try {
-    // ID playlist upload diawali UU
-    const uploadsPlaylist = "UU" + YOUTUBE_CHANNEL_ID.substring(2);
+  if (!YOUTUBE_API_KEY ||
+      YOUTUBE_API_KEY === "MASUKKAN_API_KEY_YOUTUBE_LAMA") {
+    wadah.innerHTML =
+      "<p>Pengaturan YouTube belum dilengkapi.</p>";
+    return;
+  }
 
-    const urlPlaylist =
+  try {
+    const uploadsPlaylist =
+      "UU" + YOUTUBE_CHANNEL_ID.substring(2);
+
+    const url =
       `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploadsPlaylist}&maxResults=6&key=${YOUTUBE_API_KEY}`;
 
-    const hasilPlaylist = await fetch(urlPlaylist);
-    const dataPlaylist = await hasilPlaylist.json();
+    const response = await fetch(url);
+    const data = await response.json();
 
-    if (!hasilPlaylist.ok) {
-      throw new Error(dataPlaylist.error?.message || "Gagal mengambil playlist");
+    if (!response.ok) {
+      throw new Error(data.error?.message || "YouTube gagal dimuat");
     }
 
-    const videoIds = dataPlaylist.items
-      .map(item => item.snippet.resourceId.videoId)
-      .join(",");
-
-    if (!videoIds) {
-      wadah.innerHTML = "<p>Belum ada video yang ditemukan.</p>";
+    if (!data.items || data.items.length === 0) {
+      wadah.innerHTML = "<p>Belum ada video.</p>";
       return;
     }
 
-    const urlVideo =
-      `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoIds}&key=${YOUTUBE_API_KEY}`;
-
-    const hasilVideo = await fetch(urlVideo);
-    const dataVideo = await hasilVideo.json();
-
-    if (!hasilVideo.ok) {
-      throw new Error(dataVideo.error?.message || "Gagal mengambil video");
-    }
-
-    wadah.innerHTML = dataVideo.items.map(video => {
-      const judul = video.snippet.title;
-      const thumbnail = video.snippet.thumbnails.medium.url;
-      const tayangan = Number(video.statistics.viewCount || 0)
-        .toLocaleString("id-ID");
-      const link = `https://www.youtube.com/watch?v=${video.id}`;
+    wadah.innerHTML = data.items.map(item => {
+      const judul = item.snippet.title;
+      const videoId = item.snippet.resourceId.videoId;
+      const thumbnail =
+        item.snippet.thumbnails.medium.url;
 
       return `
         <div class="kartu">
-          <a href="${link}" target="_blank" rel="noopener noreferrer">
-            <img src="${thumbnail}" alt="${judul}"
-              style="width:100%;border-radius:10px">
+          <a href="https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}"
+             target="_blank" rel="noopener noreferrer">
+            <img src="${thumbnail}" alt="Thumbnail video"
+                 loading="lazy">
           </a>
-          <h3>${judul}</h3>
-          <p>👁 ${tayangan} tayangan</p>
-          <a class="tombol" href="${link}"
-            target="_blank" rel="noopener noreferrer">
-            Tonton Video
+          <h3>${judul.replace(/[&<>"']/g, c => ({
+            "&":"&amp;","<":"&lt;",">":"&gt;",
+            '"':"&quot;","'":"&#39;"
+          })[c])}</h3>
+          <a class="tombol"
+             href="https://www.youtube.com/watch?v=${encodeURIComponent(videoId)}"
+             target="_blank" rel="noopener noreferrer">
+             Tonton Video
           </a>
         </div>
       `;
     }).join("");
 
-  } catch (error) {
+  } catch(error) {
     console.error("YouTube:", error);
     wadah.innerHTML =
       "<p>Video belum dapat dimuat. Silakan coba lagi nanti.</p>";
