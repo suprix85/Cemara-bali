@@ -1044,6 +1044,142 @@ function pilihFileBaru(path){
  input.click();
 }
 
+// ==================================
+// KELOLA GALERI KEGIATAN CEMARA
+// ==================================
+
+async function unggahGaleri(){
+ const judul=document.getElementById("judulGaleri").value.trim();
+ const kategori=document.getElementById("kategoriGaleri").value;
+ const tanggal=document.getElementById("tanggalGaleri").value||null;
+ const input=document.getElementById("fotoGaleri");
+ const files=Array.from(input.files||[]);
+ const pesan=document.getElementById("pesanGaleri");
+
+ if(!files.length){
+  pesan.textContent="Pilih minimal satu foto terlebih dahulu.";
+  return;
+ }
+
+ for(const file of files){
+  if(!file.type.startsWith("image/")){
+   pesan.textContent="Semua file harus berupa gambar.";
+   return;
+  }
+  if(file.size>5*1024*1024){
+   pesan.textContent="Ukuran setiap foto maksimal 5 MB.";
+   return;
+  }
+ }
+
+ pesan.textContent="Sedang mengunggah "+files.length+" foto...";
+ let berhasil=0;
+
+ for(let i=0;i<files.length;i++){
+  const file=files[i];
+  const nama=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+  const path="galeri/"+Date.now()+"_"+i+"_"+nama;
+
+  const {error:uploadError}=await db.storage
+   .from(BUCKET).upload(path,file);
+
+  if(uploadError) continue;
+
+  const {error:insertError}=await db.from("Galeri_Cemara").insert([{
+   judul:judul||kategori,
+   kategori:kategori,
+   tanggal_kegiatan:tanggal,
+   foto_path:path
+  }]);
+
+  if(insertError){
+   await db.storage.from(BUCKET).remove([path]);
+   continue;
+  }
+
+  berhasil++;
+ }
+
+ pesan.textContent="Selesai. Berhasil mengunggah "+berhasil+" dari "+files.length+" foto.";
+ input.value="";
+ await muatGaleriAdmin();
+}
+
+async function muatGaleriAdmin(){
+ const area=document.getElementById("daftarGaleriAdmin");
+ area.replaceChildren();
+
+ const {data,error}=await db.from("Galeri_Cemara")
+  .select("*")
+  .order("created_at",{ascending:false});
+
+ if(error){
+  area.textContent="Gagal memuat galeri: "+error.message;
+  return;
+ }
+
+ if(!data||!data.length){
+  area.textContent="Belum ada foto galeri.";
+  return;
+ }
+
+ data.forEach(foto=>{
+  const item=document.createElement("div");
+  item.className="fileitem";
+
+  const url=db.storage.from(BUCKET)
+   .getPublicUrl(foto.foto_path).data.publicUrl;
+
+  const img=document.createElement("img");
+  img.src=url;
+  img.alt=foto.judul||"Foto kegiatan CEMARA";
+  item.appendChild(img);
+
+  const judul=document.createElement("p");
+  judul.textContent=foto.judul||"-";
+  item.appendChild(judul);
+
+  const kategori=document.createElement("p");
+  kategori.textContent="Kategori: "+foto.kategori;
+  item.appendChild(kategori);
+
+  const tanggal=document.createElement("p");
+  tanggal.textContent="Tanggal: "+(foto.tanggal_kegiatan||"-");
+  item.appendChild(tanggal);
+
+  const hapus=document.createElement("button");
+  hapus.className="danger";
+  hapus.textContent="HAPUS FOTO";
+  hapus.onclick=()=>hapusGaleri(foto.id,foto.foto_path);
+  item.appendChild(hapus);
+
+  area.appendChild(item);
+ });
+}
+
+async function hapusGaleri(id,path){
+ if(!confirm("Yakin ingin menghapus foto galeri ini?"))return;
+
+ const {error:hapusData}=await db.from("Galeri_Cemara")
+  .delete().eq("id",id);
+
+ if(hapusData){
+  alert("Gagal menghapus data galeri: "+hapusData.message);
+  return;
+ }
+
+ const {error:hapusFile}=await db.storage
+  .from(BUCKET).remove([path]);
+
+ if(hapusFile){
+  alert("Data galeri terhapus, tetapi file foto gagal dihapus: "+hapusFile.message);
+ }else{
+  alert("Foto galeri berhasil dihapus.");
+ }
+
+ await muatGaleriAdmin();
+}
+
 async function keluar(){
  await db.auth.signOut();
  location.reload();
