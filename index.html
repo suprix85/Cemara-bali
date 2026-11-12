@@ -672,7 +672,7 @@ async function tampilkanAnggota() {
   try {
     const { data, error } = await supabaseClient
       .from("daftar_anggota_publik")
-      .select("Nama_lengkap, Nomor_kta, Alamat")
+      .select("Nama_lengkap, Nomor_kta, Alamat, Foto_url")
       .order("Nama_lengkap", { ascending: true });
 
     if (error) throw error;
