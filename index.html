@@ -775,7 +775,11 @@ const pesan = document.getElementById("pesanPendaftaran");
 const tombol = document.getElementById("btnDaftar");
 
   if (!nama || !hp || !alamat) {
-    if (!foto) {
+  pesan.textContent = "Mohon lengkapi semua data.";
+  return;
+}
+
+if (!foto) {
   pesan.textContent = "Mohon pilih foto anggota.";
   return;
 }
@@ -789,10 +793,7 @@ if (foto.size > 2 * 1024 * 1024) {
   pesan.textContent = "Ukuran foto maksimal 2 MB.";
   return;
 }
-    pesan.textContent = "Mohon lengkapi semua data.";
-    return;
-  }
-
+  
   tombol.disabled = true;
   tombol.textContent = "MENGIRIM...";
   pesan.textContent = "Sedang mengirim pendaftaran...";
