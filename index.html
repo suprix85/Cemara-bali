@@ -544,27 +544,61 @@ footer p {color:#d9f99d}
   </div>
 
   <div class="kartu">
-    <form id="formPendaftaran">
-      <label>Nama Lengkap *</label>
-      <input type="text" id="nama" required
-        placeholder="Masukkan nama lengkap">
+    
+<form id="formPendaftaran">
+  <label>Nama Lengkap *</label>
+  <input type="text" id="nama" required
+    placeholder="Masukkan nama lengkap">
 
-      <label>Nomor HP / WhatsApp *</label>
-      <input type="tel" id="hp" required
-        placeholder="Masukkan nomor HP">
+  <label>Nomor HP / WhatsApp *</label>
+  <input type="tel" id="hp" required
+    placeholder="Masukkan nomor HP">
 
-      <label>Alamat *</label>
-      <textarea id="alamat" required
-        placeholder="Masukkan alamat lengkap"></textarea>
-<label>Foto Anggota *</label>
-<input type="file" id="foto" accept="image/jpeg,image/png,image/webp" required>
-<small>Format JPG, PNG, atau WEBP. Maksimal 2 MB.</small>
-      <button type="submit" class="tombol" id="btnDaftar">
-        KIRIM PENDAFTARAN
-      </button>
+  <label>Alamat *</label>
+  <textarea id="alamat" required
+    placeholder="Masukkan alamat lengkap"></textarea>
 
-      <p id="pesanPendaftaran" role="status"></p>
-    </form>
+  <label>Tempat Lahir</label>
+  <input type="text" id="tempatLahir"
+    placeholder="Masukkan tempat lahir">
+
+  <label>Tanggal Lahir</label>
+  <input type="date" id="tanggalLahir">
+
+  <label>Golongan Darah</label>
+  <select id="golonganDarah">
+    <option value="">Pilih golongan darah</option>
+    <option value="A">A</option>
+    <option value="B">B</option>
+    <option value="AB">AB</option>
+    <option value="O">O</option>
+    <option value="Tidak tahu">Tidak tahu</option>
+  </select>
+
+  <label>Agama</label>
+  <select id="agama">
+    <option value="">Pilih agama</option>
+    <option value="Islam">Islam</option>
+    <option value="Kristen">Kristen</option>
+    <option value="Katolik">Katolik</option>
+    <option value="Hindu">Hindu</option>
+    <option value="Buddha">Buddha</option>
+    <option value="Konghucu">Konghucu</option>
+    <option value="Lainnya">Lainnya</option>
+  </select>
+
+  <label>Foto Anggota *</label>
+  <input type="file" id="foto"
+    accept="image/jpeg,image/png,image/webp" required>
+  <small>Format JPG, PNG, atau WEBP. Maksimal 2 MB.</small>
+
+  <button type="submit" class="tombol" id="btnDaftar">
+    KIRIM PENDAFTARAN
+  </button>
+
+  <p id="pesanPendaftaran" role="status"></p>
+</form>
+
   </div>
 </section>
 
