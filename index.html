@@ -770,8 +770,9 @@ document.getElementById("formPendaftaran")
   const nama = document.getElementById("nama").value.trim();
   const hp = document.getElementById("hp").value.trim();
   const alamat = document.getElementById("alamat").value.trim();
-  const pesan = document.getElementById("pesanPendaftaran");
-  const tombol = document.getElementById("btnDaftar");
+const foto = document.getElementById("foto").files[0];
+const pesan = document.getElementById("pesanPendaftaran");
+const tombol = document.getElementById("btnDaftar");
 
   if (!nama || !hp || !alamat) {
     pesan.textContent = "Mohon lengkapi semua data.";
