@@ -830,13 +830,10 @@ if (foto.size > 2 * 1024 * 1024) {
       }]);
 
     if (error) throw error;
-      .insert([{
-        Nama_lengkap: nama,
-        Nomor_hp: hp,
-        Alamat: alamat
-      }]);
+          if (error) throw error;
 
-    if (error) throw error;
+    pesan.textContent =
+      "Alhamdulillah! Pendaftaran berhasil dikirim.";
 
     pesan.textContent =
       "Alhamdulillah! Pendaftaran berhasil dikirim.";
