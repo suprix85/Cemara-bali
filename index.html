@@ -804,6 +804,7 @@ document.getElementById("cariAnggota")
 
 // JALANKAN SAAT WEBSITE DIBUKA
 tampilkanAnggota();
+
 document.getElementById("formPendaftaran")
 .addEventListener("submit", async function(e) {
   e.preventDefault();
@@ -811,63 +812,74 @@ document.getElementById("formPendaftaran")
   const nama = document.getElementById("nama").value.trim();
   const hp = document.getElementById("hp").value.trim();
   const alamat = document.getElementById("alamat").value.trim();
-const foto = document.getElementById("foto").files[0];
-const pesan = document.getElementById("pesanPendaftaran");
-const tombol = document.getElementById("btnDaftar");
+
+  const tempatLahir = document.getElementById("tempatLahir").value.trim();
+  const tanggalLahir = document.getElementById("tanggalLahir").value;
+  const golonganDarah = document.getElementById("golonganDarah").value;
+  const agama = document.getElementById("agama").value;
+
+  const foto = document.getElementById("foto").files[0];
+  const pesan = document.getElementById("pesanPendaftaran");
+  const tombol = document.getElementById("btnDaftar");
 
   if (!nama || !hp || !alamat) {
-  pesan.textContent = "Mohon lengkapi semua data.";
-  return;
-}
+    pesan.textContent = "Mohon lengkapi data wajib.";
+    return;
+  }
 
-if (!foto) {
-  pesan.textContent = "Mohon pilih foto anggota.";
-  return;
-}
+  if (!foto) {
+    pesan.textContent = "Mohon pilih foto anggota.";
+    return;
+  }
 
-if (!["image/jpeg", "image/png", "image/webp"].includes(foto.type)) {
-  pesan.textContent = "Format foto harus JPG, PNG, atau WEBP.";
-  return;
-}
+  if (!["image/jpeg", "image/png", "image/webp"].includes(foto.type)) {
+    pesan.textContent = "Format foto harus JPG, PNG, atau WEBP.";
+    return;
+  }
 
-if (foto.size > 2 * 1024 * 1024) {
-  pesan.textContent = "Ukuran foto maksimal 2 MB.";
-  return;
-}
-  
+  if (foto.size > 2 * 1024 * 1024) {
+    pesan.textContent = "Ukuran foto maksimal 2 MB.";
+    return;
+  }
+
   tombol.disabled = true;
   tombol.textContent = "MENGIRIM...";
   pesan.textContent = "Sedang mengirim pendaftaran...";
 
   try {
-  const ekstensi = foto.name.split(".").pop().toLowerCase();
-  const namaFile = `foto/${Date.now()}.${ekstensi}`;
+    const ekstensi = foto.name.split(".").pop().toLowerCase();
+    const namaFile = `foto/${Date.now()}-${Math.random().toString(36).slice(2)}.${ekstensi}`;
 
-  const { error: uploadError } = await supabaseClient
-    .storage
-    .from("cemara-bali")
-    .upload(namaFile, foto);
+    const { error: uploadError } = await supabaseClient
+      .storage
+      .from("cemara-bali")
+      .upload(namaFile, foto);
 
-  if (uploadError) throw uploadError;
+    if (uploadError) throw uploadError;
 
-  const { data: urlData } = supabaseClient
-    .storage
-    .from("cemara-bali")
-    .getPublicUrl(namaFile);
+    const { data: urlData } = supabaseClient
+      .storage
+      .from("cemara-bali")
+      .getPublicUrl(namaFile);
 
-  const { error } = await supabaseClient
-    .from("Anggota_Cemara")
-    .insert([{
-      Nama_lengkap: nama,
-      Nomor_hp: hp,
-      Alamat: alamat,
-      Foto_url: urlData.publicUrl
-    }]);
+    const { error } = await supabaseClient
+      .from("Anggota_Cemara")
+      .insert([{
+        Nama_lengkap: nama,
+        Nomor_hp: hp,
+        Alamat: alamat,
+        Tempat_lahir: tempatLahir || null,
+        Tanggal_lahir: tanggalLahir || null,
+        Golongan_darah: golonganDarah || null,
+        Agama: agama || null,
+        Foto_url: urlData.publicUrl
+      }]);
 
-  if (error) throw error;
+    if (error) throw error;
 
-  pesan.textContent = "Pendaftaran berhasil dikirim!";
-  document.getElementById("formPendaftaran").reset();
+    pesan.textContent = "Pendaftaran berhasil dikirim!";
+    document.getElementById("formPendaftaran").reset();
+
   } catch(error) {
     console.error("Supabase:", error);
     pesan.textContent =
@@ -877,6 +889,9 @@ if (foto.size > 2 * 1024 * 1024) {
     tombol.textContent = "KIRIM PENDAFTARAN";
   }
 });
+
+
+
 </script>
 
 <!-- YOUTUBE API -->
