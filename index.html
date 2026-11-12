@@ -775,6 +775,20 @@ const pesan = document.getElementById("pesanPendaftaran");
 const tombol = document.getElementById("btnDaftar");
 
   if (!nama || !hp || !alamat) {
+    if (!foto) {
+  pesan.textContent = "Mohon pilih foto anggota.";
+  return;
+}
+
+if (!["image/jpeg", "image/png", "image/webp"].includes(foto.type)) {
+  pesan.textContent = "Format foto harus JPG, PNG, atau WEBP.";
+  return;
+}
+
+if (foto.size > 2 * 1024 * 1024) {
+  pesan.textContent = "Ukuran foto maksimal 2 MB.";
+  return;
+}
     pesan.textContent = "Mohon lengkapi semua data.";
     return;
   }
