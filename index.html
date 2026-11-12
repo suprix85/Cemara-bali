@@ -799,8 +799,37 @@ if (foto.size > 2 * 1024 * 1024) {
   pesan.textContent = "Sedang mengirim pendaftaran...";
 
   try {
+    const ekstensi = foto.name.split(".").pop().toLowerCase();
+
+    const namaFile = `foto/${Date.now()}-${Math.random().toString(36).slice(2)}.${ekstensi}`;
+
+    const { error: uploadError } = await supabaseClient
+      .storage
+      .from("cemara-bali")
+      .upload(namaFile, foto, {
+        contentType: foto.type,
+        upsert: false
+      });
+
+    if (uploadError) throw uploadError;
+
+    const { data: urlData } = supabaseClient
+      .storage
+      .from("cemara-bali")
+      .getPublicUrl(namaFile);
+
+    const fotoUrl = urlData.publicUrl;
+
     const { error } = await supabaseClient
       .from("Anggota_Cemara")
+      .insert([{
+        Nama_lengkap: nama,
+        Nomor_hp: hp,
+        Alamat: alamat,
+        Foto_url: fotoUrl
+      }]);
+
+    if (error) throw error;
       .insert([{
         Nama_lengkap: nama,
         Nomor_hp: hp,
