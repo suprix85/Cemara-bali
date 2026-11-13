@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -22,21 +23,42 @@ header{
 }
 header h1{margin:0 0 8px}
 header p{margin:0;color:#d9f99d}
-.kembali{
+.kembali,.tombol{
   display:inline-block;
-  margin-top:18px;
+  margin:12px 5px;
   padding:10px 18px;
   background:#a3e635;
   color:#064e3b;
   text-decoration:none;
+  border:0;
   border-radius:25px;
   font-weight:bold;
+  cursor:pointer;
 }
 .judul{
   text-align:center;
   padding:25px 12px 10px;
 }
-.judul h2{margin-bottom:8px}
+.kategori{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  max-width:1000px;
+  margin:20px auto;
+  padding:15px;
+}
+.kartu{
+  background:white;
+  border:1px solid #d1fae5;
+  border-radius:15px;
+  padding:25px 15px;
+  text-align:center;
+  box-shadow:0 3px 12px #0001;
+  cursor:pointer;
+}
+.kartu:hover{transform:translateY(-3px)}
+.kartu .ikon{font-size:38px}
+.kartu h3{margin:10px 0;color:#047857}
 #status{
   text-align:center;
   padding:15px;
@@ -101,13 +123,44 @@ footer{
   <a class="kembali" href="index.html">← Kembali ke Beranda</a>
 </header>
 
-<div class="judul">
-  <h2>Dokumentasi Kegiatan</h2>
-  <p>Kenangan dan kebersamaan keluarga besar CEMARA BALI</p>
+<div id="halamanKategori">
+  <div class="judul">
+    <h2>Galeri Kegiatan</h2>
+    <p>Pilih kegiatan untuk melihat dokumentasi foto</p>
+  </div>
+
+  <div class="kategori">
+    <div class="kartu" onclick="pilihKategori('silaturahmi')">
+      <div class="ikon">🤝</div>
+      <h3>Silaturahmi</h3>
+      <p>Foto pertemuan dan kebersamaan anggota.</p>
+    </div>
+
+    <div class="kartu" onclick="pilihKategori('kegiatan-sosial')">
+      <div class="ikon">❤️</div>
+      <h3>Kegiatan Sosial</h3>
+      <p>Foto gotong royong dan kepedulian sosial.</p>
+    </div>
+
+    <div class="kartu" onclick="pilihKategori('tali-kasih')">
+      <div class="ikon">🎁</div>
+      <h3>Tali Kasih</h3>
+      <p>Foto bantuan dan sumbangan kepada anggota.</p>
+    </div>
+  </div>
 </div>
 
-<div id="status">Memuat foto galeri...</div>
-<div class="grid" id="daftar-foto"></div>
+<div id="halamanFoto" style="display:none">
+  <div class="judul">
+    <h2 id="judulKategori">Dokumentasi Kegiatan</h2>
+    <button class="tombol" onclick="kembaliKategori()">
+      ← Kembali ke Kategori
+    </button>
+  </div>
+
+  <div id="status">Memuat foto...</div>
+  <div class="grid" id="daftar-foto"></div>
+</div>
 
 <div id="pembesar" onclick="tutupFoto()">
   <span id="tutup">&times;</span>
@@ -128,15 +181,34 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_KEY
 );
 
-async function muatGaleri(){
+const namaKategori = {
+  "silaturahmi": "Silaturahmi",
+  "kegiatan-sosial": "Kegiatan Sosial",
+  "tali-kasih": "Tali Kasih"
+};
+
+async function pilihKategori(kategori){
+  document.getElementById("halamanKategori").style.display = "none";
+  document.getElementById("halamanFoto").style.display = "block";
+
+  document.getElementById("judulKategori").textContent =
+    "Galeri " + namaKategori[kategori];
+
+  await muatGaleri(kategori);
+}
+
+async function muatGaleri(kategori){
   const status = document.getElementById("status");
   const wadah = document.getElementById("daftar-foto");
+
+  wadah.innerHTML = "";
+  status.textContent = "Memuat foto...";
 
   try{
     const {data,error} = await supabaseClient
       .storage
       .from("cemara-bali")
-      .list("galeri",{
+      .list("galeri/" + kategori,{
         limit:100,
         sortBy:{column:"created_at",order:"desc"}
       });
@@ -148,22 +220,23 @@ async function muatGaleri(){
     );
 
     if(foto.length === 0){
-      status.textContent = "Belum ada foto di galeri.";
+      status.textContent = "Belum ada foto untuk kategori ini.";
       return;
     }
 
-    status.textContent = foto.length + " foto dokumentasi CEMARA BALI";
+    status.textContent =
+      foto.length + " foto dokumentasi " + namaKategori[kategori];
 
     foto.forEach(file=>{
       const {data:urlData} = supabaseClient
         .storage
         .from("cemara-bali")
-        .getPublicUrl("galeri/" + file.name);
+        .getPublicUrl("galeri/" + kategori + "/" + file.name);
 
       const img = document.createElement("img");
       img.className = "foto";
       img.src = urlData.publicUrl;
-      img.alt = "Dokumentasi CEMARA BALI";
+      img.alt = "Dokumentasi " + namaKategori[kategori];
       img.loading = "lazy";
       img.onclick = ()=>bukaFoto(img.src);
 
@@ -172,8 +245,16 @@ async function muatGaleri(){
 
   }catch(error){
     console.error(error);
-    status.textContent = "Foto belum dapat dimuat. Periksa izin akses galeri Supabase.";
+    status.textContent =
+      "Foto belum dapat dimuat. Periksa izin akses galeri Supabase.";
   }
+}
+
+function kembaliKategori(){
+  document.getElementById("halamanFoto").style.display = "none";
+  document.getElementById("halamanKategori").style.display = "block";
+  document.getElementById("daftar-foto").innerHTML = "";
+  document.getElementById("status").textContent = "";
 }
 
 function bukaFoto(url){
@@ -185,7 +266,11 @@ function tutupFoto(){
   document.getElementById("pembesar").style.display = "none";
 }
 
-muatGaleri();
+muatGaleriAwal();
+
+function muatGaleriAwal(){
+  // Halaman awal menampilkan pilihan tiga kategori.
+}
 </script>
 
 </body>
