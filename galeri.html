@@ -266,11 +266,21 @@ function tutupFoto(){
   document.getElementById("pembesar").style.display = "none";
 }
 
-muatGaleriAwal();
 
 function muatGaleriAwal(){
-  // Halaman awal menampilkan pilihan tiga kategori.
+  const parameter = new URLSearchParams(window.location.search);
+  const kategori = parameter.get("kategori");
+
+  if (
+    kategori &&
+    Object.prototype.hasOwnProperty.call(namaKategori, kategori)
+  ) {
+    pilihKategori(kategori);
+  }
 }
+
+muatGaleriAwal();
+
 </script>
 
 </body>
