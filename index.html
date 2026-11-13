@@ -512,7 +512,7 @@ footer p {color:#d9f99d}
   </div>
 </section>
 
-<!-- DAFTAR ANGGOTA -->
+<!-- DAFTAR ANGGOTA DI BERANDA -->
 <section id="anggota">
   <div class="judul">
     <h2>Daftar Anggota CEMARA BALI</h2>
@@ -521,16 +521,52 @@ footer p {color:#d9f99d}
   </div>
 
   <div class="kartu">
-    <input
-      type="search"
-      id="cariAnggota"
-      placeholder="Cari nama, nomor KTA, atau alamat..."
-      style="width:100%;padding:14px;border:1px solid #dce7de;border-radius:10px;font:inherit;"
-    >
-
+    <h3>Anggota Terbaru</h3>
     <p id="jumlahAnggota">Memuat data anggota...</p>
+
     <div id="daftarAnggota">
       <p>Mohon tunggu, data sedang dimuat...</p>
+    </div>
+
+    <div style="text-align:center;margin-top:20px">
+      <button
+        type="button"
+        class="tombol"
+        id="btnLihatSemua">
+        LIHAT SEMUA ANGGOTA →
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- HALAMAN KHUSUS DAFTAR ANGGOTA -->
+<section id="halamanAnggota" style="display:none">
+  <div class="judul">
+    <h2>Seluruh Anggota CEMARA BALI</h2>
+    <div class="garis"></div>
+    <p>Data keluarga besar CEMARA BALI</p>
+  </div>
+
+  <div class="kartu">
+    <button type="button" class="tombol" id="btnKembali">
+      ← KEMBALI KE BERANDA
+    </button>
+
+    <input
+      type="search"
+      id="cariAnggotaLengkap"
+      placeholder="Cari nama, nomor KTA, atau alamat..."
+      style="width:100%;padding:14px;border:1px solid #dce7de;border-radius:10px;font:inherit;margin-top:15px"
+    >
+
+    <p id="jumlahAnggotaLengkap">Memuat data...</p>
+
+    <div id="daftarAnggotaLengkap">
+      <p>Mohon tunggu...</p>
+    </div>
+
+    <div id="paginationAnggota"
+      style="text-align:center;margin-top:20px">
     </div>
   </div>
 </section>
