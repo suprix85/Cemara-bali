@@ -269,8 +269,28 @@ UNGGAH LOGO KTA
 <p id="pesanLogoKTA"></p>
 </div>
 <div class="card">
-<h3>Foto Anggota</h3>
-<p>Unggah foto melalui tombol pada masing-masing data anggota di bawah.</p>
+<h3>📸 Foto Anggota</h3>
+<p>Unggah foto satu per satu melalui daftar anggota, atau gunakan fitur unggah massal di bawah.</p>
+
+<hr>
+
+<h3>📦 Unggah Foto Anggota Massal</h3>
+<p>Pilih ZIP berisi foto anggota dan file DAFTAR_FOTO.csv.</p>
+
+<input type="file" id="zipFotoAnggota" accept=".zip">
+
+<button class="secondary" onclick="periksaZipAnggota()">
+PERIKSA DAN COCOKKAN FOTO
+</button>
+
+<div id="hasilCocokFoto"></div>
+
+<button id="tombolUnggahMassal" class="gold hidden"
+onclick="unggahZipAnggota()">
+UNGGAH FOTO YANG COCOK
+</button>
+
+<p id="pesanUnggahMassal"></p>
 </div>
 
 <div class="card">
