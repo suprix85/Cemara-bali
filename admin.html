@@ -1201,7 +1201,257 @@ async function hapusGaleri(id,path){
 
  await muatGaleriAdmin();
 }
+// ======================================
+// UNGGAH FOTO ANGGOTA SECARA MASSAL
+// ======================================
 
+let hasilZipAnggota = [];
+
+function normalisasiNama(teks){
+ return String(teks||"")
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"")
+  .toLowerCase()
+  .replace(/[^a-z0-9]/g,"");
+}
+
+async function periksaZipAnggota(){
+
+ const input=document.getElementById("zipFotoAnggota");
+ const area=document.getElementById("hasilCocokFoto");
+ const tombol=document.getElementById("tombolUnggahMassal");
+ const pesan=document.getElementById("pesanUnggahMassal");
+
+ area.replaceChildren();
+ tombol.classList.add("hidden");
+ hasilZipAnggota=[];
+
+ const file=input.files[0];
+
+ if(!file){
+  pesan.textContent="Pilih file ZIP terlebih dahulu.";
+  return;
+ }
+
+ pesan.textContent="Sedang membaca ZIP dan mencocokkan nama anggota...";
+
+ try{
+
+  const zip=await JSZip.loadAsync(file);
+
+  const fileCSV=Object.values(zip.files).find(f=>
+   !f.dir && f.name.split("/").pop().toLowerCase()==="daftar_foto.csv"
+  );
+
+  if(!fileCSV){
+   pesan.textContent="File DAFTAR_FOTO.csv tidak ditemukan di dalam ZIP.";
+   return;
+  }
+
+  const teksCSV=await fileCSV.async("string");
+
+  const hasilCSV=Papa.parse(teksCSV,{
+   header:true,
+   skipEmptyLines:true
+  });
+
+  if(!hasilCSV.data || !hasilCSV.data.length){
+   pesan.textContent="Daftar foto dalam CSV kosong atau tidak terbaca.";
+   return;
+  }
+
+  const kolomNama="Nama anggota";
+  const kolomFile="Nama file foto";
+
+  if(!hasilCSV.meta.fields.includes(kolomNama) ||
+     !hasilCSV.meta.fields.includes(kolomFile)){
+   pesan.textContent="Kolom nama anggota atau nama file foto tidak ditemukan.";
+   return;
+  }
+
+  const {data:anggota,error}=await db
+   .from("Anggota_Cemara")
+   .select("id,Nama_lengkap,Foto_url");
+
+  if(error){
+   pesan.textContent="Gagal membaca anggota: "+error.message;
+   return;
+  }
+
+  const daftarFile=Object.values(zip.files);
+  const daftarHasil=[];
+
+  for(const baris of hasilCSV.data){
+
+   const nama=String(baris[kolomNama]||"").trim();
+   const namaFile=String(baris[kolomFile]||"").trim();
+
+   if(!nama || !namaFile)continue;
+
+   const fileZip=daftarFile.find(f=>
+    !f.dir && f.name.split("/").pop()===namaFile
+   );
+
+   const cocok=anggota.filter(a=>
+    normalisasiNama(a.Nama_lengkap)===normalisasiNama(nama)
+   );
+
+   let status="";
+
+   if(!fileZip){
+    status="File foto tidak ditemukan";
+   }else if(cocok.length===0){
+    status="Nama tidak ditemukan di database";
+   }else if(cocok.length>1){
+    status="Nama ganda, perlu diperiksa";
+   }else if(cocok[0].Foto_url){
+    status="Sudah memiliki foto, dilewati";
+   }else{
+    status="Siap diunggah";
+   }
+
+   daftarHasil.push({
+    nama,
+    namaFile,
+    fileZip,
+    anggota:cocok.length===1?cocok[0]:null,
+    status
+   });
+  }
+
+  hasilZipAnggota=daftarHasil.filter(x=>
+   x.status==="Siap diunggah"
+  );
+
+  let siap=0;
+  let dilewati=0;
+
+  daftarHasil.forEach(x=>{
+   const item=document.createElement("div");
+   item.className="fileitem";
+
+   const nama=document.createElement("b");
+   nama.textContent=x.nama;
+   item.appendChild(nama);
+
+   const namaFile=document.createElement("p");
+   namaFile.textContent="File: "+x.namaFile;
+   item.appendChild(namaFile);
+
+   const status=document.createElement("p");
+   status.textContent=x.status;
+   item.appendChild(status);
+
+   area.appendChild(item);
+
+   if(x.status==="Siap diunggah")siap++;
+   else dilewati++;
+  });
+
+  pesan.textContent=
+   "Pemeriksaan selesai. Siap diunggah: "+siap+
+   " foto. Dilewati/perlu diperiksa: "+dilewati+" foto.";
+
+  if(siap>0){
+   tombol.classList.remove("hidden");
+  }
+
+ }catch(error){
+  console.error(error);
+  pesan.textContent="Gagal membaca ZIP: "+error.message;
+ }
+}
+
+async function unggahZipAnggota(){
+
+ if(!hasilZipAnggota.length){
+  alert("Tidak ada foto yang siap diunggah.");
+  return;
+ }
+
+ if(!confirm(
+  "Unggah "+hasilZipAnggota.length+
+  " foto anggota yang cocok dan belum memiliki foto?"
+ ))return;
+
+ const pesan=document.getElementById("pesanUnggahMassal");
+ const tombol=document.getElementById("tombolUnggahMassal");
+
+ tombol.disabled=true;
+
+ let berhasil=0;
+ let gagal=0;
+
+ for(let i=0;i<hasilZipAnggota.length;i++){
+
+  const item=hasilZipAnggota[i];
+
+  pesan.textContent=
+   "Mengunggah "+(i+1)+" dari "+hasilZipAnggota.length+
+   ": "+item.nama;
+
+  try{
+
+   const fileBlob=await item.fileZip.async("blob");
+
+   const ekstensi=item.namaFile.split(".").pop()
+    .toLowerCase().replace(/[^a-z0-9]/g,"");
+
+   const namaAman=normalisasiNama(item.nama);
+
+   const path=
+    "foto-anggota/"+item.anggota.id+"_massal_"+
+    Date.now()+"_"+namaAman+"."+(ekstensi||"jpg");
+
+   const {error:uploadError}=await db.storage
+    .from(BUCKET)
+    .upload(path,fileBlob,{
+     upsert:false,
+     contentType:fileBlob.type||"image/jpeg"
+    });
+
+   if(uploadError){
+    console.error("Upload gagal:",item.nama,uploadError.message);
+    gagal++;
+    continue;
+   }
+
+   const {error:updateError}=await db
+    .from("Anggota_Cemara")
+    .update({Foto_url:path})
+    .eq("id",item.anggota.id)
+    .is("Foto_url",null);
+
+   if(updateError){
+    await db.storage.from(BUCKET).remove([path]);
+    console.error("Update gagal:",item.nama,updateError.message);
+    gagal++;
+    continue;
+   }
+
+   berhasil++;
+
+  }catch(error){
+   console.error(error);
+   gagal++;
+  }
+ }
+
+ pesan.textContent=
+  "Selesai! Berhasil: "+berhasil+
+  " foto. Gagal: "+gagal+" foto.";
+
+ tombol.disabled=false;
+ tombol.classList.add("hidden");
+
+ await muatAnggota();
+ await muatFile();
+
+ alert(
+  "Proses selesai.\nBerhasil: "+berhasil+
+  "\nGagal: "+gagal
+ );
+ }
 async function keluar(){
  await db.auth.signOut();
  location.reload();
