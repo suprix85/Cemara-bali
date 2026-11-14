@@ -964,13 +964,16 @@ function tampilkanDaftarLengkap() {
     `;
 
     dataHalaman.forEach((anggota, index) => {
-      const foto = anggota.Foto_url &&
-        anggota.Foto_url.startsWith(
-          "https://epyxdvxgcgxgsvrkpsid.supabase.co/storage/v1/object/public/cemara-bali/foto/"
-        )
-        ? `<img src="${aman(anggota.Foto_url)}" alt="Foto anggota"
-            style="width:50px;height:50px;object-fit:cover;border-radius:8px">`
-        : "-";
+  let urlFoto = anggota.Foto_url || "";
+
+  if (urlFoto && !urlFoto.startsWith("http")) {
+    urlFoto = `https://epyxdvxgcgxgsvrkpsid.supabase.co/storage/v1/object/public/cemara-bali/${urlFoto}`;
+  }
+
+  const foto = urlFoto
+    ? `<img src="${aman(urlFoto)}" alt="Foto anggota"
+        style="width:50px;height:50px;object-fit:cover;border-radius:8px">`
+    : "-";
 
       html += `
         <tr>
