@@ -7,11 +7,12 @@
 <meta name="theme-color" content="#064e3b">
 <title>Admin CEMARA BALI</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f0fdf4;color:#173b2d;font-family:Arial,sans-serif}
 header{background:linear-gradient(135deg,#064e3b,#047857);color:white;text-align:center;padding:22px 12px;border-bottom:5px solid #a3e635}
-header img{width:85px;height:85px;object-fit:contain;background:white;border-radius:50%;padding:5px}
+header img{width:100px;height:100px;object-fit:contain;background:transparent;border:0;padding:0}
 header h2{margin:8px 0 4px}
 header p{margin:4px;color:#ecfccb}
 main{max-width:1000px;margin:20px auto;padding:10px}
@@ -39,22 +40,48 @@ hr{border:0;border-top:1px solid #ddd;margin:20px 0}
 .hidden{display:none!important}
 #ktaModal{position:fixed;inset:0;background:#000b;z-index:99;overflow:auto;padding:15px}
 .modal-inner{max-width:600px;background:white;margin:20px auto;padding:16px;border-radius:12px}
-.kta{width:100%;max-width:480px;aspect-ratio:1.586;background:linear-gradient(135deg,#064e3b,#047857);color:white;border:3px solid #d4af37;border-radius:13px;padding:13px;margin:12px auto;position:relative;overflow:hidden}
+.kta{
+width:100%;max-width:480px;aspect-ratio:1.586;
+background:linear-gradient(135deg,#064e3b,#047857);
+color:white;border:3px solid #d4af37;border-radius:13px;
+padding:13px;margin:12px auto;position:relative;overflow:hidden;
+}
 .kta h3{color:#facc15;text-align:center;font-size:16px;margin:2px}
 .kta .sub{text-align:center;font-size:9px;margin:2px}
+.kta .goldline{border-top:1px solid #facc15;margin:7px 0}
+.kta-head{display:flex;align-items:center;justify-content:center;gap:9px}
+.kta-head img{width:43px;height:43px;object-fit:contain}
 .kta .content{display:flex;gap:12px;margin-top:13px;font-size:11px;line-height:1.7}
 .kta .content img{width:83px;height:105px;object-fit:cover;border:2px solid #facc15;border-radius:5px}
-.kta .goldline{border-top:1px solid #facc15;margin:7px 0}
-.kta-back{text-align:center;display:flex;flex-direction:column;justify-content:center}
-.kta-back p{font-size:11px;line-height:1.6}
-@media(max-width:500px){.card{padding:13px}.kta{padding:9px}.kta .content{font-size:9px;gap:7px}.kta .content img{width:68px;height:90px}}
-@media print{body{background:white}header,main,#bagianLogin,.no-print{display:none!important}#ktaModal{position:static;background:white;padding:0;display:block!important}.modal-inner{max-width:none;margin:0;padding:0}.kta{break-inside:avoid;page-break-inside:avoid;margin:10px auto;width:95%;max-width:480px}}
+.kta-back{text-align:left;display:flex;flex-direction:column;justify-content:center}
+.kta-back h3{text-align:center}
+.kta-back .janji-title{text-align:center;color:#facc15;font-weight:bold;font-size:12px;margin:5px 0}
+.kta-back ol{font-size:10px;line-height:1.55;padding-left:20px;margin:5px 0}
+.kta-back p{font-size:10px;line-height:1.5;margin:5px 0}
+.kta-back .kontak{text-align:center;font-size:9px;line-height:1.5}
+@media(max-width:500px){
+.card{padding:13px}
+.kta{padding:9px}
+.kta .content{font-size:9px;gap:7px}
+.kta .content img{width:68px;height:90px}
+.kta-back ol{font-size:9px;line-height:1.45}
+}
+@media print{
+body{background:white}
+header,main,#bagianLogin,.no-print{display:none!important}
+#ktaModal{position:static;background:white;padding:0;display:block!important}
+.modal-inner{max-width:none;margin:0;padding:0}
+.kta{break-inside:avoid;page-break-inside:avoid;margin:10px auto;width:95%;max-width:480px}
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<img id="logoHeader" src="https://epyxdvxgcgxgsvrkpsid.supabase.co/storage/v1/object/public/cemara-bali/logo/IMG_20261108_150956.jpg" alt="Logo CEMARA BALI">
+<img id="logoHeader"
+src="https://raw.githubusercontent.com/suprix85/Cemara-bali/main/file_000000001f0882118f78aeffab8326df.png"
+alt="Logo CEMARA BALI">
 <h2>ADMIN CEMARA BALI</h2>
 <p>Cerita Manis Anak Rantau</p>
 <p><b>Cemara selalu dihati</b></p>
@@ -83,7 +110,6 @@ hr{border:0;border-top:1px solid #ddd;margin:20px 0}
 </div>
 </section>
 
-<!-- DATA ANGGOTA -->
 <section class="card">
 <h3>👥 DATA ANGGOTA CEMARA</h3>
 <input id="cariAnggota" placeholder="Cari nama, HP, atau nomor KTA" oninput="tampilkanAnggota()">
@@ -93,24 +119,32 @@ hr{border:0;border-top:1px solid #ddd;margin:20px 0}
 <div id="formAnggota" class="item">
 <h3 id="judulForm">TAMBAH ANGGOTA</h3>
 <input type="hidden" id="editId">
+
 <label>Nama Lengkap</label>
 <input id="namaAnggota" placeholder="Nama lengkap">
+
 <label>Nomor HP</label>
 <input id="hpAnggota" placeholder="08xxxxxxxxxx">
+
 <label>Alamat</label>
 <textarea id="alamatAnggota" rows="2" placeholder="Alamat anggota"></textarea>
+
 <label>Nomor KTA</label>
 <input id="ktaAnggota" placeholder="Nomor KTA">
+
 <label>Tanggal Daftar</label>
 <input type="date" id="tanggalAnggota">
+
 <label>Status Anggota</label>
 <select id="statusAnggota">
 <option value="Aktif">Aktif</option>
 <option value="Tidak Aktif">Tidak Aktif</option>
 </select>
+
 <label>Foto Anggota</label>
 <input type="file" id="fotoAnggota" accept="image/*">
-<p class="small">Foto digunakan pada KTA digital. Foto maksimal 5 MB.</p>
+<p class="small">Foto maksimal 5 MB. Foto lama tetap digunakan jika tidak memilih foto baru.</p>
+
 <button onclick="simpanAnggota()">SIMPAN ANGGOTA</button>
 <button class="gray" onclick="resetForm()">BATAL / KOSONGKAN</button>
 <p id="pesanForm" class="msg"></p>
@@ -120,17 +154,20 @@ hr{border:0;border-top:1px solid #ddd;margin:20px 0}
 <div id="daftarAnggota"></div>
 </section>
 
-<!-- LOGO -->
 <section class="card">
 <h3>🌲 LOGO CEMARA BALI</h3>
-<img id="previewLogo" style="width:120px;height:120px;object-fit:contain" alt="Logo CEMARA">
+<img id="previewLogo"
+src="https://raw.githubusercontent.com/suprix85/Cemara-bali/main/file_000000001f0882118f78aeffab8326df.png"
+style="width:120px;height:120px;object-fit:contain"
+alt="Logo CEMARA">
+
 <label>Unggah logo pengganti</label>
 <input type="file" id="fileLogo" accept="image/*">
 <button onclick="unggahLogo()">UNGGAH LOGO</button>
 <p id="pesanLogo" class="msg"></p>
+<p class="small">Logo utama menggunakan gambar PNG transparan dari website CEMARA.</p>
 </section>
 
-<!-- DOKUMEN -->
 <section class="card">
 <h3>📁 DOKUMEN CEMARA</h3>
 <label>Pilih dokumen</label>
@@ -140,9 +177,9 @@ hr{border:0;border-top:1px solid #ddd;margin:20px 0}
 <div id="daftarDokumen"></div>
 </section>
 
-<!-- GALERI -->
 <section class="card">
 <h3>📸 KELOLA GALERI KEGIATAN</h3>
+
 <label>Kategori Galeri</label>
 <select id="kategoriGaleri">
 <option>Sosial & Kemanusiaan</option>
@@ -151,22 +188,29 @@ hr{border:0;border-top:1px solid #ddd;margin:20px 0}
 <option>Keagamaan</option>
 <option>HUT CEMARA & Perayaan</option>
 </select>
+
 <label>Nama Album</label>
 <input id="judulGaleri" placeholder="Contoh: Camping CEMARA 2026">
+
 <label>Tanggal Kegiatan</label>
 <input type="date" id="tanggalGaleri">
+
 <label>Deskripsi Kegiatan</label>
 <textarea id="deskripsiGaleri" rows="2"></textarea>
+
 <button onclick="buatAlbum()">BUAT ALBUM</button>
 <p id="pesanBuatAlbum" class="msg"></p>
 
 <hr>
 <h3>UNGGAH FOTO KE ALBUM</h3>
+
 <label>Pilih Album</label>
 <select id="albumGaleri"><option value="">Pilih album</option></select>
+
 <label>Pilih banyak foto</label>
 <input type="file" id="fotoGaleri" accept="image/*" multiple>
 <p class="small">Maksimal 5 MB per foto.</p>
+
 <button onclick="unggahGaleri()">UNGGAH FOTO GALERI</button>
 <p id="pesanGaleri" class="msg"></p>
 
@@ -182,7 +226,6 @@ Dibuat oleh Selamet Supriono
 </div>
 </main>
 
-<!-- MODAL KTA -->
 <div id="ktaModal" class="hidden">
 <div class="modal-inner">
 <div class="no-print row">
@@ -202,21 +245,38 @@ const KEY_SUPABASE="sb_publishable_BrT9hySkfHZwBhCtYRRyUw_VZqpa1U9";
 const db=window.supabase.createClient(URL_SUPABASE,KEY_SUPABASE);
 const BUCKET="cemara-bali";
 
+const LOGO_DEFAULT="https://raw.githubusercontent.com/suprix85/Cemara-bali/main/file_000000001f0882118f78aeffab8326df.png";
+
 let dataAnggota=[];
 let dataAlbum=[];
 let dataFoto=[];
-let logoPath="logo/IMG_20261108_150956.jpg";
+let logoURL=LOGO_DEFAULT;
+let logoPath="";
 
 function el(id){return document.getElementById(id)}
+
 function aman(v){
-return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+return String(v??"").replace(/[&<>"']/g,m=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+}[m]));
 }
+
 function info(id,msg,type=""){
 el(id).className="msg "+type;
 el(id).textContent=msg;
 }
+
 function urlFile(path){
+if(!path)return "";
+if(/^https?:\/\//i.test(path))return path;
 return db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+}
+
+/* FOTO ANGGOTA: MENDUKUNG FOTO_URL DAN FOTO_PATH */
+function fotoAnggotaURL(a){
+if(a.Foto_url)return urlFile(a.Foto_url);
+if(a.Foto_path)return urlFile(a.Foto_path);
+return "";
 }
 
 /* LOGIN */
@@ -225,29 +285,39 @@ const email=el("emailLogin").value.trim();
 const password=el("passwordLogin").value;
 info("pesanLogin","Memeriksa login...");
 el("btnLogin").disabled=true;
+
 const {data,error}=await db.auth.signInWithPassword({email,password});
 el("btnLogin").disabled=false;
-if(error){info("pesanLogin","Login gagal: "+error.message,"error");return;}
+
+if(error){
+info("pesanLogin","Login gagal: "+error.message,"error");
+return;
+}
 await tampilkanDashboard(data.user);
 }
+
 async function periksaLogin(){
 const {data}=await db.auth.getSession();
 if(data.session)await tampilkanDashboard(data.session.user);
 }
+
 async function keluar(){
 await db.auth.signOut();
 location.reload();
 }
+
 async function tampilkanDashboard(user){
 el("bagianLogin").classList.add("hidden");
 el("dashboard").classList.remove("hidden");
 el("infoAkun").textContent="Login sebagai: "+(user.email||"Pengurus");
+
 await muatAnggota();
 await muatLogo();
 await muatDokumen();
 await muatPilihanAlbum();
 await muatGaleriAdmin();
 }
+
 db.auth.onAuthStateChange((event)=>{
 if(event==="SIGNED_OUT"){
 el("dashboard").classList.add("hidden");
@@ -255,26 +325,41 @@ el("bagianLogin").classList.remove("hidden");
 }
 });
 
-/* ANGGOTA */
+/* DATA ANGGOTA */
 async function muatAnggota(){
 info("pesanAnggota","Memuat data anggota...");
+
 const {data,error}=await db.from("Anggota_Cemara")
 .select("*").order("Created_at",{ascending:false});
-if(error){info("pesanAnggota","Gagal memuat: "+error.message,"error");return;}
+
+if(error){
+info("pesanAnggota","Gagal memuat: "+error.message,"error");
+return;
+}
+
 dataAnggota=data||[];
 info("pesanAnggota","Jumlah anggota: "+dataAnggota.length,"success");
 tampilkanAnggota();
 }
+
 function tampilkanAnggota(){
 const cari=el("cariAnggota").value.toLowerCase();
+
 const hasil=dataAnggota.filter(a=>
-[a.Nama_lengkap,a.Nomor_hp,a.Nomor_kta].some(x=>String(x||"").toLowerCase().includes(cari))
+[a.Nama_lengkap,a.Nomor_hp,a.Nomor_kta]
+.some(x=>String(x||"").toLowerCase().includes(cari))
 );
-if(!hasil.length){el("daftarAnggota").innerHTML="<p>Anggota tidak ditemukan.</p>";return;}
+
+if(!hasil.length){
+el("daftarAnggota").innerHTML="<p>Anggota tidak ditemukan.</p>";
+return;
+}
+
 el("daftarAnggota").innerHTML=hasil.map(a=>{
-const foto=a.Foto_path?urlFile(a.Foto_path):"";
+const foto=fotoAnggotaURL(a);
+
 return `<div class="item" style="min-height:100px">
-${foto?`<img class="member-photo" src="${foto}" alt="Foto anggota">`:""}
+${foto?`<img class="member-photo" src="${aman(foto)}" alt="Foto anggota">`:""}
 <b>${aman(a.Nama_lengkap)}</b>
 <p class="small">KTA: ${aman(a.Nomor_kta||"-")} | Status: ${aman(a.Status||"-")}</p>
 <p class="small">HP: ${aman(a.Nomor_hp||"-")}</p>
@@ -285,6 +370,7 @@ ${foto?`<img class="member-photo" src="${foto}" alt="Foto anggota">`:""}
 </div>`;
 }).join("");
 }
+
 function resetForm(){
 el("editId").value="";
 el("namaAnggota").value="";
@@ -297,9 +383,11 @@ el("fotoAnggota").value="";
 el("judulForm").textContent="TAMBAH ANGGOTA";
 info("pesanForm","");
 }
+
 function editAnggota(id){
 const a=dataAnggota.find(x=>x.id===id);
 if(!a)return;
+
 el("editId").value=a.id;
 el("namaAnggota").value=a.Nama_lengkap||"";
 el("hpAnggota").value=a.Nomor_hp||"";
@@ -309,12 +397,19 @@ el("tanggalAnggota").value=a.Tanggal_daftar||"";
 el("statusAnggota").value=a.Status||"Aktif";
 el("fotoAnggota").value="";
 el("judulForm").textContent="EDIT DATA ANGGOTA";
+
 el("formAnggota").scrollIntoView({behavior:"smooth"});
 }
+
 async function simpanAnggota(){
 const id=el("editId").value;
 const nama=el("namaAnggota").value.trim();
-if(!nama){info("pesanForm","Nama anggota wajib diisi.","error");return;}
+
+if(!nama){
+info("pesanForm","Nama anggota wajib diisi.","error");
+return;
+}
+
 const payload={
 Nama_lengkap:nama,
 Nomor_hp:el("hpAnggota").value.trim(),
@@ -323,33 +418,61 @@ Nomor_kta:el("ktaAnggota").value.trim(),
 Tanggal_daftar:el("tanggalAnggota").value||null,
 Status:el("statusAnggota").value
 };
+
 const file=el("fotoAnggota").files[0];
+
 if(file){
 if(!file.type.startsWith("image/")||file.size>5*1024*1024){
-info("pesanForm","Foto harus berupa gambar maksimal 5 MB.","error");return;
+info("pesanForm","Foto harus berupa gambar maksimal 5 MB.","error");
+return;
 }
+
 const path="anggota/"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+
 const up=await db.storage.from(BUCKET).upload(path,file);
-if(up.error){info("pesanForm","Gagal unggah foto: "+up.error.message,"error");return;}
-payload.Foto_path=path;
+
+if(up.error){
+info("pesanForm","Gagal unggah foto: "+up.error.message,"error");
+return;
 }
+
+payload.Foto_path=path;
+payload.Foto_url=urlFile(path);
+}
+
 let hasil;
+
 if(id){
 hasil=await db.from("Anggota_Cemara").update(payload).eq("id",id);
 }else{
 hasil=await db.from("Anggota_Cemara").insert([payload]);
 }
-if(hasil.error){info("pesanForm","Gagal menyimpan: "+hasil.error.message,"error");return;}
+
+if(hasil.error){
+info("pesanForm","Gagal menyimpan: "+hasil.error.message,"error");
+return;
+}
+
 info("pesanForm","Data anggota berhasil disimpan.","success");
 resetForm();
 await muatAnggota();
 }
+
 async function hapusAnggota(id){
 if(!confirm("Yakin menghapus data anggota ini?"))return;
+
 const a=dataAnggota.find(x=>x.id===id);
+
 const {error}=await db.from("Anggota_Cemara").delete().eq("id",id);
-if(error){alert("Gagal menghapus: "+error.message);return;}
-if(a&&a.Foto_path)await db.storage.from(BUCKET).remove([a.Foto_path]);
+
+if(error){
+alert("Gagal menghapus: "+error.message);
+return;
+}
+
+const path=a&&(a.Foto_path||"");
+if(path)await db.storage.from(BUCKET).remove([path]);
+
 alert("Data anggota berhasil dihapus.");
 await muatAnggota();
 }
@@ -358,16 +481,32 @@ await muatAnggota();
 function lihatKTA(id){
 const a=dataAnggota.find(x=>x.id===id);
 if(!a)return;
-const foto=a.Foto_path?urlFile(a.Foto_path):"";
-const logo=urlFile(logoPath);
+
+const foto=fotoAnggotaURL(a);
 const tanggal=a.Tanggal_daftar||"-";
+
+const fotoHTML=foto
+?`<img src="${aman(foto)}" alt="Foto anggota">`
+:`<div style="width:83px;height:105px;border:1px solid #facc15;display:grid;place-items:center;font-size:10px">FOTO</div>`;
+
+const logoHTML=`<img src="${aman(logoURL)}" alt="Logo CEMARA">`;
+
 el("isiKTA").innerHTML=`
+
+<!-- BAGIAN DEPAN KTA -->
 <div class="kta">
+<div class="kta-head">
+${logoHTML}
+<div>
 <h3>CEMARA BALI</h3>
 <div class="sub">CERITA MANIS ANAK RANTAU</div>
+</div>
+</div>
+
 <div class="goldline"></div>
+
 <div class="content">
-${foto?`<img src="${foto}" alt="Foto anggota">`:`<div style="width:83px;height:105px;border:1px solid #facc15;display:grid;place-items:center;font-size:10px">FOTO</div>`}
+${fotoHTML}
 <div>
 <b style="font-size:13px">${aman(a.Nama_lengkap)}</b><br>
 Nomor KTA: ${aman(a.Nomor_kta||"-")}<br>
@@ -377,145 +516,303 @@ Tanggal Daftar: ${aman(tanggal)}<br>
 Status: ${aman(a.Status||"Aktif")}
 </div>
 </div>
+
 <div class="goldline"></div>
 <div class="sub">Cemara selalu dihati</div>
 </div>
+
+<!-- BAGIAN BELAKANG KTA -->
 <div class="kta kta-back">
+<div class="kta-head">
+${logoHTML}
+<div>
 <h3>CEMARA BALI</h3>
+<div class="sub">CERITA MANIS ANAK RANTAU</div>
+</div>
+</div>
+
 <div class="goldline"></div>
-<p><b>KARTU TANDA ANGGOTA</b></p>
-<p>Kartu ini merupakan tanda keanggotaan resmi CEMARA BALI.</p>
-<p>Menjaga persaudaraan, saling membantu, dan menjunjung tinggi nama baik organisasi.</p>
-<p><b>Kontak Darurat CEMARA</b><br>
+
+<div class="janji-title">JANJI SETIA CEMARA</div>
+
+<ol>
+<li>Taqwa Kepada Tuhan Yang Maha Esa.</li>
+<li>Cinta Kepada Negara Kesatuan Republik Indonesia.</li>
+<li>Cinta Kepada Tanah Air Indonesia.</li>
+<li>Rela Dan Ikhlas Membantu Anggota CEMARA & Masyarakat Sekitar.</li>
+<li>Sanggup Menjaga Nama Baik Cemara.</li>
+<li>Sanggup Mematuhi Aturan Cemara.</li>
+</ol>
+
+<div class="goldline"></div>
+
+<p style="text-align:center"><b>KARTU TANDA ANGGOTA</b></p>
+<p style="text-align:center">Kartu ini merupakan tanda keanggotaan resmi CEMARA BALI.</p>
+
+<div class="kontak">
+<b>KONTAK DARURAT CEMARA</b><br>
 Pak Bayu: +62 852-3783-1922<br>
 Pak Sugeng: +62 823-4036-3510<br>
-Pak Sarif Hidayat: +62 812-3674-8642</p>
+Pak Sarif Hidayat: +62 812-3674-8642
+</div>
+
 <div class="goldline"></div>
 <div class="sub">Cemara selalu dihati</div>
-</div>`;
+</div>
+`;
+
 el("ktaModal").classList.remove("hidden");
 }
-function tutupKTA(){el("ktaModal").classList.add("hidden");}
+
+function tutupKTA(){
+el("ktaModal").classList.add("hidden");
+}
 
 /* LOGO */
 async function muatLogo(){
-const {data,error}=await db.storage.from(BUCKET).list("logo",{limit:100});
-if(error)return;
-const pilihan=(data||[]).find(x=>x.name==="IMG_20261108_150956.jpg")||(data||[])[0];
-if(pilihan){
-logoPath="logo/"+pilihan.name;
-const url=urlFile(logoPath);
-el("logoHeader").src=url;
-el("previewLogo").src=url;
+logoURL=LOGO_DEFAULT;
+el("logoHeader").src=logoURL;
+el("previewLogo").src=logoURL;
 }
-}
+
 async function unggahLogo(){
 const file=el("fileLogo").files[0];
-if(!file){alert("Pilih gambar logo terlebih dahulu.");return;}
-if(!file.type.startsWith("image/")){alert("File harus berupa gambar.");return;}
-const path="logo/logo-cemara-"+Date.now()+"."+file.name.split(".").pop();
-const {error}=await db.storage.from(BUCKET).upload(path,file);
-if(error){info("pesanLogo","Gagal mengunggah logo: "+error.message,"error");return;}
+
+if(!file){
+alert("Pilih gambar logo terlebih dahulu.");
+return;
+}
+
+if(!file.type.startsWith("image/")){
+alert("File harus berupa gambar.");
+return;
+}
+
+const path="logo/logo-cemara.png";
+
+const {error}=await db.storage.from(BUCKET).upload(path,file,{
+upsert:true,
+contentType:file.type
+});
+
+if(error){
+info("pesanLogo","Gagal mengunggah logo: "+error.message,"error");
+return;
+}
+
 logoPath=path;
-el("logoHeader").src=urlFile(path);
-el("previewLogo").src=urlFile(path);
+logoURL=urlFile(path)+"?t="+Date.now();
+
+el("logoHeader").src=logoURL;
+el("previewLogo").src=logoURL;
 el("fileLogo").value="";
-info("pesanLogo","Logo berhasil diunggah dan ditampilkan.","success");
+
+info("pesanLogo","Logo berhasil diunggah.","success");
 }
 
 /* DOKUMEN */
 async function unggahDokumen(){
 const file=el("fileDokumen").files[0];
-if(!file){alert("Pilih dokumen terlebih dahulu.");return;}
+
+if(!file){
+alert("Pilih dokumen terlebih dahulu.");
+return;
+}
+
 const path="dokumen/"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+
 const {error}=await db.storage.from(BUCKET).upload(path,file);
-if(error){info("pesanDokumen","Gagal: "+error.message,"error");return;}
+
+if(error){
+info("pesanDokumen","Gagal: "+error.message,"error");
+return;
+}
+
 el("fileDokumen").value="";
 info("pesanDokumen","Dokumen berhasil diunggah.","success");
 await muatDokumen();
 }
+
 async function muatDokumen(){
 const {data,error}=await db.storage.from(BUCKET).list("dokumen",{limit:100});
-if(error){el("daftarDokumen").innerHTML="<p class='error'>"+aman(error.message)+"</p>";return;}
-if(!data||!data.length){el("daftarDokumen").innerHTML="<p class='small'>Belum ada dokumen.</p>";return;}
+
+if(error){
+el("daftarDokumen").innerHTML="<p class='error'>"+aman(error.message)+"</p>";
+return;
+}
+
+if(!data||!data.length){
+el("daftarDokumen").innerHTML="<p class='small'>Belum ada dokumen.</p>";
+return;
+}
+
 el("daftarDokumen").innerHTML=data.map(f=>{
 const path="dokumen/"+f.name;
-return `<div class="item">${aman(f.name)}<br>
+
+return `<div class="item">
+${aman(f.name)}<br>
 <a href="${urlFile(path)}" target="_blank">BUKA DOKUMEN</a>
-<button class="red" onclick="hapusDokumen('${aman(path)}')">HAPUS</button></div>`;
+<button class="red" onclick="hapusDokumen('${aman(path)}')">HAPUS</button>
+</div>`;
 }).join("");
 }
+
 async function hapusDokumen(path){
 if(!confirm("Hapus dokumen ini?"))return;
+
 const {error}=await db.storage.from(BUCKET).remove([path]);
-if(error){alert(error.message);return;}
+
+if(error){
+alert(error.message);
+return;
+}
+
 await muatDokumen();
 }
 
 /* ALBUM GALERI */
 async function buatAlbum(){
 const nama=el("judulGaleri").value.trim();
-if(!nama){alert("Isi nama album terlebih dahulu.");return;}
+
+if(!nama){
+alert("Isi nama album terlebih dahulu.");
+return;
+}
+
 const id="album-"+Date.now()+"-"+Math.random().toString(36).slice(2,7);
+
 const {error}=await db.from("Album_Galeri_Cemara").insert([{
-id:id,nama_album:nama,kategori:el("kategoriGaleri").value,
+id:id,
+nama_album:nama,
+kategori:el("kategoriGaleri").value,
 tanggal_kegiatan:el("tanggalGaleri").value||null,
 deskripsi:el("deskripsiGaleri").value.trim()
 }]);
-if(error){info("pesanBuatAlbum","Gagal membuat album: "+error.message,"error");return;}
+
+if(error){
+info("pesanBuatAlbum","Gagal membuat album: "+error.message,"error");
+return;
+}
+
 el("judulGaleri").value="";
 el("tanggalGaleri").value="";
 el("deskripsiGaleri").value="";
+
 info("pesanBuatAlbum","Album berhasil dibuat.","success");
+
 await muatPilihanAlbum();
 await muatGaleriAdmin();
 }
+
 async function muatPilihanAlbum(){
-const {data,error}=await db.from("Album_Galeri_Cemara").select("*").order("nama_album");
-if(error){el("albumGaleri").innerHTML='<option value="">Gagal memuat album</option>';return;}
-dataAlbum=data||[];
-el("albumGaleri").innerHTML='<option value="">Pilih album terlebih dahulu</option>'+
-dataAlbum.map(a=>`<option value="${aman(a.id)}">${aman(a.nama_album)} — ${aman(a.kategori)}</option>`).join("");
+const {data,error}=await db.from("Album_Galeri_Cemara")
+.select("*").order("nama_album");
+
+if(error){
+el("albumGaleri").innerHTML='<option value="">Gagal memuat album</option>';
+return;
 }
+
+dataAlbum=data||[];
+
+el("albumGaleri").innerHTML=
+'<option value="">Pilih album terlebih dahulu</option>'+
+dataAlbum.map(a=>
+`<option value="${aman(a.id)}">${aman(a.nama_album)} — ${aman(a.kategori)}</option>`
+).join("");
+}
+
 async function unggahGaleri(){
 const albumId=el("albumGaleri").value;
 const files=Array.from(el("fotoGaleri").files||[]);
 const album=dataAlbum.find(a=>a.id===albumId);
-if(!album){alert("Pilih album terlebih dahulu.");return;}
-if(!files.length){alert("Pilih foto terlebih dahulu.");return;}
+
+if(!album){
+alert("Pilih album terlebih dahulu.");
+return;
+}
+
+if(!files.length){
+alert("Pilih foto terlebih dahulu.");
+return;
+}
+
 let ok=0,gagal=0;
+
 for(let i=0;i<files.length;i++){
 const f=files[i];
+
 info("pesanGaleri","Mengunggah foto "+(i+1)+" dari "+files.length+"...");
-if(!f.type.startsWith("image/")||f.size>5*1024*1024){gagal++;continue;}
-const path="galeri/"+Date.now()+"-"+i+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-const up=await db.storage.from(BUCKET).upload(path,f);
-if(up.error){gagal++;continue;}
-const simpan=await db.from("Galeri_Cemara").insert([{
-judul:album.nama_album,kategori:album.kategori,
-tanggal_kegiatan:album.tanggal_kegiatan,
-deskripsi:album.deskripsi,foto_path:path,album_id:album.id
-}]);
-if(simpan.error){await db.storage.from(BUCKET).remove([path]);gagal++;}
-else ok++;
+
+if(!f.type.startsWith("image/")||f.size>5*1024*1024){
+gagal++;
+continue;
 }
+
+const path="galeri/"+Date.now()+"-"+i+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+
+const up=await db.storage.from(BUCKET).upload(path,f);
+
+if(up.error){
+gagal++;
+continue;
+}
+
+const simpan=await db.from("Galeri_Cemara").insert([{
+judul:album.nama_album,
+kategori:album.kategori,
+tanggal_kegiatan:album.tanggal_kegiatan,
+deskripsi:album.deskripsi,
+foto_path:path,
+album_id:album.id
+}]);
+
+if(simpan.error){
+await db.storage.from(BUCKET).remove([path]);
+gagal++;
+}else{
+ok++;
+}
+}
+
 el("fotoGaleri").value="";
+
 info("pesanGaleri","Selesai. Berhasil: "+ok+" foto. Gagal/dilewati: "+gagal,gagal?"error":"success");
+
 await muatGaleriAdmin();
 }
+
 async function muatGaleriAdmin(){
 const tempat=el("daftarGaleriAdmin");
 tempat.innerHTML="<p>Memuat galeri...</p>";
+
 const a=await db.from("Album_Galeri_Cemara").select("*").order("nama_album");
-if(a.error){tempat.innerHTML="<p class='error'>"+aman(a.error.message)+"</p>";return;}
+
+if(a.error){
+tempat.innerHTML="<p class='error'>"+aman(a.error.message)+"</p>";
+return;
+}
+
 const f=await db.from("Galeri_Cemara").select("*").order("created_at",{ascending:false});
-if(f.error){tempat.innerHTML="<p class='error'>"+aman(f.error.message)+"</p>";return;}
+
+if(f.error){
+tempat.innerHTML="<p class='error'>"+aman(f.error.message)+"</p>";
+return;
+}
+
 dataAlbum=a.data||[];
 dataFoto=f.data||[];
-if(!dataAlbum.length){tempat.innerHTML="<p>Belum ada album.</p>";return;}
+
+if(!dataAlbum.length){
+tempat.innerHTML="<p>Belum ada album.</p>";
+return;
+}
+
 let html="";
+
 dataAlbum.forEach(album=>{
 const fotos=dataFoto.filter(x=>x.album_id===album.id);
+
 html+=`<div class="item">
 <h3>${aman(album.nama_album)}</h3>
 <p>${aman(album.kategori)} | ${aman(album.tanggal_kegiatan||"-")}</p>
@@ -524,61 +821,114 @@ html+=`<div class="item">
 <button class="gold" onclick="gantiNamaAlbum('${aman(album.id)}')">GANTI NAMA</button>
 <button class="red" onclick="hapusAlbumGaleri('${aman(album.id)}')">HAPUS ALBUM</button>
 <div class="photo-grid">`;
+
 fotos.forEach(foto=>{
 html+=`<div class="item">
-<img src="${urlFile(foto.foto_path)}" alt="Foto galeri">
+<img src="${aman(urlFile(foto.foto_path))}" alt="Foto galeri">
 <button class="red" onclick="hapusGaleri('${aman(foto.id)}')">HAPUS FOTO</button>
 </div>`;
 });
+
 html+="</div></div>";
 });
+
 const lama=dataFoto.filter(x=>!x.album_id);
+
 if(lama.length){
 html+="<div class='item'><h3>FOTO LAMA / BELUM MASUK ALBUM</h3><div class='photo-grid'>";
+
 lama.forEach(foto=>{
-html+=`<div class="item"><img src="${urlFile(foto.foto_path)}" alt="Foto lama">
+html+=`<div class="item">
+<img src="${aman(urlFile(foto.foto_path))}" alt="Foto lama">
 <p>${aman(foto.judul)}</p>
-<button class="red" onclick="hapusGaleri('${aman(foto.id)}')">HAPUS FOTO</button></div>`;
+<button class="red" onclick="hapusGaleri('${aman(foto.id)}')">HAPUS FOTO</button>
+</div>`;
 });
+
 html+="</div></div>";
 }
+
 tempat.innerHTML=html;
 }
+
 async function gantiNamaAlbum(id){
 const album=dataAlbum.find(a=>a.id===id);
 if(!album)return;
+
 const nama=prompt("Nama album baru:",album.nama_album);
+
 if(nama===null||!nama.trim())return;
-const {error}=await db.from("Album_Galeri_Cemara").update({nama_album:nama.trim()}).eq("id",id);
-if(error){alert(error.message);return;}
-const updateFoto=await db.from("Galeri_Cemara").update({judul:nama.trim()}).eq("album_id",id);
-if(updateFoto.error)alert("Nama album berubah, tetapi judul foto gagal diperbarui: "+updateFoto.error.message);
+
+const {error}=await db.from("Album_Galeri_Cemara")
+.update({nama_album:nama.trim()}).eq("id",id);
+
+if(error){
+alert(error.message);
+return;
+}
+
+const updateFoto=await db.from("Galeri_Cemara")
+.update({judul:nama.trim()}).eq("album_id",id);
+
+if(updateFoto.error){
+alert("Nama album berubah, tetapi judul foto gagal diperbarui: "+updateFoto.error.message);
+}
+
 await muatPilihanAlbum();
 await muatGaleriAdmin();
 }
+
 async function hapusGaleri(id){
 if(!confirm("Hapus foto ini?"))return;
+
 const foto=dataFoto.find(x=>x.id===id);
 if(!foto)return;
+
 const {error}=await db.from("Galeri_Cemara").delete().eq("id",id);
-if(error){alert(error.message);return;}
-if(foto.foto_path)await db.storage.from(BUCKET).remove([foto.foto_path]);
+
+if(error){
+alert(error.message);
+return;
+}
+
+if(foto.foto_path){
+await db.storage.from(BUCKET).remove([foto.foto_path]);
+}
+
 await muatGaleriAdmin();
 }
+
 async function hapusAlbumGaleri(id){
 const album=dataAlbum.find(a=>a.id===id);
 if(!album)return;
+
 if(!confirm("Hapus album "+album.nama_album+" beserta seluruh fotonya?"))return;
+
 const fotos=dataFoto.filter(x=>x.album_id===id);
 const paths=fotos.map(x=>x.foto_path).filter(Boolean);
+
 const hapusFoto=await db.from("Galeri_Cemara").delete().eq("album_id",id);
-if(hapusFoto.error){alert(hapusFoto.error.message);return;}
+
+if(hapusFoto.error){
+alert(hapusFoto.error.message);
+return;
+}
+
 if(paths.length){
 const hapusStorage=await db.storage.from(BUCKET).remove(paths);
-if(hapusStorage.error){alert("Data foto terhapus, tetapi file Storage mungkin masih tersisa: "+hapusStorage.error.message);}
+
+if(hapusStorage.error){
+alert("Data foto terhapus, tetapi file Storage mungkin masih tersisa: "+hapusStorage.error.message);
 }
+}
+
 const hapusAlbum=await db.from("Album_Galeri_Cemara").delete().eq("id",id);
-if(hapusAlbum.error){alert(hapusAlbum.error.message);return;}
+
+if(hapusAlbum.error){
+alert(hapusAlbum.error.message);
+return;
+}
+
 await muatPilihanAlbum();
 await muatGaleriAdmin();
 }
