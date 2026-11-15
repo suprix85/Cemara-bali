@@ -942,7 +942,43 @@ return;
 await muatPilihanAlbum();
 await muatGaleriAdmin();
 }
+/* HAPUS FOTO GALERI */
+async function hapusGaleri(id){
+  const foto=dataFoto.find(x=>String(x.id)===String(id));
 
+  if(!foto){
+    alert("Data foto tidak ditemukan.");
+    return;
+  }
+
+  if(!confirm("Yakin ingin menghapus foto ini?"))return;
+
+  const {error}=await db
+    .from("Galeri_Cemara")
+    .delete()
+    .eq("id",id);
+
+  if(error){
+    alert("Gagal menghapus foto: "+error.message);
+    return;
+  }
+
+  if(foto.foto_path){
+    const hapusFile=await db.storage
+      .from(BUCKET)
+      .remove([foto.foto_path]);
+
+    if(hapusFile.error){
+      alert("Data foto terhapus, tetapi file gambar gagal dihapus dari penyimpanan: "+hapusFile.error.message);
+    }else{
+      alert("Foto berhasil dihapus.");
+    }
+  }else{
+    alert("Data foto berhasil dihapus.");
+  }
+
+  await muatGaleriAdmin();
+        }
 /* MULAI */
 el("tanggalAnggota").value=new Date().toISOString().slice(0,10);
 periksaLogin();
