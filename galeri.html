@@ -273,6 +273,7 @@ function tampilkanHalaman(nama){
   el(nama).classList.remove("hidden");
 }
 
+
 /* PILIH KATEGORI */
 async function pilihKategori(nama){
   kategoriAktif=nama;
@@ -283,7 +284,7 @@ async function pilihKategori(nama){
   el("statusAlbum").textContent="Memuat album...";
   el("daftarAlbum").innerHTML="";
 
-    const {data,error}=await db
+  const {data,error}=await db
     .from("Album_Galeri_Cemara")
     .select("*")
     .order("nama_album");
@@ -298,22 +299,16 @@ async function pilihKategori(nama){
     kategoriStandar(a.kategori)===nama
   );
 
-  if(error){
-    el("statusAlbum").textContent=
-      "Gagal memuat album: "+error.message;
-    return;
-  }
-
-  if(!data||data.length===0){
+  if(albumTerpilih.length===0){
     el("statusAlbum").textContent=
       "Belum ada album dalam kategori ini.";
     return;
   }
 
   el("statusAlbum").textContent=
-    data.length+" album kegiatan";
+    albumTerpilih.length+" album kegiatan";
 
-  el("daftarAlbum").innerHTML=data.map(a=>`
+  el("daftarAlbum").innerHTML=albumTerpilih.map(a=>`
     <div class="album" onclick="pilihAlbum('${aman(a.id)}')">
       <div class="ikon">📁</div>
       <h3>${aman(a.nama_album)}</h3>
