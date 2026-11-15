@@ -304,21 +304,33 @@ UNGGAH FOTO YANG COCOK
 <h3>📸 Kelola Galeri Kegiatan CEMARA</h3>
 
 <label>Judul Kegiatan</label>
-<input type="text" id="judulGaleri"
-placeholder="Contoh: Camping CEMARA BALI">
 
-<label>Kategori Kegiatan</label>
+<h3>KELOLA GALERI CEMARA</h3>
+
+<label>Kategori Galeri</label>
 <select id="kategoriGaleri">
-<option value="Camping & Kebersamaan">Camping & Kebersamaan</option>
-<option value="Halal Bihalal">Halal Bihalal</option>
-<option value="Kegiatan Kurban">Kegiatan Kurban</option>
-<option value="Silaturahmi">Silaturahmi</option>
-<option value="Kegiatan Sosial & Tali Kasih">Kegiatan Sosial & Tali Kasih</option>
-<option value="Perayaan Agustusan">Perayaan Agustusan</option>
+  <option value="Sosial & Kemanusiaan">Sosial & Kemanusiaan</option>
+  <option value="Silaturahmi & Kebersamaan">Silaturahmi & Kebersamaan</option>
+  <option value="Camping & Rekreasi">Camping & Rekreasi</option>
+  <option value="Keagamaan">Keagamaan</option>
+  <option value="HUT CEMARA & Perayaan">HUT CEMARA & Perayaan</option>
 </select>
+
+<label>Nama Album</label>
+<input type="text" id="judulGaleri"
+placeholder="Contoh: Camping CEMARA 2026">
 
 <label>Tanggal Kegiatan</label>
 <input type="date" id="tanggalGaleri">
+
+<button onclick="buatAlbum()">BUAT ALBUM</button>
+
+<hr>
+
+<label>Pilih Album untuk Unggah Foto</label>
+<select id="albumGaleri">
+  <option value="">Pilih album terlebih dahulu</option>
+</select>
 
 <label>Pilih Banyak Foto dari Galeri HP</label>
 <input type="file" id="fotoGaleri" accept="image/*" multiple>
@@ -329,11 +341,11 @@ placeholder="Contoh: Camping CEMARA BALI">
 
 <hr>
 
-<h4>Foto Galeri yang Sudah Diunggah</h4>
+<h4>DAFTAR ALBUM DAN FOTO</h4>
 <button class="secondary" onclick="muatGaleriAdmin()">MUAT ULANG GALERI</button>
 
 <div id="daftarGaleriAdmin"></div>
-</div>
+
 
 <div class="card">
 <h3>Kelola File CEMARA</h3>
