@@ -283,11 +283,20 @@ async function pilihKategori(nama){
   el("statusAlbum").textContent="Memuat album...";
   el("daftarAlbum").innerHTML="";
 
-  const {data,error}=await db
+    const {data,error}=await db
     .from("Album_Galeri_Cemara")
     .select("*")
-    .eq("kategori",nama)
     .order("nama_album");
+
+  if(error){
+    el("statusAlbum").textContent=
+      "Gagal memuat album: "+error.message;
+    return;
+  }
+
+  const albumTerpilih=(data||[]).filter(a=>
+    kategoriStandar(a.kategori)===nama
+  );
 
   if(error){
     el("statusAlbum").textContent=
