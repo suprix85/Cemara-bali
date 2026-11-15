@@ -386,6 +386,16 @@ function tutupFoto(){
 document.addEventListener("keydown",e=>{
   if(e.key==="Escape")tutupFoto();
 });
+
+  
+/* MEMBUKA KATEGORI DARI HALAMAN UTAMA */
+const parameterURL = new URLSearchParams(window.location.search);
+const kategoriDariURL = parameterURL.get("kategori");
+
+if (kategoriDariURL && kategori.includes(kategoriDariURL)) {
+  pilihKategori(kategoriDariURL);
+}
+
 </script>
 
 </body>
