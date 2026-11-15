@@ -9,138 +9,170 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f0fdf4;color:#12372b}
-header{background:#064e3b;color:white;padding:20px;text-align:center}
-header h2{margin:0}
-main{max-width:950px;margin:20px auto;padding:12px}
-.card{background:white;padding:18px;margin-bottom:18px;border-radius:12px;box-shadow:0 2px 9px #00000012}
+body{margin:0;background:#f0fdf4;color:#173b2d;font-family:Arial,sans-serif}
+header{background:linear-gradient(135deg,#064e3b,#047857);color:white;text-align:center;padding:22px 12px;border-bottom:5px solid #a3e635}
+header img{width:85px;height:85px;object-fit:contain;background:white;border-radius:50%;padding:5px}
+header h2{margin:8px 0 4px}
+header p{margin:4px;color:#ecfccb}
+main{max-width:1000px;margin:20px auto;padding:10px}
+.card{background:white;padding:18px;border-radius:12px;margin-bottom:18px;box-shadow:0 3px 12px #064e3b12}
 h3{color:#065f46;margin-top:0}
-label{display:block;margin-top:12px;font-weight:bold}
-input,select,textarea{width:100%;padding:11px;margin-top:6px;border:1px solid #b7c9bf;border-radius:7px;font-size:15px}
-button{background:#047857;color:white;border:0;padding:11px 15px;border-radius:7px;margin-top:12px;font-weight:bold;cursor:pointer}
-button.secondary{background:#64748b}
-button.danger{background:#b91c1c}
+label{display:block;font-weight:bold;margin-top:12px}
+input,select,textarea{width:100%;padding:11px;margin-top:6px;border:1px solid #b7c9bf;border-radius:7px;font-size:15px;background:white}
+button{border:0;border-radius:7px;padding:11px 15px;margin:5px 3px 5px 0;background:#047857;color:white;font-weight:bold;cursor:pointer}
 button.gold{background:#a16207}
+button.red{background:#b91c1c}
+button.gray{background:#64748b}
+button.lime{background:#65a30d}
 button:disabled{opacity:.5}
-.hidden{display:none!important}
-.info{background:#ecfdf5;padding:12px;border-radius:7px;margin-top:10px}
-.error{color:#b91c1c}
-.success{color:#047857}
-.item{border:1px solid #d1e5d8;padding:12px;border-radius:8px;margin-top:10px;overflow-wrap:anywhere}
-.item img{max-width:120px;max-height:100px;object-fit:cover;border-radius:6px}
-.row{display:flex;gap:8px;flex-wrap:wrap}
-.row>*{flex:1}
 .small{font-size:13px;color:#64748b}
-.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-.photo-grid .item img{width:100%;height:110px}
-hr{border:0;border-top:1px solid #ddd;margin:18px 0}
+.msg{margin:10px 0;font-size:14px}
+.success{color:#047857}
+.error{color:#b91c1c}
+.item{border:1px solid #d1e5d8;border-radius:9px;padding:12px;margin-top:10px;overflow-wrap:anywhere}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1}
+.member-photo{width:65px;height:75px;object-fit:cover;border-radius:6px;float:left;margin-right:12px}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.photo-grid img{width:100%;height:105px;object-fit:cover;border-radius:6px}
+hr{border:0;border-top:1px solid #ddd;margin:20px 0}
+.hidden{display:none!important}
+#ktaModal{position:fixed;inset:0;background:#000b;z-index:99;overflow:auto;padding:15px}
+.modal-inner{max-width:600px;background:white;margin:20px auto;padding:16px;border-radius:12px}
+.kta{width:100%;max-width:480px;aspect-ratio:1.586;background:linear-gradient(135deg,#064e3b,#047857);color:white;border:3px solid #d4af37;border-radius:13px;padding:13px;margin:12px auto;position:relative;overflow:hidden}
+.kta h3{color:#facc15;text-align:center;font-size:16px;margin:2px}
+.kta .sub{text-align:center;font-size:9px;margin:2px}
+.kta .content{display:flex;gap:12px;margin-top:13px;font-size:11px;line-height:1.7}
+.kta .content img{width:83px;height:105px;object-fit:cover;border:2px solid #facc15;border-radius:5px}
+.kta .goldline{border-top:1px solid #facc15;margin:7px 0}
+.kta-back{text-align:center;display:flex;flex-direction:column;justify-content:center}
+.kta-back p{font-size:11px;line-height:1.6}
+@media(max-width:500px){.card{padding:13px}.kta{padding:9px}.kta .content{font-size:9px;gap:7px}.kta .content img{width:68px;height:90px}}
+@media print{body{background:white}header,main,#bagianLogin,.no-print{display:none!important}#ktaModal{position:static;background:white;padding:0;display:block!important}.modal-inner{max-width:none;margin:0;padding:0}.kta{break-inside:avoid;page-break-inside:avoid;margin:10px auto;width:95%;max-width:480px}}
 </style>
 </head>
 <body>
 
 <header>
-<h2>🌲 ADMIN CEMARA BALI</h2>
-<p>Cemara selalu dihati</p>
+<img id="logoHeader" src="https://epyxdvxgcgxgsvrkpsid.supabase.co/storage/v1/object/public/cemara-bali/logo/IMG_20261108_150956.jpg" alt="Logo CEMARA BALI">
+<h2>ADMIN CEMARA BALI</h2>
+<p>Cerita Manis Anak Rantau</p>
+<p><b>Cemara selalu dihati</b></p>
 </header>
 
 <main>
-
-<!-- LOGIN -->
 <section class="card" id="bagianLogin">
 <h3>LOGIN PENGURUS</h3>
 <label>Email</label>
 <input type="email" id="emailLogin" placeholder="Email pengurus">
 <label>Password</label>
 <input type="password" id="passwordLogin" placeholder="Password">
-<button onclick="masuk()" id="tombolLogin">MASUK</button>
-<p id="pesanLogin"></p>
+<button onclick="masuk()" id="btnLogin">MASUK</button>
+<p id="pesanLogin" class="msg"></p>
 </section>
 
-<!-- DASHBOARD -->
 <div id="dashboard" class="hidden">
 
-<div class="card">
+<section class="card">
 <div class="row">
 <div>
 <h3>Dashboard Pengurus</h3>
 <p id="infoAkun" class="small"></p>
 </div>
-<div style="text-align:right">
-<button class="danger" onclick="keluar()">KELUAR</button>
+<button class="red" onclick="keluar()">KELUAR</button>
 </div>
-</div>
-</div>
+</section>
 
-<!-- ANGGOTA -->
+<!-- DATA ANGGOTA -->
 <section class="card">
 <h3>👥 DATA ANGGOTA CEMARA</h3>
-<input id="cariAnggota" placeholder="Cari nama, nomor HP, atau nomor KTA" oninput="tampilkanAnggota()">
-<button onclick="muatAnggota()">MUAT ULANG ANGGOTA</button>
-<p id="pesanAnggota"></p>
+<input id="cariAnggota" placeholder="Cari nama, HP, atau nomor KTA" oninput="tampilkanAnggota()">
+<button onclick="muatAnggota()">MUAT ULANG DATA</button>
+<p id="pesanAnggota" class="msg"></p>
+
+<div id="formAnggota" class="item">
+<h3 id="judulForm">TAMBAH ANGGOTA</h3>
+<input type="hidden" id="editId">
+<label>Nama Lengkap</label>
+<input id="namaAnggota" placeholder="Nama lengkap">
+<label>Nomor HP</label>
+<input id="hpAnggota" placeholder="08xxxxxxxxxx">
+<label>Alamat</label>
+<textarea id="alamatAnggota" rows="2" placeholder="Alamat anggota"></textarea>
+<label>Nomor KTA</label>
+<input id="ktaAnggota" placeholder="Nomor KTA">
+<label>Tanggal Daftar</label>
+<input type="date" id="tanggalAnggota">
+<label>Status Anggota</label>
+<select id="statusAnggota">
+<option value="Aktif">Aktif</option>
+<option value="Tidak Aktif">Tidak Aktif</option>
+</select>
+<label>Foto Anggota</label>
+<input type="file" id="fotoAnggota" accept="image/*">
+<p class="small">Foto digunakan pada KTA digital. Foto maksimal 5 MB.</p>
+<button onclick="simpanAnggota()">SIMPAN ANGGOTA</button>
+<button class="gray" onclick="resetForm()">BATAL / KOSONGKAN</button>
+<p id="pesanForm" class="msg"></p>
+</div>
+
+<h3>DAFTAR ANGGOTA</h3>
 <div id="daftarAnggota"></div>
 </section>
 
 <!-- LOGO -->
 <section class="card">
-<h3>🖼️ KELOLA LOGO</h3>
-<label>Unggah Logo Baru</label>
+<h3>🌲 LOGO CEMARA BALI</h3>
+<img id="previewLogo" style="width:120px;height:120px;object-fit:contain" alt="Logo CEMARA">
+<label>Unggah logo pengganti</label>
 <input type="file" id="fileLogo" accept="image/*">
-<button onclick="unggahFile('logo')">UNGGAH LOGO</button>
-<div id="daftarLogo"></div>
+<button onclick="unggahLogo()">UNGGAH LOGO</button>
+<p id="pesanLogo" class="msg"></p>
 </section>
 
 <!-- DOKUMEN -->
 <section class="card">
-<h3>📁 KELOLA DOKUMEN</h3>
-<label>Unggah Dokumen</label>
+<h3>📁 DOKUMEN CEMARA</h3>
+<label>Pilih dokumen</label>
 <input type="file" id="fileDokumen">
-<button onclick="unggahFile('dokumen')">UNGGAH DOKUMEN</button>
+<button onclick="unggahDokumen()">UNGGAH DOKUMEN</button>
+<p id="pesanDokumen" class="msg"></p>
 <div id="daftarDokumen"></div>
 </section>
 
 <!-- GALERI -->
 <section class="card">
-<h3>📸 KELOLA GALERI KEGIATAN CEMARA</h3>
-
+<h3>📸 KELOLA GALERI KEGIATAN</h3>
 <label>Kategori Galeri</label>
 <select id="kategoriGaleri">
-<option value="Sosial & Kemanusiaan">Sosial & Kemanusiaan</option>
-<option value="Silaturahmi & Kebersamaan">Silaturahmi & Kebersamaan</option>
-<option value="Camping & Rekreasi">Camping & Rekreasi</option>
-<option value="Keagamaan">Keagamaan</option>
-<option value="HUT CEMARA & Perayaan">HUT CEMARA & Perayaan</option>
+<option>Sosial & Kemanusiaan</option>
+<option>Silaturahmi & Kebersamaan</option>
+<option>Camping & Rekreasi</option>
+<option>Keagamaan</option>
+<option>HUT CEMARA & Perayaan</option>
 </select>
-
 <label>Nama Album</label>
-<input type="text" id="judulGaleri" placeholder="Contoh: Camping CEMARA 2026">
-
+<input id="judulGaleri" placeholder="Contoh: Camping CEMARA 2026">
 <label>Tanggal Kegiatan</label>
 <input type="date" id="tanggalGaleri">
-
 <label>Deskripsi Kegiatan</label>
-<textarea id="deskripsiGaleri" rows="3" placeholder="Keterangan kegiatan (boleh dikosongkan)"></textarea>
-
+<textarea id="deskripsiGaleri" rows="2"></textarea>
 <button onclick="buatAlbum()">BUAT ALBUM</button>
-<p id="pesanBuatAlbum"></p>
+<p id="pesanBuatAlbum" class="msg"></p>
 
 <hr>
-
 <h3>UNGGAH FOTO KE ALBUM</h3>
 <label>Pilih Album</label>
-<select id="albumGaleri">
-<option value="">Pilih album terlebih dahulu</option>
-</select>
-
-<label>Pilih Banyak Foto dari HP</label>
+<select id="albumGaleri"><option value="">Pilih album</option></select>
+<label>Pilih banyak foto</label>
 <input type="file" id="fotoGaleri" accept="image/*" multiple>
-<p class="small">Maksimal ukuran setiap foto 5 MB.</p>
+<p class="small">Maksimal 5 MB per foto.</p>
 <button onclick="unggahGaleri()">UNGGAH FOTO GALERI</button>
-<p id="pesanGaleri"></p>
+<p id="pesanGaleri" class="msg"></p>
 
 <hr>
-
 <h3>DAFTAR ALBUM DAN FOTO</h3>
-<button class="secondary" onclick="muatGaleriAdmin()">MUAT ULANG GALERI</button>
+<button class="gray" onclick="muatGaleriAdmin()">MUAT ULANG GALERI</button>
 <div id="daftarGaleriAdmin"></div>
 </section>
 
@@ -149,6 +181,20 @@ Dibuat oleh Selamet Supriono
 </footer>
 </div>
 </main>
+
+<!-- MODAL KTA -->
+<div id="ktaModal" class="hidden">
+<div class="modal-inner">
+<div class="no-print row">
+<h3>KTA DIGITAL CEMARA</h3>
+<button class="gray" onclick="tutupKTA()">TUTUP</button>
+</div>
+<div id="isiKTA"></div>
+<div class="no-print" style="text-align:center">
+<button class="gold" onclick="window.print()">CETAK / SIMPAN PDF</button>
+</div>
+</div>
+</div>
 
 <script>
 const URL_SUPABASE="https://epyxdvxgcgxgsvrkpsid.supabase.co";
@@ -159,470 +205,386 @@ const BUCKET="cemara-bali";
 let dataAnggota=[];
 let dataAlbum=[];
 let dataFoto=[];
+let logoPath="logo/IMG_20261108_150956.jpg";
 
-function aman(teks){
-return String(teks??"").replace(/[&<>"']/g,function(m){
-return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m];
-});
+function el(id){return document.getElementById(id)}
+function aman(v){
+return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function info(id,msg,type=""){
+el(id).className="msg "+type;
+el(id).textContent=msg;
+}
+function urlFile(path){
+return db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
 }
 
-function pesan(id,teks,jenis=""){
-const el=document.getElementById(id);
-if(el){el.className=jenis;el.textContent=teks;}
-}
-
+/* LOGIN */
 async function masuk(){
-const email=document.getElementById("emailLogin").value.trim();
-const password=document.getElementById("passwordLogin").value;
-pesan("pesanLogin","Memeriksa login...");
+const email=el("emailLogin").value.trim();
+const password=el("passwordLogin").value;
+info("pesanLogin","Memeriksa login...");
+el("btnLogin").disabled=true;
 const {data,error}=await db.auth.signInWithPassword({email,password});
-if(error){pesan("pesanLogin","Login gagal: "+error.message,"error");return;}
-tampilkanDashboard(data.user);
+el("btnLogin").disabled=false;
+if(error){info("pesanLogin","Login gagal: "+error.message,"error");return;}
+await tampilkanDashboard(data.user);
 }
-
 async function periksaLogin(){
-const {data,error}=await db.auth.getSession();
-if(error){console.error(error);return;}
-if(data.session){
-tampilkanDashboard(data.session.user);
+const {data}=await db.auth.getSession();
+if(data.session)await tampilkanDashboard(data.session.user);
 }
-}
-
-async function tampilkanDashboard(user){
-document.getElementById("bagianLogin").classList.add("hidden");
-document.getElementById("dashboard").classList.remove("hidden");
-document.getElementById("infoAkun").textContent="Login sebagai: "+user.email;
-await muatAnggota();
-await muatFile("logo");
-await muatFile("dokumen");
-await muatPilihanAlbum();
-await muatGaleriAdmin();
-}
-
 async function keluar(){
 await db.auth.signOut();
 location.reload();
 }
-
-/* =========================
-   DATA ANGGOTA
-========================= */
-
-async function muatAnggota(){
-pesan("pesanAnggota","Memuat data anggota...");
-const {data,error}=await db
-.from("Anggota_Cemara")
-.select("*")
-.order("Created_at",{ascending:false});
-
-if(error){
-pesan("pesanAnggota","Gagal memuat anggota: "+error.message,"error");
-return;
+async function tampilkanDashboard(user){
+el("bagianLogin").classList.add("hidden");
+el("dashboard").classList.remove("hidden");
+el("infoAkun").textContent="Login sebagai: "+(user.email||"Pengurus");
+await muatAnggota();
+await muatLogo();
+await muatDokumen();
+await muatPilihanAlbum();
+await muatGaleriAdmin();
 }
+db.auth.onAuthStateChange((event)=>{
+if(event==="SIGNED_OUT"){
+el("dashboard").classList.add("hidden");
+el("bagianLogin").classList.remove("hidden");
+}
+});
+
+/* ANGGOTA */
+async function muatAnggota(){
+info("pesanAnggota","Memuat data anggota...");
+const {data,error}=await db.from("Anggota_Cemara")
+.select("*").order("Created_at",{ascending:false});
+if(error){info("pesanAnggota","Gagal memuat: "+error.message,"error");return;}
 dataAnggota=data||[];
-pesan("pesanAnggota","Jumlah data: "+dataAnggota.length,"success");
+info("pesanAnggota","Jumlah anggota: "+dataAnggota.length,"success");
 tampilkanAnggota();
 }
-
 function tampilkanAnggota(){
-const cari=document.getElementById("cariAnggota").value.toLowerCase();
+const cari=el("cariAnggota").value.toLowerCase();
 const hasil=dataAnggota.filter(a=>
-String(a.Nama_lengkap||"").toLowerCase().includes(cari)||
-String(a.Nomor_hp||"").toLowerCase().includes(cari)||
-String(a.Nomor_kta||"").toLowerCase().includes(cari)
+[a.Nama_lengkap,a.Nomor_hp,a.Nomor_kta].some(x=>String(x||"").toLowerCase().includes(cari))
 );
-
-const tempat=document.getElementById("daftarAnggota");
-if(!hasil.length){
-tempat.innerHTML="<p>Data anggota tidak ditemukan.</p>";
-return;
-}
-
-tempat.innerHTML=hasil.map(a=>`
-<div class="item">
+if(!hasil.length){el("daftarAnggota").innerHTML="<p>Anggota tidak ditemukan.</p>";return;}
+el("daftarAnggota").innerHTML=hasil.map(a=>{
+const foto=a.Foto_path?urlFile(a.Foto_path):"";
+return `<div class="item" style="min-height:100px">
+${foto?`<img class="member-photo" src="${foto}" alt="Foto anggota">`:""}
 <b>${aman(a.Nama_lengkap)}</b>
-<p class="small">No. KTA: ${aman(a.Nomor_kta)}</p>
-<p>HP: ${aman(a.Nomor_hp)}</p>
-<p>Alamat: ${aman(a.Alamat)}</p>
-<p>Status: ${aman(a.Status)}</p>
-<button onclick="bukaEdit('${a.id}')">EDIT DATA</button>
-</div>
-`).join("");
-}
-
-async function bukaEdit(id){
-const a=dataAnggota.find(x=>x.id===id);
-if(!a)return;
-
-const nama=prompt("Nama lengkap:",a.Nama_lengkap||"");
-if(nama===null)return;
-const hp=prompt("Nomor HP:",a.Nomor_hp||"");
-if(hp===null)return;
-const alamat=prompt("Alamat:",a.Alamat||"");
-if(alamat===null)return;
-const kta=prompt("Nomor KTA:",a.Nomor_kta||"");
-if(kta===null)return;
-const status=prompt("Status anggota:",a.Status||"Aktif");
-if(status===null)return;
-
-const {error}=await db.from("Anggota_Cemara").update({
-Nama_lengkap:nama,
-Nomor_hp:hp,
-Alamat:alamat,
-Nomor_kta:kta,
-Status:status
-}).eq("id",id);
-
-if(error){alert("Gagal menyimpan: "+error.message);return;}
-alert("Data anggota berhasil diperbarui.");
-await muatAnggota();
-}
-
-/* =========================
-   LOGO DAN DOKUMEN
-========================= */
-
-async function unggahFile(folder){
-const input=document.getElementById(folder==="logo"?"fileLogo":"fileDokumen");
-const file=input.files[0];
-if(!file){alert("Pilih file terlebih dahulu.");return;}
-
-const nama=Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-const path=folder+"/"+nama;
-
-const {error}=await db.storage.from(BUCKET).upload(path,file,{upsert:false});
-if(error){alert("Upload gagal: "+error.message);return;}
-
-alert("File berhasil diunggah.");
-input.value="";
-await muatFile(folder);
-}
-
-async function muatFile(folder){
-const target=document.getElementById(folder==="logo"?"daftarLogo":"daftarDokumen");
-if(!target)return;
-
-const {data,error}=await db.storage.from(BUCKET).list(folder,{limit:100});
-if(error){
-target.innerHTML="<p class='error'>Gagal memuat file: "+aman(error.message)+"</p>";
-return;
-}
-
-if(!data||!data.length){
-target.innerHTML="<p class='small'>Belum ada file.</p>";
-return;
-}
-
-target.innerHTML=data.filter(f=>f.name!=="").map(f=>{
-const path=folder+"/"+f.name;
-const url=db.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
-return `<div class="item">
-${folder==="logo"?`<img src="${url}" alt="Logo">`:""}
-<p>${aman(f.name)}</p>
-<a href="${url}" target="_blank">LIHAT / BUKA FILE</a>
-<br>
-<button class="danger" onclick="hapusFile('${aman(path)}','${folder}')">HAPUS</button>
+<p class="small">KTA: ${aman(a.Nomor_kta||"-")} | Status: ${aman(a.Status||"-")}</p>
+<p class="small">HP: ${aman(a.Nomor_hp||"-")}</p>
+<div style="clear:both"></div>
+<button onclick="editAnggota('${aman(a.id)}')">EDIT</button>
+<button class="gold" onclick="lihatKTA('${aman(a.id)}')">KTA DIGITAL</button>
+<button class="red" onclick="hapusAnggota('${aman(a.id)}')">HAPUS</button>
 </div>`;
 }).join("");
 }
-
-async function hapusFile(path,folder){
-if(!confirm("Yakin ingin menghapus file ini?"))return;
-const {error}=await db.storage.from(BUCKET).remove([path]);
+function resetForm(){
+el("editId").value="";
+el("namaAnggota").value="";
+el("hpAnggota").value="";
+el("alamatAnggota").value="";
+el("ktaAnggota").value="";
+el("tanggalAnggota").value=new Date().toISOString().slice(0,10);
+el("statusAnggota").value="Aktif";
+el("fotoAnggota").value="";
+el("judulForm").textContent="TAMBAH ANGGOTA";
+info("pesanForm","");
+}
+function editAnggota(id){
+const a=dataAnggota.find(x=>x.id===id);
+if(!a)return;
+el("editId").value=a.id;
+el("namaAnggota").value=a.Nama_lengkap||"";
+el("hpAnggota").value=a.Nomor_hp||"";
+el("alamatAnggota").value=a.Alamat||"";
+el("ktaAnggota").value=a.Nomor_kta||"";
+el("tanggalAnggota").value=a.Tanggal_daftar||"";
+el("statusAnggota").value=a.Status||"Aktif";
+el("fotoAnggota").value="";
+el("judulForm").textContent="EDIT DATA ANGGOTA";
+el("formAnggota").scrollIntoView({behavior:"smooth"});
+}
+async function simpanAnggota(){
+const id=el("editId").value;
+const nama=el("namaAnggota").value.trim();
+if(!nama){info("pesanForm","Nama anggota wajib diisi.","error");return;}
+const payload={
+Nama_lengkap:nama,
+Nomor_hp:el("hpAnggota").value.trim(),
+Alamat:el("alamatAnggota").value.trim(),
+Nomor_kta:el("ktaAnggota").value.trim(),
+Tanggal_daftar:el("tanggalAnggota").value||null,
+Status:el("statusAnggota").value
+};
+const file=el("fotoAnggota").files[0];
+if(file){
+if(!file.type.startsWith("image/")||file.size>5*1024*1024){
+info("pesanForm","Foto harus berupa gambar maksimal 5 MB.","error");return;
+}
+const path="anggota/"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+const up=await db.storage.from(BUCKET).upload(path,file);
+if(up.error){info("pesanForm","Gagal unggah foto: "+up.error.message,"error");return;}
+payload.Foto_path=path;
+}
+let hasil;
+if(id){
+hasil=await db.from("Anggota_Cemara").update(payload).eq("id",id);
+}else{
+hasil=await db.from("Anggota_Cemara").insert([payload]);
+}
+if(hasil.error){info("pesanForm","Gagal menyimpan: "+hasil.error.message,"error");return;}
+info("pesanForm","Data anggota berhasil disimpan.","success");
+resetForm();
+await muatAnggota();
+}
+async function hapusAnggota(id){
+if(!confirm("Yakin menghapus data anggota ini?"))return;
+const a=dataAnggota.find(x=>x.id===id);
+const {error}=await db.from("Anggota_Cemara").delete().eq("id",id);
 if(error){alert("Gagal menghapus: "+error.message);return;}
-alert("File berhasil dihapus.");
-await muatFile(folder);
+if(a&&a.Foto_path)await db.storage.from(BUCKET).remove([a.Foto_path]);
+alert("Data anggota berhasil dihapus.");
+await muatAnggota();
 }
 
-/* =========================
-   KELOLA ALBUM GALERI
-========================= */
+/* KTA DIGITAL */
+function lihatKTA(id){
+const a=dataAnggota.find(x=>x.id===id);
+if(!a)return;
+const foto=a.Foto_path?urlFile(a.Foto_path):"";
+const logo=urlFile(logoPath);
+const tanggal=a.Tanggal_daftar||"-";
+el("isiKTA").innerHTML=`
+<div class="kta">
+<h3>CEMARA BALI</h3>
+<div class="sub">CERITA MANIS ANAK RANTAU</div>
+<div class="goldline"></div>
+<div class="content">
+${foto?`<img src="${foto}" alt="Foto anggota">`:`<div style="width:83px;height:105px;border:1px solid #facc15;display:grid;place-items:center;font-size:10px">FOTO</div>`}
+<div>
+<b style="font-size:13px">${aman(a.Nama_lengkap)}</b><br>
+Nomor KTA: ${aman(a.Nomor_kta||"-")}<br>
+Alamat: ${aman(a.Alamat||"-")}<br>
+No. HP: ${aman(a.Nomor_hp||"-")}<br>
+Tanggal Daftar: ${aman(tanggal)}<br>
+Status: ${aman(a.Status||"Aktif")}
+</div>
+</div>
+<div class="goldline"></div>
+<div class="sub">Cemara selalu dihati</div>
+</div>
+<div class="kta kta-back">
+<h3>CEMARA BALI</h3>
+<div class="goldline"></div>
+<p><b>KARTU TANDA ANGGOTA</b></p>
+<p>Kartu ini merupakan tanda keanggotaan resmi CEMARA BALI.</p>
+<p>Menjaga persaudaraan, saling membantu, dan menjunjung tinggi nama baik organisasi.</p>
+<p><b>Kontak Darurat CEMARA</b><br>
+Pak Bayu: +62 852-3783-1922<br>
+Pak Sugeng: +62 823-4036-3510<br>
+Pak Sarif Hidayat: +62 812-3674-8642</p>
+<div class="goldline"></div>
+<div class="sub">Cemara selalu dihati</div>
+</div>`;
+el("ktaModal").classList.remove("hidden");
+}
+function tutupKTA(){el("ktaModal").classList.add("hidden");}
 
+/* LOGO */
+async function muatLogo(){
+const {data,error}=await db.storage.from(BUCKET).list("logo",{limit:100});
+if(error)return;
+const pilihan=(data||[]).find(x=>x.name==="IMG_20261108_150956.jpg")||(data||[])[0];
+if(pilihan){
+logoPath="logo/"+pilihan.name;
+const url=urlFile(logoPath);
+el("logoHeader").src=url;
+el("previewLogo").src=url;
+}
+}
+async function unggahLogo(){
+const file=el("fileLogo").files[0];
+if(!file){alert("Pilih gambar logo terlebih dahulu.");return;}
+if(!file.type.startsWith("image/")){alert("File harus berupa gambar.");return;}
+const path="logo/logo-cemara-"+Date.now()+"."+file.name.split(".").pop();
+const {error}=await db.storage.from(BUCKET).upload(path,file);
+if(error){info("pesanLogo","Gagal mengunggah logo: "+error.message,"error");return;}
+logoPath=path;
+el("logoHeader").src=urlFile(path);
+el("previewLogo").src=urlFile(path);
+el("fileLogo").value="";
+info("pesanLogo","Logo berhasil diunggah dan ditampilkan.","success");
+}
+
+/* DOKUMEN */
+async function unggahDokumen(){
+const file=el("fileDokumen").files[0];
+if(!file){alert("Pilih dokumen terlebih dahulu.");return;}
+const path="dokumen/"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+const {error}=await db.storage.from(BUCKET).upload(path,file);
+if(error){info("pesanDokumen","Gagal: "+error.message,"error");return;}
+el("fileDokumen").value="";
+info("pesanDokumen","Dokumen berhasil diunggah.","success");
+await muatDokumen();
+}
+async function muatDokumen(){
+const {data,error}=await db.storage.from(BUCKET).list("dokumen",{limit:100});
+if(error){el("daftarDokumen").innerHTML="<p class='error'>"+aman(error.message)+"</p>";return;}
+if(!data||!data.length){el("daftarDokumen").innerHTML="<p class='small'>Belum ada dokumen.</p>";return;}
+el("daftarDokumen").innerHTML=data.map(f=>{
+const path="dokumen/"+f.name;
+return `<div class="item">${aman(f.name)}<br>
+<a href="${urlFile(path)}" target="_blank">BUKA DOKUMEN</a>
+<button class="red" onclick="hapusDokumen('${aman(path)}')">HAPUS</button></div>`;
+}).join("");
+}
+async function hapusDokumen(path){
+if(!confirm("Hapus dokumen ini?"))return;
+const {error}=await db.storage.from(BUCKET).remove([path]);
+if(error){alert(error.message);return;}
+await muatDokumen();
+}
+
+/* ALBUM GALERI */
 async function buatAlbum(){
-const nama=document.getElementById("judulGaleri").value.trim();
-const kategori=document.getElementById("kategoriGaleri").value;
-const tanggal=document.getElementById("tanggalGaleri").value||null;
-const deskripsi=document.getElementById("deskripsiGaleri").value.trim();
-
+const nama=el("judulGaleri").value.trim();
 if(!nama){alert("Isi nama album terlebih dahulu.");return;}
-
 const id="album-"+Date.now()+"-"+Math.random().toString(36).slice(2,7);
-
 const {error}=await db.from("Album_Galeri_Cemara").insert([{
-id:id,
-nama_album:nama,
-kategori:kategori,
-tanggal_kegiatan:tanggal,
-deskripsi:deskripsi
+id:id,nama_album:nama,kategori:el("kategoriGaleri").value,
+tanggal_kegiatan:el("tanggalGaleri").value||null,
+deskripsi:el("deskripsiGaleri").value.trim()
 }]);
-
-if(error){
-pesan("pesanBuatAlbum","Gagal membuat album: "+error.message,"error");
-return;
-}
-
-document.getElementById("judulGaleri").value="";
-document.getElementById("tanggalGaleri").value="";
-document.getElementById("deskripsiGaleri").value="";
-pesan("pesanBuatAlbum","Album berhasil dibuat.","success");
-
+if(error){info("pesanBuatAlbum","Gagal membuat album: "+error.message,"error");return;}
+el("judulGaleri").value="";
+el("tanggalGaleri").value="";
+el("deskripsiGaleri").value="";
+info("pesanBuatAlbum","Album berhasil dibuat.","success");
 await muatPilihanAlbum();
 await muatGaleriAdmin();
 }
-
 async function muatPilihanAlbum(){
-const select=document.getElementById("albumGaleri");
-const {data,error}=await db.from("Album_Galeri_Cemara")
-.select("*").order("nama_album",{ascending:true});
-
-if(error){
-select.innerHTML='<option value="">Gagal memuat album</option>';
-pesan("pesanGaleri","Gagal memuat album: "+error.message,"error");
-return;
-}
-
+const {data,error}=await db.from("Album_Galeri_Cemara").select("*").order("nama_album");
+if(error){el("albumGaleri").innerHTML='<option value="">Gagal memuat album</option>';return;}
 dataAlbum=data||[];
-select.innerHTML='<option value="">Pilih album terlebih dahulu</option>'+
+el("albumGaleri").innerHTML='<option value="">Pilih album terlebih dahulu</option>'+
 dataAlbum.map(a=>`<option value="${aman(a.id)}">${aman(a.nama_album)} — ${aman(a.kategori)}</option>`).join("");
 }
-
-/* =========================
-   UNGGAH FOTO GALERI
-========================= */
-
 async function unggahGaleri(){
-const albumId=document.getElementById("albumGaleri").value;
-const input=document.getElementById("fotoGaleri");
-const files=Array.from(input.files||[]);
-
-if(!albumId){alert("Pilih album terlebih dahulu.");return;}
-if(!files.length){alert("Pilih foto terlebih dahulu.");return;}
-
+const albumId=el("albumGaleri").value;
+const files=Array.from(el("fotoGaleri").files||[]);
 const album=dataAlbum.find(a=>a.id===albumId);
-if(!album){alert("Album tidak ditemukan. Muat ulang album.");return;}
-
-pesan("pesanGaleri","Menyiapkan unggahan "+files.length+" foto...");
-
-let berhasil=0;
-let gagal=0;
-
+if(!album){alert("Pilih album terlebih dahulu.");return;}
+if(!files.length){alert("Pilih foto terlebih dahulu.");return;}
+let ok=0,gagal=0;
 for(let i=0;i<files.length;i++){
-const file=files[i];
-
-if(!file.type.startsWith("image/")||file.size>5*1024*1024){
-gagal++;
-continue;
-}
-
-const nama=Date.now()+"-"+i+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-const path="galeri/"+nama;
-
-const upload=await db.storage.from(BUCKET).upload(path,file,{upsert:false});
-if(upload.error){gagal++;continue;}
-
+const f=files[i];
+info("pesanGaleri","Mengunggah foto "+(i+1)+" dari "+files.length+"...");
+if(!f.type.startsWith("image/")||f.size>5*1024*1024){gagal++;continue;}
+const path="galeri/"+Date.now()+"-"+i+"-"+f.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+const up=await db.storage.from(BUCKET).upload(path,f);
+if(up.error){gagal++;continue;}
 const simpan=await db.from("Galeri_Cemara").insert([{
-judul:album.nama_album,
-kategori:album.kategori,
+judul:album.nama_album,kategori:album.kategori,
 tanggal_kegiatan:album.tanggal_kegiatan,
-deskripsi:album.deskripsi,
-foto_path:path,
-album_id:album.id
+deskripsi:album.deskripsi,foto_path:path,album_id:album.id
 }]);
-
-if(simpan.error){
-await db.storage.from(BUCKET).remove([path]);
-gagal++;
-}else{
-berhasil++;
+if(simpan.error){await db.storage.from(BUCKET).remove([path]);gagal++;}
+else ok++;
 }
-
-pesan("pesanGaleri","Proses: "+(i+1)+"/"+files.length+" foto");
-}
-
-input.value="";
-pesan("pesanGaleri","Selesai. Berhasil: "+berhasil+" foto. Gagal/dilewati: "+gagal+" foto.",gagal?"error":"success");
+el("fotoGaleri").value="";
+info("pesanGaleri","Selesai. Berhasil: "+ok+" foto. Gagal/dilewati: "+gagal,gagal?"error":"success");
 await muatGaleriAdmin();
 }
-
-/* =========================
-   TAMPILKAN ALBUM DAN FOTO
-========================= */
-
 async function muatGaleriAdmin(){
-const tempat=document.getElementById("daftarGaleriAdmin");
-tempat.innerHTML="<p>Memuat album dan foto...</p>";
-
-const hasilAlbum=await db.from("Album_Galeri_Cemara")
-.select("*").order("nama_album",{ascending:true});
-
-if(hasilAlbum.error){
-tempat.innerHTML="<p class='error'>Gagal memuat album: "+aman(hasilAlbum.error.message)+"</p>";
-return;
-}
-
-const hasilFoto=await db.from("Galeri_Cemara")
-.select("*").order("created_at",{ascending:false});
-
-if(hasilFoto.error){
-tempat.innerHTML="<p class='error'>Gagal memuat foto: "+aman(hasilFoto.error.message)+"</p>";
-return;
-}
-
-dataAlbum=hasilAlbum.data||[];
-dataFoto=hasilFoto.data||[];
-
-if(!dataAlbum.length){
-tempat.innerHTML="<p>Belum ada album galeri.</p>";
-return;
-}
-
+const tempat=el("daftarGaleriAdmin");
+tempat.innerHTML="<p>Memuat galeri...</p>";
+const a=await db.from("Album_Galeri_Cemara").select("*").order("nama_album");
+if(a.error){tempat.innerHTML="<p class='error'>"+aman(a.error.message)+"</p>";return;}
+const f=await db.from("Galeri_Cemara").select("*").order("created_at",{ascending:false});
+if(f.error){tempat.innerHTML="<p class='error'>"+aman(f.error.message)+"</p>";return;}
+dataAlbum=a.data||[];
+dataFoto=f.data||[];
+if(!dataAlbum.length){tempat.innerHTML="<p>Belum ada album.</p>";return;}
 let html="";
-
 dataAlbum.forEach(album=>{
-const fotoAlbum=dataFoto.filter(f=>f.album_id===album.id);
-
-html+=`
-<div class="item">
+const fotos=dataFoto.filter(x=>x.album_id===album.id);
+html+=`<div class="item">
 <h3>${aman(album.nama_album)}</h3>
-<p><b>Kategori:</b> ${aman(album.kategori)}</p>
-<p><b>Tanggal:</b> ${aman(album.tanggal_kegiatan||"-")}</p>
-<p>${aman(album.deskripsi||"")}</p>
-<p class="small">Jumlah foto: ${fotoAlbum.length}</p>
-<div class="row">
+<p>${aman(album.kategori)} | ${aman(album.tanggal_kegiatan||"-")}</p>
+<p class="small">${aman(album.deskripsi||"")}</p>
+<p>Jumlah foto: ${fotos.length}</p>
 <button class="gold" onclick="gantiNamaAlbum('${aman(album.id)}')">GANTI NAMA</button>
-<button class="danger" onclick="hapusAlbumGaleri('${aman(album.id)}')">HAPUS ALBUM</button>
-</div>
-<div class="photo-grid">
-`;
-
-fotoAlbum.forEach(f=>{
-const url=db.storage.from(BUCKET).getPublicUrl(f.foto_path).data.publicUrl;
-html+=`
-<div class="item">
-<img src="${url}" alt="Foto galeri">
-<button class="danger" onclick="hapusGaleri('${aman(f.id)}')">HAPUS FOTO</button>
+<button class="red" onclick="hapusAlbumGaleri('${aman(album.id)}')">HAPUS ALBUM</button>
+<div class="photo-grid">`;
+fotos.forEach(foto=>{
+html+=`<div class="item">
+<img src="${urlFile(foto.foto_path)}" alt="Foto galeri">
+<button class="red" onclick="hapusGaleri('${aman(foto.id)}')">HAPUS FOTO</button>
 </div>`;
 });
-
 html+="</div></div>";
 });
-
-const fotoLama=dataFoto.filter(f=>!f.album_id);
-if(fotoLama.length){
-html+=`<div class="item"><h3>Foto Lama / Belum Masuk Album</h3><div class="photo-grid">`;
-fotoLama.forEach(f=>{
-const url=db.storage.from(BUCKET).getPublicUrl(f.foto_path).data.publicUrl;
-html+=`<div class="item">
-<img src="${url}" alt="Foto lama">
-<p>${aman(f.judul)}</p>
-<button class="danger" onclick="hapusGaleri('${aman(f.id)}')">HAPUS FOTO</button>
-</div>`;
+const lama=dataFoto.filter(x=>!x.album_id);
+if(lama.length){
+html+="<div class='item'><h3>FOTO LAMA / BELUM MASUK ALBUM</h3><div class='photo-grid'>";
+lama.forEach(foto=>{
+html+=`<div class="item"><img src="${urlFile(foto.foto_path)}" alt="Foto lama">
+<p>${aman(foto.judul)}</p>
+<button class="red" onclick="hapusGaleri('${aman(foto.id)}')">HAPUS FOTO</button></div>`;
 });
 html+="</div></div>";
 }
-
 tempat.innerHTML=html;
 }
-
-/* =========================
-   GANTI NAMA ALBUM
-========================= */
-
 async function gantiNamaAlbum(id){
 const album=dataAlbum.find(a=>a.id===id);
 if(!album)return;
-
 const nama=prompt("Nama album baru:",album.nama_album);
 if(nama===null||!nama.trim())return;
-
-const {error}=await db.from("Album_Galeri_Cemara")
-.update({nama_album:nama.trim()}).eq("id",id);
-
-if(error){alert("Gagal mengganti nama: "+error.message);return;}
-
-await db.from("Galeri_Cemara")
-.update({judul:nama.trim()}).eq("album_id",id);
-
-alert("Nama album berhasil diperbarui.");
+const {error}=await db.from("Album_Galeri_Cemara").update({nama_album:nama.trim()}).eq("id",id);
+if(error){alert(error.message);return;}
+const updateFoto=await db.from("Galeri_Cemara").update({judul:nama.trim()}).eq("album_id",id);
+if(updateFoto.error)alert("Nama album berubah, tetapi judul foto gagal diperbarui: "+updateFoto.error.message);
 await muatPilihanAlbum();
 await muatGaleriAdmin();
 }
-
-/* =========================
-   HAPUS FOTO
-========================= */
-
 async function hapusGaleri(id){
-if(!confirm("Yakin ingin menghapus foto ini?"))return;
-
-const foto=dataFoto.find(f=>f.id===id);
+if(!confirm("Hapus foto ini?"))return;
+const foto=dataFoto.find(x=>x.id===id);
 if(!foto)return;
-
 const {error}=await db.from("Galeri_Cemara").delete().eq("id",id);
-if(error){alert("Gagal menghapus data foto: "+error.message);return;}
-
-if(foto.foto_path){
-const hapus=await db.storage.from(BUCKET).remove([foto.foto_path]);
-if(hapus.error){
-alert("Data foto terhapus, tetapi file Storage gagal dihapus: "+hapus.error.message);
-}
-}
-
+if(error){alert(error.message);return;}
+if(foto.foto_path)await db.storage.from(BUCKET).remove([foto.foto_path]);
 await muatGaleriAdmin();
 }
-
-/* =========================
-   HAPUS ALBUM
-========================= */
-
 async function hapusAlbumGaleri(id){
 const album=dataAlbum.find(a=>a.id===id);
 if(!album)return;
-
 if(!confirm("Hapus album "+album.nama_album+" beserta seluruh fotonya?"))return;
-
-const foto=dataFoto.filter(f=>f.album_id===id);
-const paths=foto.map(f=>f.foto_path).filter(Boolean);
-
-const hapusData=await db.from("Galeri_Cemara")
-.delete().eq("album_id",id);
-
-if(hapusData.error){
-alert("Gagal menghapus foto album: "+hapusData.error.message);
-return;
-}
-
+const fotos=dataFoto.filter(x=>x.album_id===id);
+const paths=fotos.map(x=>x.foto_path).filter(Boolean);
+const hapusFoto=await db.from("Galeri_Cemara").delete().eq("album_id",id);
+if(hapusFoto.error){alert(hapusFoto.error.message);return;}
 if(paths.length){
 const hapusStorage=await db.storage.from(BUCKET).remove(paths);
-if(hapusStorage.error){
-alert("Data foto terhapus, tetapi sebagian file Storage mungkin masih tersimpan: "+hapusStorage.error.message);
+if(hapusStorage.error){alert("Data foto terhapus, tetapi file Storage mungkin masih tersisa: "+hapusStorage.error.message);}
 }
-}
-
-const hapusAlbum=await db.from("Album_Galeri_Cemara")
-.delete().eq("id",id);
-
-if(hapusAlbum.error){
-alert("Foto sudah dihapus, tetapi album gagal dihapus: "+hapusAlbum.error.message);
-return;
-}
-
-alert("Album berhasil dihapus.");
+const hapusAlbum=await db.from("Album_Galeri_Cemara").delete().eq("id",id);
+if(hapusAlbum.error){alert(hapusAlbum.error.message);return;}
 await muatPilihanAlbum();
 await muatGaleriAdmin();
 }
 
-/* =========================
-   MULAI APLIKASI
-========================= */
-
-db.auth.onAuthStateChange((event,session)=>{
-if(event==="SIGNED_OUT"){
-document.getElementById("dashboard").classList.add("hidden");
-document.getElementById("bagianLogin").classList.remove("hidden");
-}
-});
-
+/* MULAI */
+el("tanggalAnggota").value=new Date().toISOString().slice(0,10);
 periksaLogin();
 </script>
 </body>
