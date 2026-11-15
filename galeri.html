@@ -222,12 +222,23 @@ const db=window.supabase.createClient(
 const BUCKET="cemara-bali";
 
 const kategori=[
-  "Sosial & Kemanusiaan",
-  "Silaturahmi & Kebersamaan",
-  "Camping & Rekreasi",
+  "Sosial",
+  "Silaturahmi",
+  "Camping",
   "Keagamaan",
-  "HUT CEMARA & Perayaan"
+  "HUT & Perayaan"
 ];
+
+function kategoriStandar(nama){
+  const peta={
+    "Sosial & Kemanusiaan":"Sosial",
+    "Silaturahmi & Kebersamaan":"Silaturahmi",
+    "Camping & Rekreasi":"Camping",
+    "HUT CEMARA & Perayaan":"HUT & Perayaan"
+  };
+
+  return peta[nama]||nama;
+  }
 
 let kategoriAktif="";
 let albumAktif=null;
