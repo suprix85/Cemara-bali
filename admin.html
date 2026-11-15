@@ -868,52 +868,44 @@ html+="</div></div>";
 
 tempat.innerHTML=html;
 }
-
 async function gantiNamaAlbum(id){
-const album=dataAlbum.find(a=>a.id===id);
-if(!album)return;
+  const album=dataAlbum.find(a=>a.id===id);
+  if(!album)return;
 
-const nama=prompt("Nama album baru:",album.nama_album);
+  const nama=prompt("Nama album baru:",album.nama_album);
+  if(nama===null||!nama.trim())return;
 
-if(nama===null||!nama.trim())return;
+  const namaBaru=nama.trim();
 
-const {error}=await db.from("Album_Galeri_Cemara")
-.update({nama_album:nama.trim()}).eq("id",id);
+  const {data,error}=await db
+    .from("Album_Galeri_Cemara")
+    .update({nama_album:namaBaru})
+    .eq("id",id)
+    .select("id,nama_album");
 
-if(error){
-alert(error.message);
-return;
-}
+  if(error){
+    alert("Gagal mengganti nama: "+error.message);
+    return;
+  }
 
-const updateFoto=await db.from("Galeri_Cemara")
-.update({judul:nama.trim()}).eq("album_id",id);
+  if(!data||data.length===0){
+    alert("Nama belum berubah. Album tidak berhasil diperbarui. Periksa izin UPDATE.");
+    return;
+  }
 
-if(updateFoto.error){
-alert("Nama album berubah, tetapi judul foto gagal diperbarui: "+updateFoto.error.message);
-}
+  const updateFoto=await db
+    .from("Galeri_Cemara")
+    .update({judul:namaBaru})
+    .eq("album_id",id);
 
-await muatPilihanAlbum();
-await muatGaleriAdmin();
-}
+  if(updateFoto.error){
+    alert("Nama album berhasil diubah, tetapi judul foto gagal diperbarui: "+updateFoto.error.message);
+  }else{
+    alert("Nama album berhasil diubah!");
+  }
 
-async function hapusGaleri(id){
-if(!confirm("Hapus foto ini?"))return;
-
-const foto=dataFoto.find(x=>x.id===id);
-if(!foto)return;
-
-const {error}=await db.from("Galeri_Cemara").delete().eq("id",id);
-
-if(error){
-alert(error.message);
-return;
-}
-
-if(foto.foto_path){
-await db.storage.from(BUCKET).remove([foto.foto_path]);
-}
-
-await muatGaleriAdmin();
+  await muatPilihanAlbum();
+  await muatGaleriAdmin();
 }
 
 async function hapusAlbumGaleri(id){
