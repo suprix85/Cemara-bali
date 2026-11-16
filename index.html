@@ -815,6 +815,17 @@ const anggotaPerHalaman = 20;
 
 // MENGAMANKAN TEKS DARI DATABASE
 // MENAMPILKAN SUSUNAN PENGURUS CEMARA
+  function aman(teks) {
+  return String(teks ?? "").replace(/[&<>"']/g, function (c) {
+    return {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    }[c];
+  });
+}
 async function tampilkanStrukturPublik() {
   const wadah = document.getElementById("daftarStrukturPublik");
 
