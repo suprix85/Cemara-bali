@@ -1006,6 +1006,165 @@ async function hapusGaleri(id){
 
   await muatGaleriAdmin();
         }
+  
+/* STRUKTUR PENGURUS CEMARA */
+
+let dataStruktur=[];
+
+async function muatStruktur(){
+  const tempat=el("daftarStrukturAdmin");
+  tempat.innerHTML="<p>Memuat struktur pengurus...</p>";
+
+  const {data,error}=await db
+    .from("Struktur_Cemara")
+    .select("*")
+    .order("urutan",{ascending:true});
+
+  if(error){
+    tempat.innerHTML="<p class='error'>Gagal memuat: "+aman(error.message)+"</p>";
+    return;
+  }
+
+  dataStruktur=data||[];
+
+  if(!dataStruktur.length){
+    tempat.innerHTML="<p>Belum ada data pengurus.</p>";
+    return;
+  }
+
+  tempat.innerHTML=dataStruktur.map(p=>{
+    const foto=p.foto_path?urlFile(p.foto_path):"";
+
+    return `<div class="item">
+      ${foto?`<img class="member-photo" src="${aman(foto)}" alt="Foto pengurus">`:""}
+      <b>${aman(p.nama)}</b>
+      <p class="small">${aman(p.jabatan)}</p>
+      <p class="small">Urutan: ${aman(p.urutan??0)}</p>
+      <div style="clear:both"></div>
+      <button onclick="editStruktur('${aman(p.id)}')">EDIT</button>
+      <button class="red" onclick="hapusStruktur('${aman(p.id)}')">HAPUS</button>
+      ${foto?`<button class="gray" onclick="hapusFotoStruktur('${aman(p.id)}')">HAPUS FOTO</button>`:""}
+    </div>`;
+  }).join("");
+}
+
+function resetStruktur(){
+  el("strukturId").value="";
+  el("strukturNama").value="";
+  el("strukturJabatan").value="";
+  el("strukturUrutan").value="0";
+  el("strukturFoto").value="";
+  info("pesanStruktur","");
+}
+
+function editStruktur(id){
+  const p=dataStruktur.find(x=>String(x.id)===String(id));
+  if(!p)return;
+
+  el("strukturId").value=p.id;
+  el("strukturNama").value=p.nama||"";
+  el("strukturJabatan").value=p.jabatan||"";
+  el("strukturUrutan").value=p.urutan??0;
+  el("strukturFoto").value="";
+
+  el("strukturNama").scrollIntoView({behavior:"smooth"});
+  info("pesanStruktur","Mode edit pengurus.");
+}
+
+async function simpanStruktur(){
+  const id=el("strukturId").value;
+  const nama=el("strukturNama").value.trim();
+  const jabatan=el("strukturJabatan").value.trim();
+  const urutan=Number(el("strukturUrutan").value||0);
+  const file=el("strukturFoto").files[0];
+
+  if(!nama||!jabatan){
+    info("pesanStruktur","Nama dan jabatan wajib diisi.","error");
+    return;
+  }
+
+  if(file&&(!file.type.startsWith("image/")||file.size>5*1024*1024)){
+    info("pesanStruktur","Foto harus berupa gambar maksimal 5 MB.","error");
+    return;
+  }
+
+  const lama=dataStruktur.find(x=>String(x.id)===String(id));
+  let foto_path=lama?.foto_path||null;
+
+  if(file){
+    const path="struktur/"+Date.now()+"-"+file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+    const upload=await db.storage.from(BUCKET).upload(path,file);
+
+    if(upload.error){
+      info("pesanStruktur","Gagal mengunggah foto: "+upload.error.message,"error");
+      return;
+    }
+
+    foto_path=path;
+  }
+
+  const payload={nama,jabatan,urutan,foto_path};
+
+  let hasil;
+  if(id){
+    hasil=await db.from("Struktur_Cemara").update(payload).eq("id",id);
+  }else{
+    hasil=await db.from("Struktur_Cemara").insert([payload]);
+  }
+
+  if(hasil.error){
+    if(file&&foto_path)await db.storage.from(BUCKET).remove([foto_path]);
+    info("pesanStruktur","Gagal menyimpan: "+hasil.error.message,"error");
+    return;
+  }
+
+  if(file&&lama?.foto_path){
+    await db.storage.from(BUCKET).remove([lama.foto_path]);
+  }
+
+  info("pesanStruktur","Data pengurus berhasil disimpan.","success");
+  resetStruktur();
+  await muatStruktur();
+}
+
+async function hapusFotoStruktur(id){
+  const p=dataStruktur.find(x=>String(x.id)===String(id));
+  if(!p||!p.foto_path)return;
+
+  if(!confirm("Hapus foto pengurus ini? Nama dan jabatannya tetap ada."))return;
+
+  const {error}=await db.from("Struktur_Cemara")
+    .update({foto_path:null}).eq("id",id);
+
+  if(error){
+    alert("Gagal menghapus foto: "+error.message);
+    return;
+  }
+
+  await db.storage.from(BUCKET).remove([p.foto_path]);
+  await muatStruktur();
+}
+
+async function hapusStruktur(id){
+  const p=dataStruktur.find(x=>String(x.id)===String(id));
+  if(!p)return;
+
+  if(!confirm("Hapus data pengurus "+p.nama+"?"))return;
+
+  const {error}=await db.from("Struktur_Cemara").delete().eq("id",id);
+
+  if(error){
+    alert("Gagal menghapus: "+error.message);
+    return;
+  }
+
+  if(p.foto_path){
+    await db.storage.from(BUCKET).remove([p.foto_path]);
+  }
+
+  await muatStruktur();
+}
+
 /* MULAI */
 el("tanggalAnggota").value=new Date().toISOString().slice(0,10);
 periksaLogin();
