@@ -814,16 +814,55 @@ let halamanAktif = 1;
 const anggotaPerHalaman = 20;
 
 // MENGAMANKAN TEKS DARI DATABASE
-function aman(teks) {
-  return String(teks ?? "").replace(/[&<>"']/g, function (huruf) {
-    return {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    }[huruf];
-  });
+// MENAMPILKAN SUSUNAN PENGURUS CEMARA
+async function tampilkanStrukturPublik() {
+  const wadah = document.getElementById("daftarStrukturPublik");
+
+  wadah.innerHTML = "<div class='kartu'>Memuat pengurus...</div>";
+
+  const { data, error } = await supabaseClient
+    .from("Struktur_Cemara")
+    .select("*")
+    .order("urutan", { ascending: true });
+
+  if (error) {
+    console.error("Struktur pengurus:", error);
+    wadah.innerHTML =
+      "<div class='kartu'>Data pengurus belum dapat dimuat.</div>";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    wadah.innerHTML =
+      "<div class='kartu'>Data pengurus belum tersedia.</div>";
+    return;
+  }
+
+  wadah.innerHTML = data.map(p => {
+    let foto = "";
+
+    if (p.foto_path) {
+      foto = p.foto_path.startsWith("http")
+        ? p.foto_path
+        : supabaseClient.storage
+            .from("cemara-bali")
+            .getPublicUrl(p.foto_path).data.publicUrl;
+    }
+
+    return `
+      <div class="kartu pengurus">
+        ${
+          foto
+          ? `<img src="${aman(foto)}"
+               alt="Foto ${aman(p.nama)}"
+               style="width:110px;height:125px;object-fit:cover;border-radius:12px">`
+          : `<div class="avatar">👤</div>`
+        }
+        <h3>${aman(p.jabatan)}</h3>
+        <p><strong>${aman(p.nama)}</strong></p>
+      </div>
+    `;
+  }).join("");
 }
 
 // MENGAMBIL ANGKA DARI NOMOR KTA
