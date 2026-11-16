@@ -129,6 +129,33 @@ alt="Logo CEMARA BALI">
 </section>
 
 <section class="card">
+<h3>👔 STRUKTUR PENGURUS CEMARA</h3>
+<p class="small">Kelola nama, jabatan, dan foto pengurus.</p>
+
+<div class="item">
+<input type="hidden" id="strukturId">
+
+<label>Nama Pengurus</label>
+<input id="strukturNama" placeholder="Nama lengkap">
+
+<label>Jabatan</label>
+<input id="strukturJabatan" placeholder="Contoh: Ketua">
+
+<label>Urutan Tampilan</label>
+<input id="strukturUrutan" type="number" value="0">
+
+<label>Foto Pengurus</label>
+<input id="strukturFoto" type="file" accept="image/*">
+
+<button onclick="simpanStruktur()">SIMPAN PENGURUS</button>
+<button class="red" onclick="resetStruktur()">BATAL / KOSONGKAN</button>
+<p id="pesanStruktur" class="msg"></p>
+</div>
+
+<div id="daftarStrukturAdmin"></div>
+</section>
+
+<section class="card">
 <h3>👥 DATA ANGGOTA CEMARA</h3>
 <input id="cariAnggota" placeholder="Cari nama, HP, atau nomor KTA" oninput="tampilkanAnggota()">
 <button onclick="muatAnggota()">MUAT ULANG DATA</button>
