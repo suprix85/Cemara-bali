@@ -951,6 +951,7 @@ async function tampilkanStrukturPublik() {
     return;
   }
 
+  
   let fotoPengurus = data.map(p => {
     let foto = "";
 
@@ -965,37 +966,89 @@ async function tampilkanStrukturPublik() {
     return { ...p, foto };
   });
 
+  window.dataPengurusPublik = fotoPengurus;
+
+  // Membuat kartu pengurus
+  function buatKartu(p, i) {
+    return `
+      <div class="kartu-bagan"
+           onclick="lihatProfilPengurus(${i})">
+        ${
+          p.foto
+          ? `<img src="${aman(p.foto)}" alt="Foto ${aman(p.nama)}">`
+          : `<div class="avatar">👤</div>`
+        }
+        <strong>${aman(p.nama)}</strong>
+        <span>${aman(p.jabatan)}</span>
+      </div>
+    `;
+  }
+
+  // Mencari pengurus berdasarkan jabatan
+  function cariJabatan(kata) {
+    return fotoPengurus
+      .map((p, i) => ({ ...p, index: i }))
+      .filter(p => p.jabatan.toLowerCase().includes(kata));
+  }
+
+  const pembina = cariJabatan("pembina");
+  const ketua = cariJabatan("ketua");
+  const sekretaris = cariJabatan("sekretaris");
+  const bendahara = cariJabatan("bendahara");
+  const humas = cariJabatan("humas");
+
+  const jabatanUtama = [
+    ...pembina, ...ketua, ...sekretaris, ...bendahara, ...humas
+  ];
+
+  const lainnya = fotoPengurus
+    .map((p, i) => ({ ...p, index: i }))
+    .filter(p => !jabatanUtama.some(u => u.index === p.index));
+
   wadah.innerHTML = `
     <div class="bagan-cemara">
-
       <h2>STRUKTUR ORGANISASI</h2>
       <h3>CEMARA BALI</h3>
 
-      <div class="bagan-kotak">
-        ${fotoPengurus.map((p, i) => `
-          <div class="kartu-bagan"
-               onclick="lihatProfilPengurus(${i})">
+      <div class="kelompok-bagan">
+        <h3>PEMBINA</h3>
+        <div class="baris-bagan">
+          ${pembina.map(p => buatKartu(p, p.index)).join("") || "Belum diisi"}
+        </div>
+      </div>
 
-            ${
-              p.foto
-              ? `<img src="${aman(p.foto)}" alt="Foto ${aman(p.nama)}">`
-              : `<div class="avatar">👤</div>`
-            }
+      <div class="garis-bagan">↓</div>
 
-            <strong>${aman(p.nama)}</strong>
-            <span>${aman(p.jabatan)}</span>
+      <div class="kelompok-bagan">
+        <h3>KETUA</h3>
+        <div class="baris-bagan">
+          ${ketua.map(p => buatKartu(p, p.index)).join("") || "Belum diisi"}
+        </div>
+      </div>
 
-          </div>
-        `).join("")}
+      <div class="garis-bagan">↓</div>
+
+      <div class="kelompok-bagan">
+        <h3>PENGURUS INTI</h3>
+        <div class="baris-bagan">
+          ${[...sekretaris, ...bendahara, ...humas]
+            .map(p => buatKartu(p, p.index)).join("") || "Belum diisi"}
+        </div>
+      </div>
+
+      <div class="garis-bagan">↓</div>
+
+      <div class="kelompok-bagan">
+        <h3>BIDANG-BIDANG</h3>
+        <div class="baris-bagan">
+          ${lainnya.map(p => buatKartu(p, p.index)).join("") || "Belum diisi"}
+        </div>
       </div>
 
       <div id="profilPengurus" class="profil-pengurus"></div>
-
     </div>
   `;
 
-  window.dataPengurusPublik = fotoPengurus;
-}
 
 
 /* PROFIL PENGURUS */
