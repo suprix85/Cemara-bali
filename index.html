@@ -1019,7 +1019,7 @@ async function tampilkanStrukturPublik() {
   function cariJabatan(kata) {
     return fotoPengurus
       .map((p, i) => ({ ...p, index: i }))
-      .filter(p => p.jabatan.toLowerCase().includes(kata));
+      .filter(p => (p.jabatan || "").toLowerCase().includes(kata));
   }
 
   const pembina = cariJabatan("pembina");
