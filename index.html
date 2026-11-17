@@ -834,6 +834,7 @@ function angkaKTA(nomor) {
   return hasil ? Number(hasil[1]) : 0;
 }
 
+
 /* STRUKTUR PENGURUS PUBLIK */
 async function tampilkanStrukturPublik() {
   const wadah = document.getElementById("daftarStrukturPublik");
@@ -845,20 +846,12 @@ async function tampilkanStrukturPublik() {
     .select("*")
     .order("urutan", { ascending: true });
 
-  if (error) {
-    console.error("Struktur pengurus:", error);
-    wadah.innerHTML =
-      "<div class='kartu'>Data pengurus belum dapat dimuat.</div>";
+  if (error || !data || data.length === 0) {
+    wadah.innerHTML = "<div class='kartu'>Data pengurus belum tersedia.</div>";
     return;
   }
 
-  if (!data || data.length === 0) {
-    wadah.innerHTML =
-      "<div class='kartu'>Data pengurus belum tersedia.</div>";
-    return;
-  }
-
-  wadah.innerHTML = data.map(p => {
+  let fotoPengurus = data.map(p => {
     let foto = "";
 
     if (p.foto_path) {
@@ -869,21 +862,74 @@ async function tampilkanStrukturPublik() {
             .getPublicUrl(p.foto_path).data.publicUrl;
     }
 
-    return `
-      <div class="kartu pengurus">
-        ${
-          foto
-          ? `<img src="${aman(foto)}"
-               alt="Foto ${aman(p.nama)}"
-               style="width:110px;height:125px;object-fit:cover;border-radius:12px">`
-          : `<div class="avatar">👤</div>`
-        }
-        <h3>${aman(p.jabatan)}</h3>
-        <p><strong>${aman(p.nama)}</strong></p>
+    return { ...p, foto };
+  });
+
+  wadah.innerHTML = `
+    <div class="bagan-cemara">
+
+      <h2>STRUKTUR ORGANISASI</h2>
+      <h3>CEMARA BALI</h3>
+
+      <div class="bagan-kotak">
+        ${fotoPengurus.map((p, i) => `
+          <div class="kartu-bagan"
+               onclick="lihatProfilPengurus(${i})">
+
+            ${
+              p.foto
+              ? `<img src="${aman(p.foto)}" alt="Foto ${aman(p.nama)}">`
+              : `<div class="avatar">👤</div>`
+            }
+
+            <strong>${aman(p.nama)}</strong>
+            <span>${aman(p.jabatan)}</span>
+
+          </div>
+        `).join("")}
       </div>
-    `;
-  }).join("");
+
+      <div id="profilPengurus" class="profil-pengurus"></div>
+
+    </div>
+  `;
+
+  window.dataPengurusPublik = fotoPengurus;
 }
+
+
+/* PROFIL PENGURUS */
+function lihatProfilPengurus(index) {
+  const p = window.dataPengurusPublik[index];
+  const profil = document.getElementById("profilPengurus");
+
+  if (!p || !profil) return;
+
+  profil.innerHTML = `
+    <div class="kartu profil-detail">
+
+      <button onclick="document.getElementById('profilPengurus').innerHTML=''">
+        ✕ Tutup
+      </button>
+
+      ${
+        p.foto
+        ? `<img src="${aman(p.foto)}"
+             style="width:150px;height:170px;object-fit:cover;border-radius:15px">`
+        : `<div class="avatar">👤</div>`
+      }
+
+      <h2>${aman(p.nama)}</h2>
+      <h3>${aman(p.jabatan)}</h3>
+
+      <p>Pengurus CEMARA BALI</p>
+
+    </div>
+  `;
+
+  profil.scrollIntoView({ behavior: "smooth" });
+}
+
 
 // MEMUAT DATA ANGGOTA
 async function tampilkanAnggota() {
