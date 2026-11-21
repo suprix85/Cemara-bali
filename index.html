@@ -315,6 +315,68 @@ section {
 
 .kartu-bagan strong {
   color:var(--hijau);
+
+
+/* BAGAN STRUKTUR ORGANISASI CEMARA BALI */
+
+.bagan-cemara {
+  text-align:center;
+  padding:10px 0;
+}
+
+.bagan-cemara > h2 {
+  color:var(--hijau);
+  margin-bottom:0;
+}
+
+.bagan-cemara > h3 {
+  color:var(--hijau2);
+  margin-top:5px;
+}
+
+/* Barisan kartu pengurus */
+.bagan-row {
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
+  gap:20px;
+  flex-wrap:wrap;
+  max-width:650px;
+  margin:auto;
+}
+
+/* Kartu pengurus */
+.kartu-bagan {
+  width:190px;
+  max-width:100%;
+  background:white;
+  border:1px solid #dce9df;
+  border-top:4px solid var(--emas);
+  border-radius:15px;
+  padding:18px 10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  box-shadow:0 5px 18px #064e3b12;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.kartu-bagan:hover {
+  transform:translateY(-4px);
+  box-shadow:0 10px 25px #064e3b25;
+}
+
+.kartu-bagan img {
+  width:95px;
+  height:105px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:10px;
+}
+
+.kartu-bagan strong {
+  color:var(--hijau);
   font-size:14px;
 }
 
@@ -324,6 +386,67 @@ section {
   margin-top:4px;
 }
 
+/* Garis penghubung vertikal */
+.bagan-garis {
+  width:3px;
+  height:35px;
+  background:var(--emas);
+  margin:auto;
+}
+
+/* Bagian sekretaris dan bendahara */
+.bagan-pasangan {
+  position:relative;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,190px));
+  justify-content:center;
+  gap:30px;
+  padding-top:25px;
+  margin:auto;
+}
+
+.bagan-pasangan::before {
+  content:"";
+  position:absolute;
+  top:0;
+  left:calc(50% - 110px);
+  width:220px;
+  height:3px;
+  background:var(--emas);
+}
+
+.bagan-pasangan::after {
+  content:"";
+  position:absolute;
+  top:-35px;
+  left:50%;
+  width:3px;
+  height:35px;
+  background:var(--emas);
+}
+
+.bagan-pasangan .kartu-bagan {
+  position:relative;
+}
+
+.bagan-pasangan .kartu-bagan::before {
+  content:"";
+  position:absolute;
+  top:-25px;
+  left:50%;
+  width:3px;
+  height:25px;
+  background:var(--emas);
+}
+
+/* Judul kelompok bidang */
+.bagan-judul {
+  color:var(--hijau);
+  margin:15px 0;
+  font-size:18px;
+}
+
+/* Profil pengurus */
 .profil-pengurus {
   margin-top:25px;
 }
@@ -348,19 +471,30 @@ section {
   margin:auto;
 }
 
-@media(max-width:700px) {
-  .bagan-kotak {
-    grid-template-columns:repeat(2,minmax(0,1fr));
+@media(max-width:500px) {
+  .bagan-row {
     gap:10px;
   }
 
   .kartu-bagan {
+    width:155px;
     padding:13px 7px;
   }
 
   .kartu-bagan img {
     width:80px;
     height:90px;
+  }
+
+  .bagan-pasangan {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    padding-top:25px;
+  }
+
+  .bagan-pasangan::before {
+    left:25%;
+    width:50%;
   }
 }
 
