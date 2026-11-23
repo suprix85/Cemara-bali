@@ -1116,7 +1116,6 @@ function angkaKTA(nomor) {
   return hasil ? Number(hasil[1]) : 0;
 }
 
-
 /* STRUKTUR PENGURUS PUBLIK */
 async function tampilkanStrukturPublik() {
   const wadah = document.getElementById("daftarStrukturPublik");
@@ -1133,7 +1132,6 @@ async function tampilkanStrukturPublik() {
     return;
   }
 
-  
   let fotoPengurus = data.map(p => {
     let foto = "";
 
@@ -1171,7 +1169,8 @@ async function tampilkanStrukturPublik() {
     return fotoPengurus
       .map((p, i) => ({ ...p, index: i }))
       .filter(p => (p.jabatan || "").toLowerCase().includes(kata));
-  
+  }
+
   const pembina = cariJabatan("pembina");
   const ketua = cariJabatan("ketua");
   const sekretaris = cariJabatan("sekretaris");
@@ -1190,6 +1189,7 @@ async function tampilkanStrukturPublik() {
     .map((p, i) => ({ ...p, index: i }))
     .filter(p => !jabatanUtama.some(u => u.index === p.index));
 
+  // Humas dan bidang lainnya masuk kelompok BIDANG-BIDANG
   const bidang = [...humas, ...lainnya];
 
   wadah.innerHTML = `
@@ -1218,7 +1218,7 @@ async function tampilkanStrukturPublik() {
       <div class="kelompok-bagan">
         <h3>PENGURUS INTI</h3>
         <div class="baris-bagan">
-          ${[...sekretaris, ...bendahara, ...humas]
+          ${[...sekretaris, ...bendahara]
             .map(p => buatKartu(p, p.index)).join("") || "Belum diisi"}
         </div>
       </div>
@@ -1228,7 +1228,7 @@ async function tampilkanStrukturPublik() {
       <div class="kelompok-bagan">
         <h3>BIDANG-BIDANG</h3>
         <div class="baris-bagan">
-          ${lainnya.map(p => buatKartu(p, p.index)).join("") || "Belum diisi"}
+          ${bidang.map(p => buatKartu(p, p.index)).join("") || "Belum diisi"}
         </div>
       </div>
 
@@ -1236,6 +1236,8 @@ async function tampilkanStrukturPublik() {
     </div>
   `;
 }
+
+
 
 
 /* PROFIL PENGURUS */
