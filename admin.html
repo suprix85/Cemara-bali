@@ -357,11 +357,11 @@ el("dashboard").classList.remove("hidden");
 el("infoAkun").textContent="Login sebagai: "+(user.email||"Pengurus");
 
 await muatAnggota();
+await muatStruktur();
 await muatLogo();
 await muatDokumen();
 await muatPilihanAlbum();
 await muatGaleriAdmin();
-}
 
 db.auth.onAuthStateChange((event)=>{
 if(event==="SIGNED_OUT"){
