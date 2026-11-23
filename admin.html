@@ -1193,6 +1193,133 @@ async function hapusStruktur(id){
   await muatStruktur();
 }
 
+/* PENGELOLAAN PENGUMUMAN CEMARA */
+
+let dataPengumuman=[];
+
+async function muatPengumuman(){
+  const tempat=el("daftarPengumuman");
+  tempat.innerHTML="<p>Memuat pengumuman...</p>";
+
+  const {data,error}=await db
+    .from("Pengumuman_Cemara")
+    .select("*")
+    .order("created_at",{ascending:false});
+
+  if(error){
+    tempat.innerHTML="<p class='error'>Gagal memuat: "+aman(error.message)+"</p>";
+    return;
+  }
+
+  dataPengumuman=data||[];
+
+  if(!dataPengumuman.length){
+    tempat.innerHTML="<p class='small'>Belum ada pengumuman.</p>";
+    return;
+  }
+
+  tempat.innerHTML=dataPengumuman.map(p=>`
+    <div class="item">
+      <p>${aman(p.isi)}</p>
+      <p class="small">
+        Status: ${p.aktif?"Aktif — tampil di halaman utama":"Nonaktif — disembunyikan"}
+      </p>
+      <button onclick="editPengumuman(${Number(p.id)})">EDIT</button>
+      <button class="lime" onclick="ubahStatusPengumuman(${Number(p.id)})">
+        ${p.aktif?"NONAKTIFKAN":"AKTIFKAN"}
+      </button>
+      <button class="red" onclick="hapusPengumuman(${Number(p.id)})">HAPUS</button>
+    </div>
+  `).join("");
+}
+
+function resetPengumuman(){
+  el("idPengumuman").value="";
+  el("isiPengumuman").value="";
+  el("aktifPengumuman").checked=true;
+  info("pesanPengumuman","");
+}
+
+function editPengumuman(id){
+  const p=dataPengumuman.find(x=>Number(x.id)===Number(id));
+  if(!p)return;
+
+  el("idPengumuman").value=p.id;
+  el("isiPengumuman").value=p.isi||"";
+  el("aktifPengumuman").checked=!!p.aktif;
+
+  info("pesanPengumuman","Mode edit pengumuman.");
+  el("isiPengumuman").scrollIntoView({behavior:"smooth"});
+}
+
+async function simpanPengumuman(){
+  const id=el("idPengumuman").value;
+  const isi=el("isiPengumuman").value.trim();
+  const aktif=el("aktifPengumuman").checked;
+
+  if(!isi){
+    info("pesanPengumuman","Isi pengumuman wajib diisi.","error");
+    return;
+  }
+
+  const payload={isi,aktif};
+
+  let hasil;
+
+  if(id){
+    hasil=await db.from("Pengumuman_Cemara")
+      .update(payload)
+      .eq("id",id);
+  }else{
+    hasil=await db.from("Pengumuman_Cemara")
+      .insert([payload]);
+  }
+
+  if(hasil.error){
+    info("pesanPengumuman","Gagal menyimpan: "+hasil.error.message,"error");
+    return;
+  }
+
+  info("pesanPengumuman","Pengumuman berhasil disimpan.","success");
+  resetPengumuman();
+  await muatPengumuman();
+}
+
+async function ubahStatusPengumuman(id){
+  const p=dataPengumuman.find(x=>Number(x.id)===Number(id));
+  if(!p)return;
+
+  const {error}=await db.from("Pengumuman_Cemara")
+    .update({aktif:!p.aktif})
+    .eq("id",id);
+
+  if(error){
+    alert("Gagal mengubah status: "+error.message);
+    return;
+  }
+
+  await muatPengumuman();
+}
+
+async function hapusPengumuman(id){
+  const p=dataPengumuman.find(x=>Number(x.id)===Number(id));
+  if(!p)return;
+
+  if(!confirm("Yakin ingin menghapus pengumuman ini?"))return;
+
+  const {error}=await db.from("Pengumuman_Cemara")
+    .delete()
+    .eq("id",id);
+
+  if(error){
+    alert("Gagal menghapus: "+error.message);
+    return;
+  }
+
+  alert("Pengumuman berhasil dihapus.");
+  await muatPengumuman();
+}
+
 /* MULAI */
 el("tanggalAnggota").value=new Date().toISOString().slice(0,10);
 periksaLogin();
