@@ -620,6 +620,266 @@ footer p {color:#d9f99d}
     scroll-behavior:auto!important;
   }
 }
+
+  
+/* =========================================
+   DESAIN BAGAN ORGANISASI CEMARA BALI
+   VERSI ELEGAN - RESPONSIF HP DAN KOMPUTER
+========================================= */
+
+.bagan-cemara {
+  position: relative;
+  text-align: center;
+  padding: 25px 15px 30px;
+  background: linear-gradient(180deg,#f0f8f1,#ffffff);
+  border: 1px solid #d7e9da;
+  border-radius: 22px;
+  box-shadow: 0 10px 35px rgba(6,78,59,.09);
+  overflow: hidden;
+}
+
+.bagan-cemara::before {
+  content: "";
+  display: block;
+  height: 6px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg,#064e3b,#a3e635,#d4a72c,#064e3b);
+}
+
+.bagan-cemara > h2 {
+  color: #064e3b;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin: 10px 0 0;
+}
+
+.bagan-cemara > h3 {
+  color: #b58a20;
+  font-size: 16px;
+  letter-spacing: 3px;
+  margin: 4px 0 25px;
+}
+
+/* KELOMPOK JABATAN */
+
+.kelompok-bagan {
+  position: relative;
+  max-width: 850px;
+  margin: 18px auto;
+  padding: 20px 15px 23px;
+  background: linear-gradient(135deg,#e8f5eb,#f8fcf8);
+  border: 1px solid #c8dfce;
+  border-radius: 18px;
+  box-shadow: 0 5px 18px rgba(6,78,59,.07);
+}
+
+.kelompok-bagan h3 {
+  display: inline-block;
+  color: white;
+  background: linear-gradient(135deg,#064e3b,#047857);
+  padding: 8px 25px;
+  border-radius: 30px;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  margin: 0 0 20px;
+  box-shadow: 0 4px 10px rgba(6,78,59,.18);
+}
+
+/* SUSUNAN KARTU */
+
+.baris-bagan {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(145px,190px));
+  justify-content: center;
+  align-items: stretch;
+  gap: 17px;
+}
+
+/* KARTU FOTO PENGURUS */
+
+.baris-bagan .kartu-bagan {
+  width: 100%;
+  min-width: 0;
+}
+
+.kartu-bagan {
+  position: relative;
+  background: white;
+  border: 1px solid #dce9df;
+  border-top: 5px solid #d4a72c;
+  border-radius: 17px;
+  padding: 18px 10px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 5px 17px rgba(6,78,59,.09);
+  cursor: pointer;
+  transition: transform .25s,box-shadow .25s;
+}
+
+.kartu-bagan:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(6,78,59,.17);
+  border-top-color: #a3e635;
+}
+
+.kartu-bagan img {
+  width: 100px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 13px;
+  border: 3px solid #e4efdf;
+  margin-bottom: 12px;
+}
+
+.kartu-bagan .avatar {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#dff3e3,#b7dfc1);
+  border: 3px solid #e4efdf;
+  color: #064e3b;
+  margin: 5px auto 12px;
+}
+
+.kartu-bagan strong {
+  color: #064e3b;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+.kartu-bagan span {
+  color: #718078;
+  font-size: 11px;
+  line-height: 1.5;
+  margin-top: 5px;
+}
+
+/* GARIS PENGHUBUNG ANTARKelompok */
+
+.garis-bagan {
+  color: #b58a20;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-shadow: 0 2px 5px rgba(212,167,44,.2);
+}
+
+/* PROFIL SAAT KARTU DIKLIK */
+
+.profil-pengurus {
+  max-width: 600px;
+  margin: 28px auto 0;
+  scroll-margin-top: 90px;
+}
+
+.profil-detail {
+  background: white;
+  border: 1px solid #dce9df;
+  border-top: 5px solid #d4a72c;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 8px 25px rgba(6,78,59,.12);
+  text-align: center;
+}
+
+.profil-detail button {
+  display: block;
+  margin: 0 0 20px auto;
+  padding: 9px 20px;
+  border: 0;
+  border-radius: 25px;
+  background: #064e3b;
+  color: white;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profil-detail img {
+  border: 4px solid #e4efdf;
+  box-shadow: 0 5px 15px rgba(6,78,59,.12);
+}
+
+/* TAMPILAN TELEPON */
+
+@media(max-width:600px) {
+  .bagan-cemara {
+    padding: 22px 9px;
+    border-radius: 16px;
+  }
+
+  .bagan-cemara > h2 {
+    font-size: 20px;
+  }
+
+  .bagan-cemara > h3 {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .kelompok-bagan {
+    padding: 16px 8px 18px;
+    margin: 14px auto;
+    border-radius: 14px;
+  }
+
+  .kelompok-bagan h3 {
+    font-size: 11px;
+    padding: 8px 17px;
+  }
+
+  .baris-bagan {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 10px;
+  }
+
+  .kartu-bagan {
+    padding: 13px 6px;
+    border-radius: 13px;
+  }
+
+  .kartu-bagan img {
+    width: 76px;
+    height: 85px;
+  }
+
+  .kartu-bagan .avatar {
+    width: 68px;
+    height: 68px;
+    font-size: 25px;
+  }
+
+  .kartu-bagan strong {
+    font-size: 11px;
+  }
+
+  .kartu-bagan span {
+    font-size: 10px;
+  }
+
+  .garis-bagan {
+    height: 30px;
+    font-size: 26px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  .kartu-bagan {
+    transition: none;
+  }
+}
+
 </style>
 </head>
 
