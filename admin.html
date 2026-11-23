@@ -384,6 +384,7 @@ el("dashboard").classList.remove("hidden");
 el("infoAkun").textContent="Login sebagai: "+(user.email||"Pengurus");
 
 await muatAnggota();
+await muatPengumuman();
 await muatStruktur();
 await muatLogo();
 await muatDokumen();
