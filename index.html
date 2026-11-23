@@ -1403,7 +1403,39 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_KEY
 );
 
+/* MEMUAT PENGUMUMAN CEMARA BALI */
 
+async function tampilkanPengumumanCemara() {
+  const wadah = document.getElementById("pengumumanCemara");
+  const isi = document.getElementById("isiPengumumanBerjalan");
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("Pengumuman_Cemara")
+      .select("id,isi,created_at")
+      .eq("aktif", true)
+      .order("created_at", { ascending: true });
+
+    if (error) throw error;
+
+    if (!data || data.length === 0) {
+      wadah.style.display = "none";
+      return;
+    }
+
+    isi.innerHTML = data.map(p => `
+      <span>✦ ${aman(p.isi)} ✦</span>
+    `).join("");
+
+    wadah.style.display = "block";
+
+  } catch (error) {
+    console.error("Pengumuman CEMARA:", error);
+    wadah.style.display = "none";
+  }
+}
+
+tampilkanPengumumanCemara();
 // MEMUAT DAN MENGATUR DAFTAR ANGGOTA CEMARA
 let semuaAnggota = [];
 let halamanAktif = 1;
