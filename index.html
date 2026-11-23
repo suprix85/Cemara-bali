@@ -1173,20 +1173,15 @@ async function tampilkanStrukturPublik() {
       .filter(p => (p.jabatan || "").toLowerCase().includes(kata));
   }
 
-  const pembina = cariJabatan("pembina");
-  const ketua = cariJabatan("ketua");
-  const sekretaris = cariJabatan("sekretaris");
-  const bendahara = cariJabatan("bendahara");
-  const humas = cariJabatan("humas");
-
   const jabatanUtama = [
-    ...pembina, ...ketua, ...sekretaris, ...bendahara, ...humas
-  ];
+  ...pembina, ...ketua, ...sekretaris, ...bendahara, ...humas
+];
 
-  const lainnya = fotoPengurus
-    .map((p, i) => ({ ...p, index: i }))
-    .filter(p => !jabatanUtama.some(u => u.index === p.index));
+const lainnya = fotoPengurus
+  .map((p, i) => ({ ...p, index: i }))
+  .filter(p => !jabatanUtama.some(u => u.index === p.index));
 
+const bidang = [...humas, ...lainnya];
   wadah.innerHTML = `
     <div class="bagan-cemara">
       <h2>STRUKTUR ORGANISASI</h2>
