@@ -127,7 +127,34 @@ alt="Logo CEMARA BALI">
 <button class="red" onclick="keluar()">KELUAR</button>
 </div>
 </section>
+<!-- PENGELOLAAN PENGUMUMAN -->
+<section class="card">
+  <h3>📢 Pengumuman CEMARA</h3>
+  <p class="small">Buat pengumuman kegiatan, rapat, tanggal, tempat, dan informasi penting lainnya.</p>
 
+  <input type="hidden" id="idPengumuman">
+
+  <label>Isi Pengumuman</label>
+  <textarea id="isiPengumuman" rows="4"
+    placeholder="Contoh: Rapat pengurus CEMARA, hari Minggu, pukul 19.00 WITA, bertempat di..."></textarea>
+
+  <label style="display:flex;align-items:center;gap:8px">
+    <input type="checkbox" id="aktifPengumuman" checked
+      style="width:auto;margin:0">
+    Tampilkan di halaman utama
+  </label>
+
+  <button onclick="simpanPengumuman()">Simpan Pengumuman</button>
+  <button onclick="resetPengumuman()" style="background:#64748b">Batal / Kosongkan</button>
+
+  <p id="pesanPengumuman" class="msg"></p>
+
+  <hr>
+  <h3>Daftar Pengumuman</h3>
+  <div id="daftarPengumuman">
+    Memuat pengumuman...
+  </div>
+                                                                                                  </section>
 <section class="card">
 <h3>👔 STRUKTUR PENGURUS CEMARA</h3>
 <p class="small">Kelola nama, jabatan, dan foto pengurus.</p>
